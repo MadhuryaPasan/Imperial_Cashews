@@ -9,6 +9,7 @@ router.route("/read").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db.collection("initialTest").find({}).toArray();
   res.json(result);
+
 });
 
 
