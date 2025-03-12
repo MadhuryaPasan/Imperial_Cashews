@@ -30,8 +30,6 @@ router.route("/read/:id").get(async (req, res) => {
   res.json(result);
 });
 
-
-
 //delete data
 router.route("/read/:id").delete(async (req, res) => {
   let db = DB.getDB();
@@ -40,6 +38,20 @@ router.route("/read/:id").delete(async (req, res) => {
     .deleteOne({ _id: new ObjectId(req.params.id) });
   res.json(data);
   console.log("Data deleted successfully");
+});
+
+//insert data
+router.route("/read").post(async (req, res) => {
+  let db = DB.getDB();
+  let mongoObject = {
+    name: req.body.name,
+    age: req.body.age,
+    gpa: req.body.gpa,
+    month: req.body.month,
+  };
+  let data = await db.collection("initialTest").insertOne(mongoObject);
+  res.json(data);
+  console.log("Data inserted successfully");
 });
 
 export default router;

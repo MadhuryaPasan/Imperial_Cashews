@@ -1,6 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TableTemplate from "../components/tables/tableTemplate";
+import { createNew } from "@/utils/dbAPI";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationEllipsis,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious,
+// } from "@/components/ui/pagination";
 
 import {
   Card,
@@ -12,6 +31,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface iFormData {
   name: string;
@@ -25,8 +45,11 @@ const elements = () => {
     month: "long",
   });
 
-  const Create: SubmitHandler<iFormData> = async (data) => {
-    // await createDoc(data);
+  // insert data
+  const CreateDoc: SubmitHandler<iFormData | any> = async (data) => {
+    await createNew(data);
+    // await new Promise(resolve => setTimeout(resolve, 3000));
+    window.location.reload();
   };
 
   const {
@@ -37,20 +60,67 @@ const elements = () => {
     defaultValues: { name: null, age: null, gpa: null, month: currentMonth },
   });
 
-  const test = true;
+  const months = [
+    {monthName:"January" , monthNumber:1},
+    {monthName:"February" , monthNumber:2},
+    {monthName:"March" , monthNumber:3},
+    {monthName:"April" , monthNumber:4},
+    {monthName:"May" , monthNumber:5},
+    {monthName:"June" , monthNumber:6},
+    {monthName:"July" , monthNumber:7},
+    {monthName:"August" , monthNumber:8},
+    {monthName:"September" , monthNumber:9},
+    {monthName:"October" , monthNumber:10},
+    {monthName:"November" , monthNumber:11},
+    {monthName:"December" , monthNumber:12},
 
+
+    // "January",
+    // "February",
+    // "March",
+    // "April",
+    // "May",
+    // "June",
+    // "July",
+    // "August",
+    // "September",
+    // "October",
+    // "November",
+    // "December",
+  ];
+
+  
+  const [selectedMonth, setSelectedMonth] = useState<string>(currentMonth);
+  console.log(selectedMonth);
+  
   return (
     <>
       <div>elements</div>
-      <TableTemplate />
 
-      <form onSubmit={handleSubmit(Create)} >
+      <Select onValueChange={(value)=>setSelectedMonth(value)}>
+        <SelectTrigger className="">
+          <SelectValue placeholder="Select Month" />
+        </SelectTrigger>
+        <SelectContent>
+          {months.map((data) => (
+            <SelectItem key={data.monthNumber} value={data.monthName}>
+              {data.monthName}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <TableTemplate selectedMonth={selectedMonth} />
+
+      <form onSubmit={handleSubmit(CreateDoc)}>
         <Card
           className={`w-[350px] ${
             errors.age || errors.name || errors.gpa
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null
-          } ${isSubmitSuccessful ? "bg-primary/5 outline-1 outline-primary" : null}`}
+          } ${
+            isSubmitSuccessful ? "bg-primary/5 outline-1 outline-primary" : null
+          }`}
         >
           <CardHeader>
             <CardTitle>Insert Now</CardTitle>
@@ -70,7 +140,10 @@ const elements = () => {
                       value: 100,
                       message: "maximum 100 characters",
                     },
-                    pattern: { value: /^[A-Za-z ]+$/i, message: "Only letters can be inserted" },
+                    pattern: {
+                      value: /^[A-Za-z ]+$/i,
+                      message: "Only letters can be inserted",
+                    },
                   })}
                   {...(isSubmitSuccessful ? { disabled: true } : {})}
                 />
@@ -87,9 +160,15 @@ const elements = () => {
                   placeholder="Insert Age"
                   {...register("age", {
                     required: "name is required",
-                    min:{value:18,message:"you need to be at least 18 years old"},
-                    max:{value:100,message:"Maximum value is 100"},
-                    pattern: { value: /^[0-9]+$/i, message: "Only numbers can be inserted" },
+                    min: {
+                      value: 18,
+                      message: "you need to be at least 18 years old",
+                    },
+                    max: { value: 100, message: "Maximum value is 100" },
+                    pattern: {
+                      value: /^[0-9]+$/i,
+                      message: "Only numbers can be inserted",
+                    },
                   })}
                   {...(isSubmitSuccessful ? { disabled: true } : {})}
                 />
@@ -104,9 +183,12 @@ const elements = () => {
                   placeholder="Insert GPA"
                   {...register("gpa", {
                     required: "Gpa is required",
-                    min:{value:0,message:"Minimum value is 0"},
-                    max:{value:5.0,message:"Maximum value is 5.0"},
-                    pattern: { value: /^[0-9]+$/i, message: "Only numbers can be inserted" },
+                    min: { value: 0, message: "Minimum value is 0" },
+                    max: { value: 5.0, message: "Maximum value is 5.0" },
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers can be inserted",
+                    },
                   })}
                   {...(isSubmitSuccessful ? { disabled: true } : {})}
                 />
@@ -134,10 +216,14 @@ const elements = () => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button variant="outline" className=" border-1 border-primary cursor-pointer">
+            <Button
+              variant="outline"
+              className=" border-1 border-primary cursor-pointer"
+            >
               Cancel
             </Button>
-            <Button className="cursor-pointer"
+            <Button
+              className="cursor-pointer"
               type="submit"
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             >

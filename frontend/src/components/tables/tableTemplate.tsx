@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { MenuIcon } from "lucide-react";
+import { BookLock, Lock, MenuIcon } from "lucide-react";
 import { getAllData } from "@/utils/dbAPI";
 import { deleteDoc } from "@/utils/dbAPI";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,7 @@ interface iColumns {
   month: string;
 }
 
-const table = () => {
+const table = ({selectedMonth}:any) => {
   // grt current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
@@ -51,6 +50,7 @@ const table = () => {
   //delete one
   const deleteOne = async (id: string) => {
     await deleteDoc(id);
+    window.location.reload();
   };
 
   // table rows
@@ -63,22 +63,23 @@ const table = () => {
 
   return (
     <>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {/* table rows here */}
             <TableRow className="font-bold">
               {rows.map((rowData: any) => (
-                <TableHead key={rowData.name}>{rowData.name}</TableHead>
+                <TableHead className=" font-bold text-[15px]" key={rowData.name}>{rowData.name}</TableHead>
               ))}
-              <TableHead>Options</TableHead>
+              <TableHead className=" font-bold text-[15px]">Options</TableHead>
             </TableRow>
           </TableHeader>
 
           {/* columns */}
           <TableBody>
             {columns
-              .filter((columnsData: any) => columnsData.month === "March")
+              .filter((columnsData: any) => columnsData.month === selectedMonth)
               .map((columnsData: any) => (
                 <TableRow key={columnsData._id} className="hover:bg-gray-200">
                   <TableCell>{columnsData._id}</TableCell>
@@ -88,7 +89,7 @@ const table = () => {
                   <TableCell>{columnsData.month}</TableCell>
 
                   {/* show current month only */}
-                  {columnsData.month === currentMonth && (
+                  {columnsData.month === currentMonth ? (
                     <TableCell>
                       {/* Dropdown menu */}
                       <DropdownMenu>
@@ -112,7 +113,7 @@ const table = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                  )}
+                  ):<TableCell><Lock className="size-5 opacity-20"/></TableCell>}
                 </TableRow>
               ))}
           </TableBody>
