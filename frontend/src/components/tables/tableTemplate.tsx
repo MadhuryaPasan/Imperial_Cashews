@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react";
+import { MenuIcon } from "lucide-react";
+import { getAllData } from "@/utils/dbAPI";
+import { deleteDoc } from "@/utils/dbAPI";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -17,7 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { MenuIcon } from "lucide-react";
+
 interface iColumns {
   name: string;
   age: number;
@@ -25,20 +31,35 @@ interface iColumns {
   month: string;
 }
 
-interface iRows {
-  name: string;
-}
-
-interface TableProps {
-  rows: iRows[];
-  columns: iColumns[];
-}
-
-const table: React.FC<TableProps> = ({ rows, columns }) => {
+const table = () => {
   // grt current month
-  const currentMonth: String = new Date().toLocaleString("en-US", {
+  const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
   });
+
+  const [columns, setData] = useState<iColumns | any>([]);
+
+  // get data from api
+  useEffect(() => {
+    async function getAll() {
+      let result = await getAllData();
+      setData(result);
+    }
+    getAll();
+  }, []);
+
+  //delete one
+  const deleteOne = async (id: string) => {
+    await deleteDoc(id);
+  };
+
+  // table rows
+  const rows = [
+    { name: "Id" },
+    { name: "Name" },
+    { name: "Age" },
+    { name: "Gpa" },
+  ];
 
   return (
     <>
@@ -66,6 +87,7 @@ const table: React.FC<TableProps> = ({ rows, columns }) => {
                   <TableCell>{columnsData.gpa}</TableCell>
                   <TableCell>{columnsData.month}</TableCell>
 
+                  {/* show current month only */}
                   {columnsData.month === currentMonth && (
                     <TableCell>
                       {/* Dropdown menu */}
@@ -76,10 +98,15 @@ const table: React.FC<TableProps> = ({ rows, columns }) => {
                         <DropdownMenuContent className="w-fit">
                           <DropdownMenuLabel>Manage</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-[13px]">
+                          <DropdownMenuItem className="text-[13px]  cursor-pointer">
                             Update
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-[13px]">
+
+                          {/* delete btn */}
+                          <DropdownMenuItem
+                            className="text-[13px] cursor-pointer"
+                            onClick={() => deleteOne(columnsData._id)}
+                          >
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
