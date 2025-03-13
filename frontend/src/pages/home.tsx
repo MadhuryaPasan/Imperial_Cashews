@@ -5,7 +5,26 @@ const home = () => {
     <>
       <div className="">
         <Hero />
-        <div className="bg-white h-[500px]"></div>
+        <div className="bg-white h-[500px]">xxxxxxxxxxxxxxxxxxxxxxxxx</div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     </>
   );

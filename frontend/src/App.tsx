@@ -19,7 +19,7 @@ function App() {
           {/* <Route  element={<FooterLayout />}> */}
             <Route element={<Layout />}>
 
-              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               {/* http://localhost:5173/*/}
               <Route path="/shop" element={<Shop />} />
               {/* http://localhost:5173/#/shop */}
@@ -28,7 +28,7 @@ function App() {
               <Route path="/elements" element={<Elements />} />
               {/* http://localhost:5173/#/elements */}
             </Route>
-              <Route path="/access" element={<Access />} />
+              <Route path="/" element={<Access />} />
               {/* http://localhost:5173/#/access */}
           {/* </Route> */}
         </Routes>

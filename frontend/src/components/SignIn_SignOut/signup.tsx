@@ -36,7 +36,7 @@ const signin = () => {
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
   } = useForm({
-    defaultValues: { email: null, password: null }, // default values
+    defaultValues: { name:null, email: null, password: null }, // default values
   });
 
   return (
@@ -44,7 +44,7 @@ const signin = () => {
       <form onSubmit={handleSubmit(CreateDoc)}>
         <Card
           className={`md:w-[90vw] p-[25px] lg:w-[40vw]  ${
-            errors.password || errors.email
+            errors.password || errors.email || errors.name
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null
           } ${
@@ -52,21 +52,47 @@ const signin = () => {
           }`}
         >
           {/* content begin */}
-          <div className=" md:flex justify-between ">
+          <div className="md:flex justify-between  ">
             <div className="w-full">
               {/* head */}
               <CardHeader>
-                <CardTitle className="text-lg">Sign In to Imperial Cashews</CardTitle>
+                <CardTitle className="text-lg">Sign Up to Imperial Cashews</CardTitle>
                 <CardDescription>
-                  Welcome back! Sign in to continue
+                  Welcome! Sign Up to Login
                 </CardDescription>
               </CardHeader>
             </div>
 
-            <div className="w-full h-[300px] flex flex-col justify-around">
+            <div className="w-full h-[350px] flex flex-col justify-around">
               {/* body */}
               <CardContent>
-                <div className="flex flex-col justify-around h-full w-[300px] gap-9 ">
+                <div className="flex flex-col justify-around h-full w-[300px] gap-5 ">
+                    {/* name */}
+                <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  placeholder="Insert Name"
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: { value: 3, message: "Minimum 3 characters" },
+                    maxLength: {
+                      value: 100,
+                      message: "maximum 100 characters",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z ]+$/i,
+                      message: "Only letters can be inserted",
+                    },
+                  })}
+                  {...(isSubmitSuccessful ? { disabled: true } : {})}
+                />
+                {errors.name && (
+                  <span className="text-destructive text-sm">
+                    {errors.name.message}
+                  </span>
+                )}
+              </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Email</Label>
                     <Input
@@ -124,14 +150,14 @@ const signin = () => {
                     </Button> */}
                   <Button
                     className={`cursor-pointer w-full ${
-                      errors.password || errors.email
-                        ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
-                        : null
-                    }`}
+            errors.password || errors.email || errors.name
+              ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
+              : null
+          }`}
                     type="submit"
                     {...(isSubmitSuccessful ? { disabled: true } : {})}
                   >
-                    {isSubmitSuccessful ? "Submitted" : "Sign in"}
+                    {isSubmitSuccessful ? "Submitted" : "Register"}
                   </Button>
                 </div>
               </CardFooter>
