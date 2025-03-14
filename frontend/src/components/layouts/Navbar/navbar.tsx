@@ -34,8 +34,8 @@ import { useState } from "react";
 const navbar = () => {
   return (
     <>
-      <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700 backdrop-blur-sm">
-        <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700">
+      
+        <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700  backdrop-blur-sm">
           <div className="flex justify-between items-center">
             <div>Logo</div>
 
@@ -46,7 +46,7 @@ const navbar = () => {
             <div className="md:hidden ">{mobileTrigger()}</div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };
