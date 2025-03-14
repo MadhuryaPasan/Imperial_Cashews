@@ -34,7 +34,8 @@ import { useState } from "react";
 const navbar = () => {
   return (
     <>
-
+      <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700 backdrop-blur-sm">
+        <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700">
           <div className="flex justify-between items-center">
             <div>Logo</div>
 
@@ -45,6 +46,7 @@ const navbar = () => {
             <div className="md:hidden ">{mobileTrigger()}</div>
           </div>
         </div>
+      </div>
     </>
   );
 };
@@ -74,56 +76,53 @@ const categories = [
 ];
 
 const navbarMenu = () => {
+  return (
+    <>
+      <NavigationMenu className=" hidden md:block ">
+        <NavigationMenuList className="gap-x-3.5">
+          {/* Home */}
+          <NavigationMenuItem>
+            <NavigationMenuLink className=" font-medium hover:text-primary">
+              Home
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {/* Shop */}
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="font-medium  p-0">
+              <div className="hover:text-primary">Shop</div>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              {categories.map((category, index) => (
+                <NavigationMenuLink
+                  className="w-[350px] my-3 p-4 hover:shadow-lg hover:bg-primary/10  hover:outline-1  outline-primary/50 "
+                  key={index}
+                >
+                  <div className="font-medium ">{category.name}</div>
 
+                  <p className=" font-normal opacity-50">
+                    {category.description}
+                  </p>
+                </NavigationMenuLink>
+              ))}
+            </NavigationMenuContent>
+          </NavigationMenuItem>
 
-    return (
-      <>
-        <NavigationMenu className=" hidden md:block ">
-          <NavigationMenuList className="gap-x-3.5">
-            {/* Home */}
-            <NavigationMenuItem>
-              <NavigationMenuLink className=" font-medium hover:text-primary">
-                Home
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            {/* Shop */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="font-medium  p-0">
-                <div className="hover:text-primary">Shop</div>
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                {categories.map((category, index) => (
-                  <NavigationMenuLink
-                    className="w-[350px] my-3 p-4 hover:shadow-lg hover:bg-primary/10  hover:outline-1  outline-primary/50 "
-                    key={index}
-                  >
-                    <div className="font-medium ">{category.name}</div>
-
-                    <p className=" font-normal opacity-50">
-                      {category.description}
-                    </p>
-                  </NavigationMenuLink>
-                ))}
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            {/* Contact us */}
-            <NavigationMenuItem>
-              <NavigationMenuLink className=" font-medium hover:text-primary">
-                Contact Us
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            {/* About */}
-            <NavigationMenuItem>
-              <NavigationMenuLink className=" font-medium hover:text-primary">
-                About
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </>
-    );
-  
+          {/* Contact us */}
+          <NavigationMenuItem>
+            <NavigationMenuLink className=" font-medium hover:text-primary">
+              Contact Us
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {/* About */}
+          <NavigationMenuItem>
+            <NavigationMenuLink className=" font-medium hover:text-primary">
+              About
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </>
+  );
 };
 
 // mobile menu
@@ -216,10 +215,8 @@ const mobileTrigger = () => {
         </SheetHeader>
         <div className=" absolute bottom-0 w-full ">
           <div className="px-10 py-3 flex items-center  gap-5">
-            <div>
-              {navbarUserOptions_mobile()}
-            </div>
-            
+            <div>{navbarUserOptions_mobile()}</div>
+
             <div>
               <div className="font-bold text-lg">This is your name</div>
               <p>Position</p>
