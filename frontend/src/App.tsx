@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/home";
 import Shop from "./pages/shop";
+
 import Elements from "./pages/elements";
 import Access from "./pages/access";
 
