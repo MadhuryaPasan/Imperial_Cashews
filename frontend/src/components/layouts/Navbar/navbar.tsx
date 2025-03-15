@@ -34,19 +34,17 @@ import { useState } from "react";
 const navbar = () => {
   return (
     <>
-      
-        <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700  backdrop-blur-sm">
-          <div className="flex justify-between items-center">
-            <div>Logo</div>
+      <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700  backdrop-blur-sm">
+        <div className="flex justify-between items-center">
+          <div>Logo</div>
 
-            {navbarMenu()}
-            {navbarUserOptions()}
+          {navbarMenu()}
+          {navbarUserOptions()}
 
-            {/* mobile menue */}
-            <div className="md:hidden ">{mobileTrigger()}</div>
-          </div>
+          {/* mobile menue */}
+          <div className="md:hidden ">{mobileTrigger()}</div>
         </div>
-      
+      </div>
     </>
   );
 };
@@ -82,9 +80,11 @@ const navbarMenu = () => {
         <NavigationMenuList className="gap-x-3.5">
           {/* Home */}
           <NavigationMenuItem>
-            <NavigationMenuLink className=" font-medium hover:text-primary">
-              Home
-            </NavigationMenuLink>
+            <Link to="/home">
+              <NavigationMenuLink className=" font-medium hover:text-primary">
+                Home
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
           {/* Shop */}
           <NavigationMenuItem>
@@ -131,7 +131,9 @@ const navbarMenu_Mobile = () => {
     <>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Home</AccordionTrigger>
+          <AccordionTrigger>
+            <Link to="/home">Home</Link>
+          </AccordionTrigger>
           {/* <AccordionContent>
       Yes. It adheres to the WAI-ARIA design pattern.
     </AccordionContent> */}
@@ -170,15 +172,39 @@ const navbarMenu_Mobile = () => {
   );
 };
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+
 // user options
 const navbarUserOptions = () => {
   return (
     <>
       <div className=" hidden md:block">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link to="/dashboard">Dashboard</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   );
