@@ -29,8 +29,8 @@ const footer = () => {
   ];
 
   return (
-    <div>
-      <footer className="py-16 md:py-20 outline-1 outline-primary">
+    <>
+      <footer className="py-16 md:py-20 outline-1 outline-primary bg-white  ">
         <div className="mx-auto max-w-5xl px-6">
           <div aria-label="go home" className="mx-auto block size-fit">
             {/* <Logo /> */}
@@ -180,7 +180,7 @@ const footer = () => {
           </span>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
