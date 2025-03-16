@@ -35,6 +35,9 @@ const elements = () => {
     month: "long",
   });
 
+  const currentMonthNumber: number = new Date().getMonth() + 1;
+  console.log(currentMonthNumber);
+
   // insert data
   const CreateDoc: SubmitHandler<iFormData | any> = async (data) => {
     await createNew(data);
@@ -64,24 +67,11 @@ const elements = () => {
     {monthName:"November" , monthNumber:11},
     {monthName:"December" , monthNumber:12},
 
-
-    // "January",
-    // "February",
-    // "March",
-    // "April",
-    // "May",
-    // "June",
-    // "July",
-    // "August",
-    // "September",
-    // "October",
-    // "November",
-    // "December",
   ];
 
   
   const [selectedMonth, setSelectedMonth] = useState<string>(currentMonth);
-  console.log(selectedMonth);
+  // console.log(selectedMonth);
   
   return (
     <>

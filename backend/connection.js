@@ -19,7 +19,7 @@ const CLIENT = new MongoClient(MONGO_URI, {
 let DB;
 
 const connectToServer = ()=>{
-    DB=CLIENT.db("test"); //database name
+    DB=CLIENT.db("ImperialCashewsDB"); //database name
 }
 
 const getDB = ()=>DB; //
