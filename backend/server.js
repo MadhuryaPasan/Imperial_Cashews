@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 //routes
 import initialTestRoute from "./routes/initialTestRoute.js";
+import sales_Product from "./routes/sales/Sales_Product.js"
 
 dotenv.config(); // Load .env file
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(initialTestRoute);
+app.use(sales_Product);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
