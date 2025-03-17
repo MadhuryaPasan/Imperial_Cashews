@@ -1,18 +1,13 @@
 
 import axios from 'axios';
 
-interface iColumns {
-    name: string;
-    age: number;
-    gpa: number;
-    month: string;
-  }
+
   
 
 const URL = "http://localhost:5000";
 const URL_COLLECTION = "/Sales_Product";
 
-export async function getAllData() {
+export async function getAll_Sales_Product_Data() {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
@@ -28,13 +23,13 @@ export async function getAllData() {
 
 }
 
-export async function deleteDoc(id:string){
+export async function Sales_Product_deleteDoc(id:string){
     const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
     alert("Document deleted successfully");
     return response;
 }
 
-export async function createNew(data:any){
+export async function createNew_Sales_Product(data:any){
     console.log(data);
     const response = await axios.post(`${URL}${URL_COLLECTION}`,data);
     // alert("Document added successfully");
