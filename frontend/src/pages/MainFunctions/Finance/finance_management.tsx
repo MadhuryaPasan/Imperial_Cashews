@@ -9,6 +9,7 @@ const finance_management = () => {
     <>
       <>
         <div>finance_management</div>
+        <div>hello</div>
         <Finance_example />
       </>
     </>
