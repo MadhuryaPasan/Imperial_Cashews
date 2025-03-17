@@ -11,6 +11,7 @@ import {
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Logo from "@/components/layouts/Logo";
 
 interface iFormData {
   name: string;
@@ -48,18 +49,26 @@ const signin = () => {
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null
           } ${
-            isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : null
+            isSubmitSuccessful
+              ? "bg-primary/10 outline-1 outline-primary"
+              : null
           }`}
         >
           {/* content begin */}
           <div className=" md:flex justify-between ">
             <div className="w-full">
               {/* head */}
-              <CardHeader>
-                <CardTitle className="text-lg">Sign In to Imperial Cashews</CardTitle>
+              <CardHeader className=" h-full">
+                {/* logo */}
+                <CardTitle className="text-lg">
+                  Sign In to Imperial Cashews
+                </CardTitle>
                 <CardDescription>
                   Welcome back! Sign in to continue
                 </CardDescription>
+                <div className="h-[200px]">
+                  <Logo />
+                </div>
               </CardHeader>
             </div>
 
@@ -99,7 +108,8 @@ const signin = () => {
                         pattern: {
                           value:
                             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                          message: "Please make sure the password contains at least one lowercase letter, one uppercase letter, one digit, and one special character (@$!%*?&), and is at least 8 characters long.",
+                          message:
+                            "Please make sure the password contains at least one lowercase letter, one uppercase letter, one digit, and one special character (@$!%*?&), and is at least 8 characters long.",
                         },
                       })}
                       {...(isSubmitSuccessful ? { disabled: true } : {})}
