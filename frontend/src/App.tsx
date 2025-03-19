@@ -10,6 +10,7 @@ import Elements from "./pages/elements";
 import Access from "./pages/access";
 
 import Dashboard from "./pages/dashboard";
+import Page_not_found from "./pages/page_not_found";
 
 //layouts
 
@@ -33,6 +34,8 @@ function App() {
       <HashRouter>
         <Routes>
           {/* <Route  element={<FooterLayout />}> */}
+
+          <Route path="*" element={<Page_not_found />} />
           <Route element={<Layout_Main />}>
             <Route path="/home" element={<Home />} />
             {/* http://localhost:5173/*/}

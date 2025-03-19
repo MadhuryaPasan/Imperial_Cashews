@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import TableTemplate from "../components/tables/tableTemplate";
+import TableTemplate from "@/components/tables/tableTemplate";
 import { createNew } from "@/utils/dbAPI";
 
 import {
