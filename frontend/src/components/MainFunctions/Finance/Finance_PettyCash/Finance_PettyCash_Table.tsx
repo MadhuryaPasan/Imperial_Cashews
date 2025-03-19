@@ -66,12 +66,12 @@ const table = ({ selectedMonth }: any) => {
           <TableHeader>
             {/* table rows here */}
             <TableRow className="font-bold">
-              {rows.map((rowData: any) => (
+              {columns.map((columns: any) => (
                 <TableHead
                   className=" font-bold text-[15px]"
-                  key={rowData.name}
+                  key={columns.name}
                 >
-                  {rowData.name}
+                  {columns.name}
                 </TableHead>
               ))}
               <TableHead className=" font-bold text-[15px]">Options</TableHead>
