@@ -53,7 +53,7 @@ const table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await getAll_Sales_Product_Data();
+      let result = await getAll_Sales_Order_Data();
       setRow(result);
     }
     getAll();
@@ -142,7 +142,7 @@ export default table;
 
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { getAll_Sales_Product_Data, Sales_Product_deleteDoc } from "@/utils/sales/Sales_Product_API";
+import { getAll_Sales_Product_Data, Sales_Order_deleteDoc } from "@/utils/sales/Sales_Product_API";
 const UpdateBtn = () => {
   return (
     <>
@@ -191,7 +191,7 @@ const UpdateBtn = () => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Sales_Product_deleteDoc(id);
+    await Sales_Order_deleteDoc(id);
     window.location.reload();
   };
   return (

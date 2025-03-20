@@ -45,9 +45,16 @@ router.route("/Sales_Product").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     name: req.body.name,
-    age: req.body.age,
-    gpa: req.body.gpa,
+    product_id: req.body.product_id,
+    category: req.body.category,
+    created_date: req.body.created_date,
+    description: req.body.description,
+    image: req.body.image,
+    size: req.body.size,
     month: req.body.month,
+    price_per_unit: req.body.price_per_unit,
+    status: req.body.status,
+    stock_quantity: req.body.stock_quantity,
   };
   let data = await db.collection("Sales_Product").insertOne(mongoObject);
   res.json(data);

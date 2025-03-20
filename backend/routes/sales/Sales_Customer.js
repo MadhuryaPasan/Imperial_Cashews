@@ -5,10 +5,10 @@ import { ObjectId } from "mongodb";
 let router = express.Router();
 
 //read data
-router.route("/Sales_Product").get(async (req, res) => {
+router.route("/Sales_Customer").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Sales_Product").find({}).toArray(); // chage collection name
+    let result = await db.collection("Sales_Customer").find({}).toArray(); // chage collection name
     res
       .status(200)
       .json({ message: "Data retrieved successfully", data: result });
@@ -22,38 +22,43 @@ router.route("/Sales_Product").get(async (req, res) => {
 
 // read data single data
 
-router.route("/Sales_Product/:id").get(async (req, res) => {
+router.route("/Sales_Customer/:id").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db
-    .collection("Sales_Product")
+    .collection("Sales_Customer")
     .findOne({ _id: new ObjectId(req.params.id) });
   res.json(result);
 });
 
 //delete data
-router.route("/Sales_Product/:id").delete(async (req, res) => {
+router.route("/Sales_Customer/:id").delete(async (req, res) => {
   let db = DB.getDB();
   let data = await db
-    .collection("Sales_Product")
+    .collection("Sales_Customer")
     .deleteOne({ _id: new ObjectId(req.params.id) });
   res.json(data);
   console.log("Data deleted successfully");
 });
 
 //insert data
-router.route("/Sales_Product").post(async (req, res) => {
+router.route("/Sales_Customer").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     name: req.body.name,
-    age: req.body.age,
-    gpa: req.body.gpa,
-    month: req.body.month,
+    contact_number: req.body.contact_number,
+    customer_type: req.body.customer_type,
+    email: req.body.email,
+    customer_id: req.body.customer_id,
+    address: req.body.address,
+    created_date: req.body.crated_date,
+    orders_count: req.body.orders_count,
+    total_spent: req.body.total_spent,
   };
-  let data = await db.collection("Sales_Product").insertOne(mongoObject);
+  let data = await db.collection("Sales_Customer").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
 
 export default router;
 
-//http://localhost:5000/Sales_Product
+//http://localhost:5000/Sales_Customer
