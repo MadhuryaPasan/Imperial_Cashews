@@ -7,7 +7,6 @@ const staff_management = () => {
   return (
     <>
       <div>staff_management</div>
-      <Staff_example />
       <Staff_Employee_Manage/>
 
     </>
