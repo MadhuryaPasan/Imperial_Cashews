@@ -35,9 +35,37 @@ const elements = () => {
     month: "long",
   });
 
+
+
+
   const currentMonthNumber: number = new Date().getMonth() + 1;
   console.log(currentMonthNumber);
 
+
+
+
+  
+  const months = [
+    {monthName:"January" , monthNumber:1},
+    {monthName:"February" , monthNumber:2},
+    {monthName:"March" , monthNumber:3},
+    {monthName:"April" , monthNumber:4},
+    {monthName:"May" , monthNumber:5},
+    {monthName:"June" , monthNumber:6},
+    {monthName:"July" , monthNumber:7},
+    {monthName:"August" , monthNumber:8},
+    {monthName:"September" , monthNumber:9},
+    {monthName:"October" , monthNumber:10},
+    {monthName:"November" , monthNumber:11},
+    {monthName:"December" , monthNumber:12},
+    
+  ];
+  
+  
+  const [selectedMonth, setSelectedMonth] = useState<string>(currentMonth);
+  
+  
+  
   // insert data
   const CreateDoc: SubmitHandler<iFormData | any> = async (data) => {
     await createNew(data);
@@ -53,24 +81,8 @@ const elements = () => {
     defaultValues: { name: null, age: null, gpa: null, month: currentMonth },
   });
 
-  const months = [
-    {monthName:"January" , monthNumber:1},
-    {monthName:"February" , monthNumber:2},
-    {monthName:"March" , monthNumber:3},
-    {monthName:"April" , monthNumber:4},
-    {monthName:"May" , monthNumber:5},
-    {monthName:"June" , monthNumber:6},
-    {monthName:"July" , monthNumber:7},
-    {monthName:"August" , monthNumber:8},
-    {monthName:"September" , monthNumber:9},
-    {monthName:"October" , monthNumber:10},
-    {monthName:"November" , monthNumber:11},
-    {monthName:"December" , monthNumber:12},
-
-  ];
 
   
-  const [selectedMonth, setSelectedMonth] = useState<string>(currentMonth);
   // console.log(selectedMonth);
   
   return (
@@ -114,7 +126,7 @@ const elements = () => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
                 <Input
-                  id="name"
+                  
                   placeholder="Insert Name"
                   {...register("name", {
                     required: "Name is required",

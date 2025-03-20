@@ -5,7 +5,7 @@ import axios from 'axios';
   
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Sales_Product";
+const URL_COLLECTION = "/Sales_Customer";
 
 export async function getAll_Sales_Customer_Data() {
 
@@ -28,6 +28,9 @@ export async function Sales_Customer_deleteDoc(id:string){
     alert("Document deleted successfully");
     return response;
 }
+
+
+
 
 export async function createNew_Sales_Customer(data:any){
     console.log(data);

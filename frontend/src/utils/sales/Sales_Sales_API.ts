@@ -5,7 +5,7 @@ import axios from 'axios';
   
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Sales_Product";
+const URL_COLLECTION = "/Sales_Sales";
 
 export async function getAll_Sales_Sales_Data() {
 
@@ -24,6 +24,7 @@ export async function getAll_Sales_Sales_Data() {
 }
 
 export async function Sales_Sales_deleteDoc(id:string){
+    
     const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
     alert("Document deleted successfully");
     return response;

@@ -5,7 +5,7 @@ import axios from 'axios';
   
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Sales_Product";
+const URL_COLLECTION = "/Sales_Order";
 
 export async function getAll_Sales_Order_Data() {
 

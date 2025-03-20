@@ -61,14 +61,11 @@ const table = ({ selectedMonth }: any) => {
 
   // table rows
   const columns = [
-    { name: "Name" },
-    { name: "category" },
-    { name: "created_date" },
-    { name: "description" },
-    { name: "image" },
-    { name: "price" },
-    { name: "size" },
-    { name: "quantity" },
+    
+    { name: "Order Date" },
+    { name: "Status" },
+    { name: "Total Price" },
+  
   ];
 
   return (
@@ -93,22 +90,28 @@ const table = ({ selectedMonth }: any) => {
           {/* columns */}
           <TableBody>
             {row
-              .filter((rowData: any) => rowData.month === "March")
+              // .filter((rowData: any) => rowData.month === "March")
               .map((rowData: any) => (
                 <TableRow key={rowData._id} className="hover:bg-primary/10">
                   {/* change this */}
-                  <TableCell>{rowData.name}</TableCell>
-                  <TableCell>{rowData.category}</TableCell>
-                  <TableCell>{rowData.created_date}</TableCell>
-                  <TableCell>{rowData.description}</TableCell>
-                  <TableCell>{rowData.image}</TableCell>
-                  <TableCell>{rowData.price}</TableCell>
-                  <TableCell>{rowData.size}</TableCell>
-                  <TableCell>{rowData.quantity}</TableCell>
-                  <TableCell>{rowData.month}</TableCell>
+                  
+                  
+                  <TableCell>{rowData.order_date
+                      ? new Date(rowData.order_date).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "N/A"}</TableCell>
+                  <TableCell>{rowData.status}</TableCell>
+                  <TableCell>{rowData.total_price}</TableCell>
+                  
 
                   {/* show current month only */}
-                  {rowData.month === currentMonth ? (
+                  {rowData.month !== currentMonth ? (
                     <div>
                       {/* Update */}
                       {UpdateBtn()}
@@ -142,7 +145,7 @@ export default table;
 
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { getAll_Sales_Product_Data, Sales_Order_deleteDoc } from "@/utils/sales/Sales_Product_API";
+import { getAll_Sales_Order_Data, Sales_Order_deleteDoc } from "@/utils/sales/Sales_Order_API";
 const UpdateBtn = () => {
   return (
     <>

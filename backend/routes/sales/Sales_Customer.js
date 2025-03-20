@@ -46,7 +46,7 @@ router.route("/Sales_Customer").post(async (req, res) => {
   let mongoObject = {
     name: req.body.name,
     contact_number: req.body.contact_number,
-    customer_type: req.body.customer_type,
+  
     email: req.body.email,
     customer_id: req.body.customer_id,
     address: req.body.address,

@@ -62,13 +62,15 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
     { name: "Name" },
-    { name: "category" },
-    { name: "created_date" },
-    { name: "description" },
-    { name: "image" },
-    { name: "price" },
-    { name: "size" },
-    { name: "quantity" },
+    { name: "Category" },
+    { name: "Created Date" },
+    { name: "Description" },
+    { name: "Image" },
+    { name: "Size" },
+    { name: "Month" },
+    { name: "Status" },
+    { name: "Price Per Unit" },
+    { name: "Stock Quantity" },
   ];
 
   return (
@@ -99,13 +101,24 @@ const table = ({ selectedMonth }: any) => {
                   {/* change this */}
                   <TableCell>{rowData.name}</TableCell>
                   <TableCell>{rowData.category}</TableCell>
-                  <TableCell>{rowData.created_date}</TableCell>
+                  
+                  <TableCell>{rowData.created_date
+                      ? new Date(rowData.created_date).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "N/A"}</TableCell>
                   <TableCell>{rowData.description}</TableCell>
                   <TableCell>{rowData.image}</TableCell>
-                  <TableCell>{rowData.price}</TableCell>
                   <TableCell>{rowData.size}</TableCell>
-                  <TableCell>{rowData.quantity}</TableCell>
                   <TableCell>{rowData.month}</TableCell>
+                  <TableCell>{rowData.status}</TableCell>
+                  <TableCell>{rowData.price_per_unit}</TableCell>
+                  <TableCell>{rowData.stock_quantity}</TableCell>
 
                   {/* show current month only */}
                   {rowData.month === currentMonth ? (

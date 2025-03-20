@@ -49,7 +49,7 @@ router.route("/Sales_Payment").post(async (req, res) => {
     payment_date: req.body.payment_date,
     amount_paid: req.body.amount_paid,
     payment_method: req.body.payment_method,
-    transaction_id: req.body.payment_date,
+
     status: req.body.status,
   };
   let data = await db.collection("Sales_Payment").insertOne(mongoObject);

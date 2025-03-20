@@ -61,14 +61,13 @@ const table = ({ selectedMonth }: any) => {
 
   // table rows
   const columns = [
-    { name: "Name" },
-    { name: "category" },
-    { name: "created_date" },
-    { name: "description" },
-    { name: "image" },
-    { name: "price" },
-    { name: "size" },
-    { name: "quantity" },
+    
+    { name: "Sales Date" },
+    { name: "Sales Status" },
+    { name: "Payment Status" },
+    { name: "Total Amount" },
+    { name: "Unit Price" },
+    { name: "Quantity" },
   ];
 
   return (
@@ -93,19 +92,28 @@ const table = ({ selectedMonth }: any) => {
           {/* columns */}
           <TableBody>
             {row
-              .filter((rowData: any) => rowData.month === "March")
+              // .filter((rowData: any) => rowData.month === "March")
               .map((rowData: any) => (
                 <TableRow key={rowData._id} className="hover:bg-primary/10">
                   {/* change this */}
-                  <TableCell>{rowData.name}</TableCell>
-                  <TableCell>{rowData.category}</TableCell>
-                  <TableCell>{rowData.created_date}</TableCell>
-                  <TableCell>{rowData.description}</TableCell>
-                  <TableCell>{rowData.image}</TableCell>
-                  <TableCell>{rowData.price}</TableCell>
-                  <TableCell>{rowData.size}</TableCell>
+                  
+                
+                  <TableCell>{rowData.sales_date
+                      ? new Date(rowData.sales_date).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "N/A"}</TableCell>
+                  <TableCell>{rowData.sales_status}</TableCell>
+                  <TableCell>{rowData.payment_status}</TableCell>
+                  <TableCell>{rowData.total_amount}</TableCell>
+                  <TableCell>{rowData.unit_price}</TableCell>
                   <TableCell>{rowData.quantity}</TableCell>
-                  <TableCell>{rowData.month}</TableCell>
+                  
 
                   {/* show current month only */}
                   {rowData.month === currentMonth ? (
@@ -142,7 +150,8 @@ export default table;
 
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { getAll_Sales_Sales_Data, Sales_Product_deleteDoc } from "@/utils/sales/Sales_Product_API";
+import { getAll_Sales_Sales_Data, Sales_Sales_deleteDoc } from "@/utils/sales/Sales_Sales_API";
+
 const UpdateBtn = () => {
   return (
     <>
@@ -191,7 +200,7 @@ const UpdateBtn = () => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Sales_Product_deleteDoc(id);
+    await Sales_Sales_deleteDoc(id);
     window.location.reload();
   };
   return (
