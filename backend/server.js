@@ -16,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(initialTestRoute);
+app.use(quality_end_product_check);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
