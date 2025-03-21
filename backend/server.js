@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 //routes
 import initialTestRoute from "./routes/initialTestRoute.js";
 import Finance_management from "./routes/Finance/Finance_PettyCash.js";
+import quality_end_product_check from "./routes/QualityControle/quality_end_product_check.js"
 
 dotenv.config(); // Load .env file
 
