@@ -44,6 +44,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             {/* http://localhost:5173/*/}
             <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:id" element={<Shop />} />
             {/* http://localhost:5173/#/shop */}
             <Route path="/quality" element={<Quality />} />
             {/* http://localhost:5173/#/shop */}
