@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 //routes
 import initialTestRoute from "./routes/initialTestRoute.js";
+import Quality_end_product_check from "./routes/quality_end_product_check.js";
 import Finance_management from "./routes/Finance/Finance_PettyCash.js";
 import sales_Product from "./routes/sales/Sales_Product.js"
 import Sales_Customer from "./routes/sales/Sales_Customer.js"
@@ -23,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(initialTestRoute);
-app.use(quality_end_product_check);
+app.use(Quality_end_product_check);
 app.use(Finance_management);
 app.use(sales_Product);
 app.use(Sales_Customer);
