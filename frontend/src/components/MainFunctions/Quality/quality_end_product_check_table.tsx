@@ -20,14 +20,6 @@ import {
   Recycle,
   Trash2,
 } from "lucide-react";
-import { getAllData } from "@/utils/dbAPI";
-import { deleteDoc } from "@/utils/dbAPI";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 
 import {
   Table,
@@ -38,17 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 
-interface iColumns {
-  name: string;
-  age: number;
-  gpa: number;
-  month: string;
-}
 
 const table = ({ selectedMonth }: any) => {
   // grt current month
@@ -56,48 +38,42 @@ const table = ({ selectedMonth }: any) => {
     month: "long",
   });
 
-  const [columns, setData] = useState<any>([]);
+  const [rows, setRows] = useState<any>([]);
 
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await getAllData();
-      setData(result);
+      let result = await quality_end_product_check_getAllData();
+      setRows(result);
     }
     getAll();
   }, []);
 
   // table rows
-  const rows = [
-    { name: "Id" },
-    { name: "Name" },
-    { name: "Age" },
-    { name: "Gpa" },
-    { name: "Month" },
+  const columns = [
+    { name: "Batch ID" },
+    { name: "Product Grade" },
+    { name: "Color Uniformity" },
+    { name: "Taste Test" },
+    { name: "Packaging Integrity" },
+    { name: "Approved" },
+    { name: "Checked By" },
+    { name: "Timestamp" }
   ];
 
   return (
     <>
-
-
-    <div>
-      {rows.map((data: any)=>(
-        <p>{data.name}</p>
-      ))}
-    </div>
-
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {/* table rows here */}
             <TableRow className="font-bold">
-              {rows.map((rowData: any) => (
+              {columns.map((columns: any) => (
                 <TableHead
                   className=" font-bold text-[15px]"
-                  key={rowData.name}
+                  key={columns.name}
                 >
-                  {rowData.name}
+                  {columns.name}
                 </TableHead>
               ))}
               <TableHead className=" font-bold text-[15px]">Options</TableHead>
@@ -106,24 +82,39 @@ const table = ({ selectedMonth }: any) => {
 
           {/* columns */}
           <TableBody>
-            {columns
-              .filter((columnsData: any) => columnsData.month === selectedMonth)
-              .map((columnsData: any) => (
-                <TableRow key={columnsData._id} className="hover:bg-primary/10">
-                  <TableCell>{columnsData._id}</TableCell>
-                  <TableCell>{columnsData.name}</TableCell>
-                  <TableCell>{columnsData.age}</TableCell>
-                  <TableCell>{columnsData.gpa}</TableCell>
-                  <TableCell>{columnsData.month}</TableCell>
+            {rows
+              .filter((rowsData: any) => rowsData.month === "March")
+              .map((rowsData: any) => (
+                <TableRow key={rowsData._id} className="hover:bg-primary/10">
+                  <TableCell>
+                    {rowsData.transaction_date
+                      ? new Date(rowsData.transaction_date).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>{rowsData.batch_id}</TableCell>
+                    <TableCell>{rowsData.product_grade}</TableCell>
+                    <TableCell>{rowsData.color_uniformity}</TableCell>
+                    <TableCell>{rowsData.taste_test}</TableCell>
+                    <TableCell>{rowsData.packaging_integrity}</TableCell>
+                    <TableCell>{rowsData.approved ? "Yes" : "No"}</TableCell>
+                    <TableCell>{rowsData.checked_by}</TableCell>
+                    <TableCell>{new Date(rowsData.timestamp).toLocaleDateString()}</TableCell>
 
                   {/* show current month only */}
-                  {columnsData.month === currentMonth ? (
+                  {rowsData.month === currentMonth ? (
                     <div>
                       {/* Update */}
-                      {UpdateBtn()}
+                      {UpdateBtn(rowsData._id)}
 
                       {/* Delete */}
-                      {deleteBtn(columnsData._id)}
+                      {deleteBtn(rowsData._id)}
                     </div>
                   ) : (
                     <TableCell>
@@ -145,35 +136,39 @@ export default table;
 
 
 
-
-
-
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-const UpdateBtn = () => {
+import { quality_end_product_check_deleteDoc, quality_end_product_check_getAllData } from "@/utils/quality/quality_end_product_check";
+const UpdateBtn = (updateId:any) => {
   return (
     <>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger >
           <Button variant="ghost" className="my-2 mx-0.5">
             <Edit className="  stroke-primary" />
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
+          {/* <DialogHeader>
             <DialogTitle>Update Now.</DialogTitle>
             <DialogDescription>
               You are about to update this record.
             </DialogDescription>
           </DialogHeader>
-          <Separator />
+          <Separator /> */}
 
+         <div>
+          {/* <Finance_PettyCash_update UpdateId={updateId} /> */}
+
+         </div>
           {/* deleteNow */}
 
-          <DialogFooter className="sm:justify-start">
+          {/* <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">Update</Button>
+                <Button type="submit" className="w-full">
+                  Update
+                </Button>
                 <Button
                   variant="outline"
                   className="my-2 mx-0.5 border-1 border-primary w-full"
@@ -182,7 +177,7 @@ const UpdateBtn = () => {
                 </Button>
               </div>
             </DialogClose>
-          </DialogFooter>
+          </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>
@@ -193,12 +188,10 @@ const UpdateBtn = () => {
 
 
 
-
-
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await deleteDoc(id);
+    await quality_end_product_check_deleteDoc(id);
     window.location.reload();
   };
   return (
@@ -218,14 +211,17 @@ const deleteBtn = (deleteId: any) => {
             </DialogDescription>
           </DialogHeader>
           <Separator />
-            <DialogTitle>"ID: {deleteId}"</DialogTitle>
-
           {/* deleteNow */}
 
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <div className="flex flex-col items-center w-full ">
-                <Button variant="destructive" type="submit" onClick={() => deleteOne(deleteId)} className="w-full">
+                <Button
+                  variant="destructive"
+                  type="submit"
+                  onClick={() => deleteOne(deleteId)}
+                  className="w-full"
+                >
                   Delete
                 </Button>
                 <Button
