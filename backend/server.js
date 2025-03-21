@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-//routes
+// Routes
 import initialTestRoute from "./routes/initialTestRoute.js";
 import Quality_end_product_check from "./routes/quality_end_product_check.js";
 import Finance_management from "./routes/Finance/Finance_PettyCash.js";
@@ -13,6 +13,7 @@ import Sales_Orders from "./routes/sales/Sales_Order.js"
 import Sales_Payment from "./routes/sales/Sales_Payment.js"
 import Sales_Sales from "./routes/sales/Sales_Sales.js"
 import quality_end_product_check from "./routes/QualityControle/quality_end_product_check.js"
+import Inventory_FinalProduct from "./routes/Inventory/Inventory_FinalProduct.js";
 
 dotenv.config(); // Load .env file
 
@@ -31,12 +32,9 @@ app.use(Sales_Customer);
 app.use(Sales_Orders);
 app.use(Sales_Payment);
 app.use(Sales_Sales);
+app.use(Inventory_FinalProduct);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(` Server is running on port ${PORT}`);
   connection.connectToServer();
 });
-
-
-
-//run == node server.js
