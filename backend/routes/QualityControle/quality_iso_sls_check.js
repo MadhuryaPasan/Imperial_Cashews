@@ -5,10 +5,10 @@ import { ObjectId } from "mongodb";
 let router = express.Router();
 
 //read data
-router.route("/quality_end_product_check").get(async (req, res) => {
+router.route("/quality_iso_sls_check").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("quality_end_product_check").find({}).toArray();
+    let result = await db.collection("quality_iso_sls_check").find({}).toArray();
     res
       .status(200)
       .json({ message: "Data retrieved successfully", data: result });
@@ -22,38 +22,37 @@ router.route("/quality_end_product_check").get(async (req, res) => {
 
 // read data single data
 
-router.route("/quality_end_product_check/:id").get(async (req, res) => {
+router.route("/quality_iso_sls_check/:id").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db
-    .collection("quality_end_product_check")
+    .collection("quality_iso_sls_check")
     .findOne({ _id: new ObjectId(req.params.id) });
   res.json(result);
 });
 
 //delete data
-router.route("/quality_end_product_check/:id").delete(async (req, res) => {
+router.route("/quality_iso_sls_check/:id").delete(async (req, res) => {
   let db = DB.getDB();
   let data = await db
-    .collection("quality_end_product_check")
+    .collection("quality_iso_sls_check")
     .deleteOne({ _id: new ObjectId(req.params.id) });
   res.json(data);
   console.log("Data deleted successfully");
 });
 
 //insert data
-router.route("/quality_end_product_check").post(async (req, res) => {
+router.route("/quality_iso_sls_check").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     batch_id: req.body.batch_id,
-    product_grade: req.body.product_grade,
-    color_uniformity: req.body.color_uniformity, 
-    taste_test: req.body.taste_test,
-    packaging_integrity: req.body.packaging_integrity,
-    approved: req.body.approved,
-    checked_by: req.body.checked_by,
-    timestamp: req.body.timestamp || new Date()
+    iso_certified: req.body.iso_certified,
+    sls_certified: req.body.sls_certified,
+    last_audit_date: req.body.last_audit_date,
+    next_audit_date: req.body.next_audit_date,
+    inspector: req.body.inspector,
+    remarks: req.body.remarks
   };
-  let data = await db.collection("quality_end_product_check").insertOne(mongoObject);
+  let data = await db.collection("quality_iso_sls_check").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
