@@ -12,7 +12,7 @@ import Sales_Customer from "./routes/sales/Sales_Customer.js"
 import Sales_Orders from "./routes/sales/Sales_Order.js"
 import Sales_Payment from "./routes/sales/Sales_Payment.js"
 import Sales_Sales from "./routes/sales/Sales_Sales.js"
-
+import quality_end_product_check from "./routes/QualityControle/quality_end_product_check.js"
 
 dotenv.config(); // Load .env file
 
