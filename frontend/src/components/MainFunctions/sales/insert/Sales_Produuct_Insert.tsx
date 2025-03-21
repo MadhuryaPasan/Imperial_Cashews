@@ -38,7 +38,7 @@ const Sales_Customer_Insert = () => {
         formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm({
-        defaultValues: { address: null, contact_number: null, email: null, name: null, created_date:null, orders_count:null, total_spent:null},
+        defaultValues: { address: null, age: null, gpa: null, month: "" },
       });
     
 
@@ -46,7 +46,7 @@ const Sales_Customer_Insert = () => {
     <div><form onSubmit={handleSubmit(CreateDoc)}>
     <Card
       className={`w-[350px] ${
-        errors.address || errors.contact_number || errors.email || errors.name || errors.created_date || errors. orders_count ||  errors. total_spent
+        errors.age || errors.address || errors.gpa
           ? "bg-destructive/5 outline-1 outline-destructive"
           : null
       } ${
@@ -60,12 +60,12 @@ const Sales_Customer_Insert = () => {
       <CardContent>
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="address">Address</Label>
+            <Label htmlFor="name">Name</Label>
             <Input
               
-              placeholder="Insert Address"
+              placeholder="Insert Name"
               {...register("address", {
-                required: "Address is required",
+                required: "Name is required",
                 minLength: { value: 3, message: "Minimum 3 characters" },
                 maxLength: {
                   value: 100,
@@ -85,37 +85,12 @@ const Sales_Customer_Insert = () => {
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="contact_number">Contact Number</Label>
+            <Label htmlFor="age">Age</Label>
             <Input
-              
-              placeholder="Contact Number"
-              {...register("contact_number", {
-                required: "Contact Number is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
-                maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
-                },
-                pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
-                },
-              })}
-              {...(isSubmitSuccessful ? { disabled: true } : {})}
-            />
-            {errors.contact_number && (
-              <span className="text-destructive">
-                {errors.contact_number.message}
-              </span>
-            )}
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              
+              id="age"
               placeholder="Insert Age"
-              {...register("email", {
-                required: "Email is required",
+              {...register("age", {
+                required: "name is required",
                 min: {
                   value: 18,
                   message: "you need to be at least 18 years old",
@@ -128,17 +103,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.email && (
-              <span className="text-destructive">{errors.email.message}</span>
+            {errors.age && (
+              <span className="text-destructive">{errors.age.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="gpa">GPA</Label>
             <Input
-              id="name"
-              placeholder="Insert Name"
-              {...register("name", {
-                required: "Name is required",
+              id="gpa"
+              placeholder="Insert GPA"
+              {...register("gpa", {
+                required: "Gpa is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -148,17 +123,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.name&& (
-              <span className="text-destructive">{errors.name.message}</span>
+            {errors.gpa && (
+              <span className="text-destructive">{errors.gpa.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="created_date">Created Date</Label>
+            <Label htmlFor="data">Month</Label>
             <Input
-              id="created_date"
-              placeholder="Created Date"
-              {...register("created_date", {
-                required: "Created Date is required",
+              id="month"
+              placeholder="Month"
+              {...register("month", {
+                required: "Name is required",
               })}
             />
             {errors.month && (
