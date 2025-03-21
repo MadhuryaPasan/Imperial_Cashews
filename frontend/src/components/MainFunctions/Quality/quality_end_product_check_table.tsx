@@ -138,14 +138,7 @@ export default table;
 
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-import {
-    quality_end_product_check_deleteDoc,
-    quality_end_product_check_getAllData,
-} from "@/utils/quality/quality_end_product_check";
-
-
-import Finance_PettyCash_update from "./Finance_PettyCash_update";
-import { quality_end_product_check_getAllData } from "@/utils/quality/quality_end_product_check";
+import { quality_end_product_check_deleteDoc, quality_end_product_check_getAllData } from "@/utils/quality/quality_end_product_check";
 const UpdateBtn = (updateId:any) => {
   return (
     <>
@@ -165,7 +158,7 @@ const UpdateBtn = (updateId:any) => {
           <Separator /> */}
 
          <div>
-          <Finance_PettyCash_update UpdateId={updateId} />
+          {/* <Finance_PettyCash_update UpdateId={updateId} /> */}
 
          </div>
           {/* deleteNow */}
@@ -198,7 +191,7 @@ const UpdateBtn = (updateId:any) => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Finance_PettyCash_deleteDoc(id);
+    await quality_end_product_check_deleteDoc(id);
     window.location.reload();
   };
   return (

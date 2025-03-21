@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 let router = express.Router();
 
 //read data
-router.route("/read").get(async (req, res) => {
+router.route("/quality_end_product_check").get(async (req, res) => {
   try {
     let db = DB.getDB();
     let result = await db.collection("quality_end_product_check").find({}).toArray();
@@ -22,7 +22,7 @@ router.route("/read").get(async (req, res) => {
 
 // read data single data
 
-router.route("/read/:id").get(async (req, res) => {
+router.route("/quality_end_product_check/:id").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db
     .collection("quality_end_product_check")
@@ -31,7 +31,7 @@ router.route("/read/:id").get(async (req, res) => {
 });
 
 //delete data
-router.route("/read/:id").delete(async (req, res) => {
+router.route("/quality_end_product_check/:id").delete(async (req, res) => {
   let db = DB.getDB();
   let data = await db
     .collection("quality_end_product_check")
@@ -41,7 +41,7 @@ router.route("/read/:id").delete(async (req, res) => {
 });
 
 //insert data
-router.route("/read").post(async (req, res) => {
+router.route("/quality_end_product_check").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     batch_id: req.body.batch_id,
