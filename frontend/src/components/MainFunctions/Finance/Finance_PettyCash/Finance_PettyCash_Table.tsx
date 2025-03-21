@@ -20,14 +20,6 @@ import {
   Recycle,
   Trash2,
 } from "lucide-react";
-import { getAllData } from "@/utils/dbAPI";
-import { deleteDoc } from "@/utils/dbAPI";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 
 import {
   Table,
@@ -38,17 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 
-interface iColumns {
-  name: string;
-  age: number;
-  gpa: number;
-  month: string;
-}
 
 const table = ({ selectedMonth }: any) => {
   // grt current month
@@ -56,48 +38,40 @@ const table = ({ selectedMonth }: any) => {
     month: "long",
   });
 
-  const [columns, setData] = useState<any>([]);
+  const [rows, setRows] = useState<any>([]);
 
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await getAllData();
-      setData(result);
+      let result = await Finance_PettyCash_getAllData();
+      setRows(result);
     }
     getAll();
   }, []);
 
   // table rows
-  const rows = [
-    { name: "Id" },
-    { name: "Name" },
-    { name: "Age" },
-    { name: "Gpa" },
+  const columns = [
+    { name: "Transaction Date" },
+    { name: "Transaction Type" },
+    { name: "Description" },
+    { name: "Amount" },
     { name: "Month" },
+    { name: "Current Balance" },
   ];
 
   return (
     <>
-
-
-    <div>
-      {rows.map((data: any)=>(
-        <p>{data.name}</p>
-      ))}
-    </div>
-
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {/* table rows here */}
             <TableRow className="font-bold">
-              {rows.map((rowData: any) => (
+              {columns.map((columns: any) => (
                 <TableHead
                   className=" font-bold text-[15px]"
-                  key={rowData.name}
+                  key={columns.name}
                 >
-                  {rowData.name}
+                  {columns.name}
                 </TableHead>
               ))}
               <TableHead className=" font-bold text-[15px]">Options</TableHead>
@@ -106,24 +80,36 @@ const table = ({ selectedMonth }: any) => {
 
           {/* columns */}
           <TableBody>
-            {columns
-              .filter((columnsData: any) => columnsData.month === selectedMonth)
-              .map((columnsData: any) => (
-                <TableRow key={columnsData._id} className="hover:bg-primary/10">
-                  <TableCell>{columnsData._id}</TableCell>
-                  <TableCell>{columnsData.name}</TableCell>
-                  <TableCell>{columnsData.age}</TableCell>
-                  <TableCell>{columnsData.gpa}</TableCell>
-                  <TableCell>{columnsData.month}</TableCell>
+            {rows
+              .filter((rowsData: any) => rowsData.month === "March")
+              .map((rowsData: any) => (
+                <TableRow key={rowsData._id} className="hover:bg-primary/10">
+                  <TableCell>
+                    {rowsData.transaction_date
+                      ? new Date(rowsData.transaction_date).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>{rowsData.transaction_type}</TableCell>
+                  <TableCell>{rowsData.description}</TableCell>
+                  <TableCell>{rowsData.amount}</TableCell>
+                  <TableCell>{rowsData.month}</TableCell>
+                  <TableCell>{rowsData.current_balance}</TableCell>
 
                   {/* show current month only */}
-                  {columnsData.month === currentMonth ? (
+                  {rowsData.month === currentMonth ? (
                     <div>
                       {/* Update */}
-                      {UpdateBtn()}
+                      {UpdateBtn(rowsData._id)}
 
                       {/* Delete */}
-                      {deleteBtn(columnsData._id)}
+                      {deleteBtn(rowsData._id)}
                     </div>
                   ) : (
                     <TableCell>
@@ -145,44 +131,50 @@ export default table;
 
 
 
-
-
-
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-const UpdateBtn = () => {
+import {
+  Finance_PettyCash_deleteDoc,
+  Finance_PettyCash_getAllData,
+  Finance_PettyCash_getDoc,
+} from "@/utils/Finance/Finance_PettyCash_API";
+
+
+import Finance_PettyCash_update from "./Finance_PettyCash_update";
+
+
+
+const UpdateBtn = (updateId:any) => {
+  const [currentData, setCurrentData] = useState<any>(null);
+  // useEffect(() => {
+    
+  //   async function fetchData() {
+  //     try {
+  //       const result = await Finance_PettyCash_getDoc(updateId);
+  //       setCurrentData(result);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, [updateId]);
+
   return (
     <>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger >
           <Button variant="ghost" className="my-2 mx-0.5">
             <Edit className="  stroke-primary" />
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator />
+          
 
-          {/* deleteNow */}
+         <div>
+         {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+         <Finance_PettyCash_update  /> 
+         </div>
 
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">Update</Button>
-                <Button
-                  variant="outline"
-                  className="my-2 mx-0.5 border-1 border-primary w-full"
-                >
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
@@ -193,14 +185,15 @@ const UpdateBtn = () => {
 
 
 
-
-
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await deleteDoc(id);
+    await Finance_PettyCash_deleteDoc(id);
     window.location.reload();
   };
+
+
+  
   return (
     <>
       <Dialog>
@@ -218,14 +211,17 @@ const deleteBtn = (deleteId: any) => {
             </DialogDescription>
           </DialogHeader>
           <Separator />
-            <DialogTitle>"ID: {deleteId}"</DialogTitle>
-
           {/* deleteNow */}
 
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <div className="flex flex-col items-center w-full ">
-                <Button variant="destructive" type="submit" onClick={() => deleteOne(deleteId)} className="w-full">
+                <Button
+                  variant="destructive"
+                  type="submit"
+                  onClick={() => deleteOne(deleteId)}
+                  className="w-full"
+                >
                   Delete
                 </Button>
                 <Button

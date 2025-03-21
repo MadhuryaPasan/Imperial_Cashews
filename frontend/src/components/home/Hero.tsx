@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { ChevronRight } from "lucide-react";
-import Image1 from "../../assets/carosousel/scsd.png"
+import Image1 from "@/assets/carosousel/scsd.png"
 
 import {
   Carousel,

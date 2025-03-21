@@ -1,5 +1,5 @@
 import React from 'react'
-import Finance_example from './subpages/Finance_example'
+import Finance_example from './subpages/finance_example'
 
 
 const finance_management = () => {
@@ -9,7 +9,6 @@ const finance_management = () => {
     <>
       <>
         <div>finance_management</div>
-        <div>hello</div>
         <Finance_example />
       </>
     </>

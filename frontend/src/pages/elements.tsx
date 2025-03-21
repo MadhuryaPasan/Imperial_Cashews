@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import TableTemplate from "../components/tables/tableTemplate";
+import TableTemplate from "@/components/tables/tableTemplate";
 import { createNew } from "@/utils/dbAPI";
 
 import {
@@ -42,7 +42,7 @@ const elements = () => {
   const CreateDoc: SubmitHandler<iFormData | any> = async (data) => {
     await createNew(data);
     // await new Promise(resolve => setTimeout(resolve, 3000));
-    window.location.reload();
+    // window.location.reload();
   };
 
   const {
@@ -105,8 +105,8 @@ const elements = () => {
             isSubmitSuccessful ? "bg-primary/5 outline-1 outline-primary" : null
           }`}
         >
-          <CardHeader>
-            <CardTitle>Insert Now</CardTitle>
+          <CardHeader >
+            <CardTitle className=" bg-primary ">Insert Now</CardTitle>
             <CardDescription>Insert new data to the table</CardDescription>
           </CardHeader>
           <CardContent>
@@ -114,7 +114,6 @@ const elements = () => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
                 <Input
-                  id="name"
                   placeholder="Insert Name"
                   {...register("name", {
                     required: "Name is required",
@@ -182,7 +181,7 @@ const elements = () => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="data">Month</Label>
                 <Input
-                  id="month"
+                 
                   placeholder="Month"
                   disabled
                   value={currentMonth}
