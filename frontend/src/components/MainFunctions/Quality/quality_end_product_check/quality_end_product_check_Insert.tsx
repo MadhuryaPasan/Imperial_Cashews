@@ -102,7 +102,7 @@ const quality_end_product_check_Insert = () => {
               {/* Product Grade */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="product_grade">Product Grade</Label>
-                <Select 
+                <Select  
                   defaultValue="Standard" 
                   onValueChange={(value) => setValue("product_grade", value)}
                 >
@@ -263,7 +263,8 @@ const quality_end_product_check_Insert = () => {
             </CardContent>
 
             <CardFooter>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full"  
+              {...(isSubmitSuccessful ? { disabled: true } : {})}>
                 {isSubmitSuccessful ? "Submitted" : "Submit Quality Check"}
               </Button>
             </CardFooter>
