@@ -1,35 +1,27 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
-import Image1 from "@/assets/carosousel/scsd.png"
-import { Badge, StarIcon } from 'lucide-react'
-import { Button } from 'react-day-picker'
+import ProductCard from "@/components/shop/productCard";
+import ProductRead from "@/components/shop/productRead";
 
 const shop = () => {
+  let data = [
+    { cx: "cscs" },
+    { cx: "cscs" },
+    { cx: "cscs" },
+    { cx: "cscs" },
+    { cx: "cscs" },
+    { cx: "cscs" },
+  ];
 
-
-  function onAddToCart(id: string) {}
-
-  let id = "3",
-  name = "Bluetooth Speaker",
-  price= 59.99,
-  originalPrice= 79.99,
-
-  category= "Audio",
-  rating= 3,
-  isSale= true
-  let discount= 25
   return (
     <>
       <div>shop</div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Cashews</CardTitle>
-          <CardDescription>this is a description</CardDescription>
-        </CardHeader>
-      </Card>
-     
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 m-2 ">
+        {data.map((post, index) => (
+          <ProductCard key={index} {...post} />
+        ))}
+      </div>
+      <ProductRead />
     </>
-  )
-}
+  );
+};
 
-export default shop
+export default shop;
