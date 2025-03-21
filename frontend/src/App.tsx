@@ -10,11 +10,26 @@ import Elements from "./pages/elements";
 import Access from "./pages/access";
 
 import Dashboard from "./pages/dashboard";
+import Page_not_found from "./pages/page_not_found";
 
 //layouts
 
 import Layout_Main from "./components/layouts/Layout_main";
 import Layout_dashboard from "./components/layouts/Layout_dashboard";
+
+
+//temporary
+import Finance_management from "./pages/MainFunctions/Finance/finance_management";
+import Inventory_management from "./pages/MainFunctions/Inventory/inventory_management";
+import Sales_management from "./pages/MainFunctions/Sales/sales_management";
+import Staff_management from "./pages/MainFunctions/Staff/staff_management";
+import Quality_control from "./pages/MainFunctions/QualityControl/Quality_control";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+
+
+
+
 
 function App() {
   return (
@@ -22,6 +37,9 @@ function App() {
       <HashRouter>
         <Routes>
           {/* <Route  element={<FooterLayout />}> */}
+
+
+          <Route path="*" element={<Page_not_found />} />
           <Route element={<Layout_Main />}>
             <Route path="/home" element={<Home />} />
             {/* http://localhost:5173/*/}
@@ -36,6 +54,12 @@ function App() {
           </Route>
             <Route element={<Layout_dashboard />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/finance_management" element={<Finance_management />} />
+              <Route path="/inventory_management" element={<Inventory_management />} />
+              <Route path="/sales_management" element={<Sales_management />} />
+              <Route path="/staff_management" element={<Staff_management />} />
+              <Route path="/quality_control" element={<Quality_control />} />
+
               {/* http://localhost:5173/#/dashboard */}
             </Route>
           <Route path="/" element={<Access />} />

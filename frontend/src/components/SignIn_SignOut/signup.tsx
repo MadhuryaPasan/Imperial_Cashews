@@ -11,6 +11,7 @@ import {
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Logo from "@/components/layouts/Logo";
 
 interface iFormData {
   name: string;
@@ -55,11 +56,14 @@ const signin = () => {
           <div className="md:flex justify-between  ">
             <div className="w-full">
               {/* head */}
-              <CardHeader>
+              <CardHeader className=" h-full">
                 <CardTitle className="text-lg">Sign Up to Imperial Cashews</CardTitle>
                 <CardDescription>
                   Welcome! Sign Up to Login
                 </CardDescription>
+                <div className="h-[200px]">
+                  <Logo />
+                </div>
               </CardHeader>
             </div>
 

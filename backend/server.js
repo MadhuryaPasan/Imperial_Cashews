@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 //routes
 import initialTestRoute from "./routes/initialTestRoute.js";
+import Finance_management from "./routes/Finance/Finance_PettyCash.js";
 
 dotenv.config(); // Load .env file
 
@@ -17,6 +18,8 @@ app.use(express.json());
 
 app.use(initialTestRoute);
 app.use(quality_end_product_check);
+app.use(Finance_management);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
