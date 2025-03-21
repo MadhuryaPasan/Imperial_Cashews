@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createNew_Sales_Customer } from '@/utils/sales/Sales_Customer_API';
 
-const Sales_Customer_Insert = () => {
+const Sales_Sales_Insert = () => {
 
       // insert data
       const CreateDoc: SubmitHandler<any> = async (data) => {
@@ -38,7 +38,7 @@ const Sales_Customer_Insert = () => {
         formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm({
-        defaultValues: { address: null, age: null, gpa: null, month: "" },
+        defaultValues: { customer_id: null, sales_date: null, sales_status: null, payment_status: null, total_amount: null, unit_price: null, quantity: null, month: null },
       });
     
 
@@ -46,7 +46,7 @@ const Sales_Customer_Insert = () => {
     <div><form onSubmit={handleSubmit(CreateDoc)}>
     <Card
       className={`w-[350px] ${
-        errors.age || errors.address || errors.gpa
+        errors.customer_id || errors.sales_date || errors.sales_status || errors.payment_status || errors.total_amount || errors.unit_price || errors.quantity || errors.month
           ? "bg-destructive/5 outline-1 outline-destructive"
           : null
       } ${
@@ -60,12 +60,12 @@ const Sales_Customer_Insert = () => {
       <CardContent>
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="customer_id">Customer ID</Label>
             <Input
               
-              placeholder="Insert Name"
-              {...register("address", {
-                required: "Name is required",
+              placeholder="Insert Customer ID"
+              {...register("customer_id", {
+                required: "Customer ID is required",
                 minLength: { value: 3, message: "Minimum 3 characters" },
                 maxLength: {
                   value: 100,
@@ -78,19 +78,19 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.address && (
+            {errors.customer_id && (
               <span className="text-destructive">
-                {errors.address.message}
+                {errors.customer_id.message}
               </span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="age">Age</Label>
+            <Label htmlFor="sales_date">Sales Date</Label>
             <Input
-              id="age"
-              placeholder="Insert Age"
-              {...register("age", {
-                required: "name is required",
+              id="sales_date"
+              placeholder="Insert Sales Date"
+              {...register("sales_date", {
+                required: "Sales Date is required",
                 min: {
                   value: 18,
                   message: "you need to be at least 18 years old",
@@ -103,17 +103,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.age && (
-              <span className="text-destructive">{errors.age.message}</span>
+            {errors.sales_date && (
+              <span className="text-destructive">{errors.sales_date.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="gpa">GPA</Label>
+            <Label htmlFor="sales_status">Sales Status</Label>
             <Input
-              id="gpa"
-              placeholder="Insert GPA"
-              {...register("gpa", {
-                required: "Gpa is required",
+              id="sales_status"
+              placeholder="Insert Sales Status"
+              {...register("sales_status", {
+                required: "Sales Status is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -123,20 +123,80 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.gpa && (
-              <span className="text-destructive">{errors.gpa.message}</span>
+            {errors.sales_status && (
+              <span className="text-destructive">{errors.sales_status.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="data">Month</Label>
+            <Label htmlFor="payment_status">Payment Status</Label>
+            <Input
+              id="payment_status"
+              placeholder="Payment Status"
+              {...register("payment_status", {
+                required: "Payment Status is required",
+              })}
+            />
+            {errors.payment_status&& (
+              <span className="text-destructive">
+                {errors.payment_status.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="total_amount">Total Amount</Label>
+            <Input
+              id="total_amount"
+              placeholder="Total Amount"
+              {...register("total_amount", {
+                required: " Total Amount is required",
+              })}
+            />
+            {errors.total_amount&& (
+              <span className="text-destructive">
+                {errors.total_amount.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="unit_price">Unit Price</Label>
+            <Input
+              id="unit_price"
+              placeholder="Unit Price"
+              {...register("unit_price", {
+                required: " Unit Price is required",
+              })}
+            />
+            {errors.unit_price&& (
+              <span className="text-destructive">
+                {errors.unit_price.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="quantity">Quantity</Label>
+            <Input
+              id="quantity"
+              placeholder="Quantity"
+              {...register("quantity", {
+                required: "Quantity is required",
+              })}
+            />
+            {errors.quantity&& (
+              <span className="text-destructive">
+                {errors.quantity.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="month">Month</Label>
             <Input
               id="month"
               placeholder="Month"
               {...register("month", {
-                required: "Name is required",
+                required: "Month is required",
               })}
             />
-            {errors.month && (
+            {errors.month&& (
               <span className="text-destructive">
                 {errors.month.message}
               </span>
@@ -164,4 +224,4 @@ const Sales_Customer_Insert = () => {
   )
 }
 
-export default Sales_Customer_Insert
+export default Sales_Sales_Insert

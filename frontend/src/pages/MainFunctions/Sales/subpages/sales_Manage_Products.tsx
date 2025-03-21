@@ -5,11 +5,15 @@ import Sales_Order_table from "@/components/MainFunctions/sales/Sales_Manage_Pro
 import Sales_Payment_table from "@/components/MainFunctions/sales/Sales_Manage_Products/Sales_Payment_table"
 import Sales_Sales_table from "@/components/MainFunctions/sales/Sales_Manage_Products/Sales_Sales_table"
 
+import Sales_Products_Insert from '@/components/MainFunctions/sales/Sales_Manage_Products'
+
 const sales_Manage_Products = () => {
   return (
     <>
     <div>Products</div>
     <Sales_Product_Table/>
+    <Sales_Products_Insert/>
+    
     
     </>
   )
