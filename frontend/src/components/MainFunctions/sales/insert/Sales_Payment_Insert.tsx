@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createNew_Sales_Customer } from '@/utils/sales/Sales_Customer_API';
 
-const Sales_Customer_Insert = () => {
+const Sales_Payment_Insert = () => {
 
       // insert data
       const CreateDoc: SubmitHandler<any> = async (data) => {
@@ -38,7 +38,7 @@ const Sales_Customer_Insert = () => {
         formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm({
-        defaultValues: { address: null, age: null, gpa: null, month: "" },
+        defaultValues: { order_id: null, customer_id: null, payment_date: null, amount_paid: null, payment_method:null, status:null },
       });
     
 
@@ -46,7 +46,7 @@ const Sales_Customer_Insert = () => {
     <div><form onSubmit={handleSubmit(CreateDoc)}>
     <Card
       className={`w-[350px] ${
-        errors.age || errors.address || errors.gpa
+        errors. order_id|| errors.customer_id || errors.payment_date || errors.amount_paid || errors.payment_method ||  errors.status
           ? "bg-destructive/5 outline-1 outline-destructive"
           : null
       } ${
@@ -60,12 +60,12 @@ const Sales_Customer_Insert = () => {
       <CardContent>
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="order_id">Order ID</Label>
             <Input
               
-              placeholder="Insert Name"
-              {...register("address", {
-                required: "Name is required",
+              placeholder="Insert Order ID"
+              {...register("order_id", {
+                required: "Order ID is required",
                 minLength: { value: 3, message: "Minimum 3 characters" },
                 maxLength: {
                   value: 100,
@@ -78,19 +78,19 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.address && (
+            {errors.order_id && (
               <span className="text-destructive">
-                {errors.address.message}
+                {errors.order_id.message}
               </span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="age">Age</Label>
+            <Label htmlFor="customer_id">Customer ID</Label>
             <Input
-              id="age"
-              placeholder="Insert Age"
-              {...register("age", {
-                required: "name is required",
+              id="customer_id"
+              placeholder="Insert Customer ID"
+              {...register("customer_id", {
+                required: "Customer ID is required",
                 min: {
                   value: 18,
                   message: "you need to be at least 18 years old",
@@ -103,17 +103,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.age && (
-              <span className="text-destructive">{errors.age.message}</span>
+            {errors.customer_id&& (
+              <span className="text-destructive">{errors.customer_id.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="gpa">GPA</Label>
+            <Label htmlFor="payment_date">Payment Date</Label>
             <Input
-              id="gpa"
-              placeholder="Insert GPA"
-              {...register("gpa", {
-                required: "Gpa is required",
+              id="payment_date"
+              placeholder="Insert Payment Date"
+              {...register("payment_date", {
+                required: "Payment Date is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -123,22 +123,52 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.gpa && (
-              <span className="text-destructive">{errors.gpa.message}</span>
+            {errors.payment_date && (
+              <span className="text-destructive">{errors.payment_date.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="data">Month</Label>
+            <Label htmlFor="amount_paid">Amount Paid</Label>
             <Input
-              id="month"
-              placeholder="Month"
-              {...register("month", {
-                required: "Name is required",
+              id="amount_paid"
+              placeholder="Amount Paid"
+              {...register("amount_paid", {
+                required: "Amount Paid is required",
               })}
             />
-            {errors.month && (
+            {errors.amount_paid && (
               <span className="text-destructive">
-                {errors.month.message}
+                {errors.amount_paid.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="payment_method">Payment Method</Label>
+            <Input
+              id="payment_method"
+              placeholder="Payment Method"
+              {...register("payment_method", {
+                required: "Payment Method is required",
+              })}
+            />
+            {errors.payment_method && (
+              <span className="text-destructive">
+                {errors.payment_method.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="status">Status</Label>
+            <Input
+              id="status"
+              placeholder="Status"
+              {...register("status", {
+                required: "Status is required",
+              })}
+            />
+            {errors.payment_method && (
+              <span className="text-destructive">
+                {errors.payment_method.message}
               </span>
             )}
           </div>
@@ -164,4 +194,4 @@ const Sales_Customer_Insert = () => {
   )
 }
 
-export default Sales_Customer_Insert
+export default Sales_Payment_Insert

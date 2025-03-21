@@ -113,7 +113,7 @@ const Sales_Customer_Insert = () => {
             <Label htmlFor="email">Email</Label>
             <Input
               
-              placeholder="Insert Age"
+              placeholder="Insert Email"
               {...register("email", {
                 required: "Email is required",
                 min: {
@@ -168,12 +168,12 @@ const Sales_Customer_Insert = () => {
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="orders_count">Orders Count</Label>
             <Input
-              id="name"
-              placeholder="Insert Name"
-              {...register("name", {
-                required: "Name is required",
+              id="orders_count"
+              placeholder="Orders Count"
+              {...register("orders_count", {
+                required: "Orders Count is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -183,17 +183,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.name&& (
-              <span className="text-destructive">{errors.name.message}</span>
+            {errors.orders_count&& (
+              <span className="text-destructive">{errors.orders_count.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="total_spent">Total Spent</Label>
             <Input
-              id="name"
-              placeholder="Insert Name"
-              {...register("name", {
-                required: "Name is required",
+              id="total_spent"
+              placeholder="Insert Total Spent"
+              {...register("total_spent", {
+                required: "Total Spent is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -203,8 +203,8 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.name&& (
-              <span className="text-destructive">{errors.name.message}</span>
+            {errors.total_spent&& (
+              <span className="text-destructive">{errors.total_spent.message}</span>
             )}
           </div>
         </div>

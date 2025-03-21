@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createNew_Sales_Customer } from '@/utils/sales/Sales_Customer_API';
 
-const Sales_Customer_Insert = () => {
+const Sales_Product_Insert = () => {
 
       // insert data
       const CreateDoc: SubmitHandler<any> = async (data) => {
@@ -38,7 +38,7 @@ const Sales_Customer_Insert = () => {
         formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm({
-        defaultValues: { address: null, age: null, gpa: null, month: "" },
+        defaultValues: { name: null, category: null, created_date: null, description: null, image: null, size: null, month:null, price_per_unit:null,  stock_quantity:null},
       });
     
 
@@ -46,7 +46,7 @@ const Sales_Customer_Insert = () => {
     <div><form onSubmit={handleSubmit(CreateDoc)}>
     <Card
       className={`w-[350px] ${
-        errors.age || errors.address || errors.gpa
+        errors.name || errors.category || errors.created_date || errors.description || errors.image || errors.size || errors.month || errors.price_per_unit || errors.stock_quantity
           ? "bg-destructive/5 outline-1 outline-destructive"
           : null
       } ${
@@ -64,7 +64,7 @@ const Sales_Customer_Insert = () => {
             <Input
               
               placeholder="Insert Name"
-              {...register("address", {
+              {...register("name", {
                 required: "Name is required",
                 minLength: { value: 3, message: "Minimum 3 characters" },
                 maxLength: {
@@ -78,19 +78,19 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.address && (
+            {errors.name && (
               <span className="text-destructive">
-                {errors.address.message}
+                {errors.name.message}
               </span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="age">Age</Label>
+            <Label htmlFor="category">Category</Label>
             <Input
-              id="age"
-              placeholder="Insert Age"
-              {...register("age", {
-                required: "name is required",
+              id="category"
+              placeholder="Insert Category"
+              {...register("category", {
+                required: "Category is required",
                 min: {
                   value: 18,
                   message: "you need to be at least 18 years old",
@@ -103,17 +103,17 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.age && (
-              <span className="text-destructive">{errors.age.message}</span>
+            {errors.category && (
+              <span className="text-destructive">{errors.category.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="gpa">GPA</Label>
+            <Label htmlFor="created_date">Created Date</Label>
             <Input
-              id="gpa"
-              placeholder="Insert GPA"
-              {...register("gpa", {
-                required: "Gpa is required",
+              id="created_date"
+              placeholder="Insert Created Date"
+              {...register("created_date", {
+                required: "Created Date is required",
                 min: { value: 0, message: "Minimum value is 0" },
                 max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
@@ -123,17 +123,77 @@ const Sales_Customer_Insert = () => {
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             />
-            {errors.gpa && (
-              <span className="text-destructive">{errors.gpa.message}</span>
+            {errors.created_date && (
+              <span className="text-destructive">{errors.created_date.message}</span>
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="data">Month</Label>
+            <Label htmlFor="description">Description</Label>
+            <Input
+              id="description"
+              placeholder="Description"
+              {...register("description", {
+                required: "Description is required",
+              })}
+            />
+            {errors.description && (
+              <span className="text-destructive">
+                {errors.description.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="image">Image</Label>
+            <Input
+              id="image"
+              placeholder="Image"
+              {...register("image", {
+                required: "Image is required",
+              })}
+            />
+            {errors.image && (
+              <span className="text-destructive">
+                {errors.image.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="size">Size</Label>
+            <Input
+              id="size"
+              placeholder="Size"
+              {...register("size", {
+                required: "Size is required",
+              })}
+            />
+            {errors.size && (
+              <span className="text-destructive">
+                {errors.size.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="month">Month</Label>
             <Input
               id="month"
               placeholder="Month"
               {...register("month", {
-                required: "Name is required",
+                required: "Month is required",
+              })}
+            />
+            {errors.month && (
+              <span className="text-destructive">
+                {errors.month.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="month">Month</Label>
+            <Input
+              id="month"
+              placeholder="Month"
+              {...register("month", {
+                required: "Month is required",
               })}
             />
             {errors.month && (
@@ -164,4 +224,4 @@ const Sales_Customer_Insert = () => {
   )
 }
 
-export default Sales_Customer_Insert
+export default Sales_Product_Insert
