@@ -161,10 +161,50 @@ const Sales_Customer_Insert = () => {
                 required: "Created Date is required",
               })}
             />
-            {errors.month && (
+            {errors.created_date && (
               <span className="text-destructive">
-                {errors.month.message}
+                {errors.created_date.message}
               </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="Insert Name"
+              {...register("name", {
+                required: "Name is required",
+                min: { value: 0, message: "Minimum value is 0" },
+                max: { value: 5.0, message: "Maximum value is 5.0" },
+                pattern: {
+                  value: /^[0-9.]+$/i,
+                  message: "Only numbers can be inserted",
+                },
+              })}
+              {...(isSubmitSuccessful ? { disabled: true } : {})}
+            />
+            {errors.name&& (
+              <span className="text-destructive">{errors.name.message}</span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="Insert Name"
+              {...register("name", {
+                required: "Name is required",
+                min: { value: 0, message: "Minimum value is 0" },
+                max: { value: 5.0, message: "Maximum value is 5.0" },
+                pattern: {
+                  value: /^[0-9.]+$/i,
+                  message: "Only numbers can be inserted",
+                },
+              })}
+              {...(isSubmitSuccessful ? { disabled: true } : {})}
+            />
+            {errors.name&& (
+              <span className="text-destructive">{errors.name.message}</span>
             )}
           </div>
         </div>
