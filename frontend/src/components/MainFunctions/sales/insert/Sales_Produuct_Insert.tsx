@@ -188,17 +188,32 @@ const Sales_Product_Insert = () => {
             )}
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="month">Month</Label>
+            <Label htmlFor="price_per_unit">Price Per Unit</Label>
             <Input
-              id="month"
-              placeholder="Month"
-              {...register("month", {
-                required: "Month is required",
+              id="price_per_unit"
+              placeholder="Price Per Unit"
+              {...register("price_per_unit", {
+                required: "Price per unit  is required",
               })}
             />
-            {errors.month && (
+            {errors.price_per_unit && (
               <span className="text-destructive">
-                {errors.month.message}
+                {errors.price_per_unit.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="stock_quantity">Stock Quantity</Label>
+            <Input
+              id="stock_quantity"
+              placeholder="Stock Quantity"
+              {...register("stock_quantity", {
+                required: "Stock Qantity  is required",
+              })}
+            />
+            {errors.stock_quantity && (
+              <span className="text-destructive">
+                {errors.stock_quantity.message}
               </span>
             )}
           </div>
