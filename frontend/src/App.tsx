@@ -24,6 +24,9 @@ import Inventory_management from "./pages/MainFunctions/Inventory/inventory_mana
 import Sales_management from "./pages/MainFunctions/Sales/sales_management";
 import Staff_management from "./pages/MainFunctions/Staff/staff_management";
 import Quality_control from "./pages/MainFunctions/QualityControl/Quality_control";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+
 
 
 
@@ -34,6 +37,7 @@ function App() {
       <HashRouter>
         <Routes>
           {/* <Route  element={<FooterLayout />}> */}
+
 
           <Route path="*" element={<Page_not_found />} />
           <Route element={<Layout_Main />}>

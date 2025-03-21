@@ -56,7 +56,7 @@ const table = ({ selectedMonth }: any) => {
     month: "long",
   });
 
-  const [columns, setData] = useState<iColumns | any>([]);
+  const [columns, setData] = useState<any>([]);
 
   // get data from api
   useEffect(() => {
@@ -78,6 +78,15 @@ const table = ({ selectedMonth }: any) => {
 
   return (
     <>
+
+
+    <div>
+      {rows.map((data: any)=>(
+        <p>{data.name}</p>
+      ))}
+    </div>
+
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>

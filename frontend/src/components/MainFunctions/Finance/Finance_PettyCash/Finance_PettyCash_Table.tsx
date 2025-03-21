@@ -136,11 +136,29 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import {
   Finance_PettyCash_deleteDoc,
   Finance_PettyCash_getAllData,
+  Finance_PettyCash_getDoc,
 } from "@/utils/Finance/Finance_PettyCash_API";
 
 
 import Finance_PettyCash_update from "./Finance_PettyCash_update";
+
+
+
 const UpdateBtn = (updateId:any) => {
+  const [currentData, setCurrentData] = useState<any>(null);
+  // useEffect(() => {
+    
+  //   async function fetchData() {
+  //     try {
+  //       const result = await Finance_PettyCash_getDoc(updateId);
+  //       setCurrentData(result);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, [updateId]);
+
   return (
     <>
       <Dialog>
@@ -150,35 +168,13 @@ const UpdateBtn = (updateId:any) => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          {/* <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator /> */}
+          
 
          <div>
-          <Finance_PettyCash_update UpdateId={updateId} />
-
+         {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+         <Finance_PettyCash_update  /> 
          </div>
-          {/* deleteNow */}
 
-          {/* <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">
-                  Update
-                </Button>
-                <Button
-                  variant="outline"
-                  className="my-2 mx-0.5 border-1 border-primary w-full"
-                >
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>
@@ -195,6 +191,9 @@ const deleteBtn = (deleteId: any) => {
     await Finance_PettyCash_deleteDoc(id);
     window.location.reload();
   };
+
+
+  
   return (
     <>
       <Dialog>

@@ -35,44 +35,24 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 
-const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
+// const Finance_PettyCash_update = ({ UpdateId,currentData }: any) => {
+const Finance_PettyCash_update:React.FC<any> = (currentData) => {
   // get current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
   });
 
+console.log(currentData);
+  
+ 
+
+
   // insert data
   const UpdateDoc: SubmitHandler<any> = async (data) => {
-    console.log("hello");
-    await Finance_PettyCash_updateDoc(UpdateId, data);
-    console.log(data);
-    // wait for 1 seconds
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    // reload the page
-    // window.location.reload();
+    await Finance_PettyCash_updateDoc(currentData._id, data);
   };
 
   // form validation and submission
-
-  
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const result = await Finance_PettyCash_getDoc(UpdateId);
-        setCurrentData(result);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, [UpdateId]);
-  const [currentData, setCurrentData] = useState<any>();
-
-  const currentDescription: string = currentData?.description;
-  const currentAmount: string = currentData?.amount;
-
-  console.log(currentAmount);
-  console.log(currentDescription);
 
   const {
     register,
@@ -80,12 +60,15 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      description: `${currentDescription}`,
-      amount: currentData?.amount,
+      description: "",
+      amount: "",
       transaction_type: "Expenses",
       month: currentMonth,
     },
   });
+
+  // console.log(typeof currentDescription);
+  // console.log(typeof currentAmount);
 
   return (
     <>
@@ -115,7 +98,6 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
               <Label>Transaction Type</Label>
               <Input
                 disabled
-                value={currentData?.transaction_type}
                 {...register("transaction_type", {
                   required: "error",
                 })}
@@ -130,7 +112,7 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
             <div className="flex flex-col space-y-1.5">
               <Label>Transaction Description</Label>
               <Textarea
-                placeholder="Enter description"
+
                 {...register("description", {
                   required: "Description is required",
                   minLength: {
@@ -159,7 +141,6 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
               <Label>Month</Label>
               <Input
                 disabled
-            
                 {...register("month", {
                   required: "error",
                 })}
@@ -209,10 +190,10 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
                   ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
                   : null
               }`}
-              {...(currentData?.transaction_type === "Replenishment" && {
-                disabled: true,
-                className: "bg-destructive/50 w-full",
-              })}
+              // {...(currentType === "Replenishment" && {
+              //   disabled: true,
+              //   className: "bg-destructive/50 w-full",
+              // })}
             >
               {isSubmitSuccessful ? "Updated" : "update"}
             </Button>
@@ -233,4 +214,4 @@ const Finance_PettyCash_Insert = ({ UpdateId }: any) => {
   );
 };
 
-export default Finance_PettyCash_Insert;
+export default Finance_PettyCash_update;
