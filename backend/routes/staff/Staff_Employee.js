@@ -41,6 +41,7 @@ router.route("/Staff_Employee/:id").delete(async (req, res) => {
 
 //insert data
 router.route("/Staff_Employee").post(async (req, res) => {
+  console.log(req.body);
   let db = DB.getDB();
   let mongoObject = {
     name: req.body.name,

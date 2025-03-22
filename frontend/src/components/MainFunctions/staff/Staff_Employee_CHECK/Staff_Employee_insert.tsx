@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form"; // form validation
- import { Staff_Employee_createNew } from "@/utils/staff/Staff_Employee_API"; // API
+ import { createNew_Staff_Employee } from "@/utils/staff/Staff_Employee_API"; // API
  import {
    Card,
    CardContent,
@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
    CardHeader,
    CardTitle,
  } from "@/components/ui/card";
- import { Textarea } from "@/components/ui/textarea";
+
  import { Label } from "@/components/ui/label";
  import { Input } from "@/components/ui/input";
  import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
  
    // insert data
    const CreateDoc: SubmitHandler<any> = async (data) => {
-     await Staff_Employee_createNew(data);
+     await createNew_Staff_Employee(data);
    };
  
    // form validation and submission
@@ -31,8 +31,8 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
      handleSubmit,
    } = useForm({
      defaultValues: {
-        category: "",
         name: "",
+        email: "",
         phoneNumber: "",
         address: "",
         position: "",
@@ -50,6 +50,7 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
            <Card
              className={`md:w-[50vw] p-[25px] lg:w-[30vw]  ${
                 errors.name ||
+                errors.email ||
                 errors.phoneNumber ||
                 errors.address ||
                 errors.position ||
@@ -68,16 +69,16 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
 
                {/* Name */}
                <div className="flex flex-col space-y-1.5">
-                 <Label></Label>
+                 <Label>Name</Label>
                  <Input type ="text"{...register("name", { required: "Name is required" })} />
                  {errors.name  && <span className="text-destructive text-sm">{errors.name .message}</span>}
                </div>
 
-               {/* Weight */}
+               {/* email */}
                <div className="flex flex-col space-y-1.5">
-                 <Label>Weight</Label>
-                 <Input type="number" {...register("weight", { required: "Weight is required" })} />
-                 {errors.weight && <span className="text-destructive text-sm">{errors.weight.message}</span>}
+                 <Label>E-mail</Label>
+                 <Input type="email" {...register("email", { required: "Email is required" })} />
+                 {errors.email && <span className="text-destructive text-sm">{errors.email.message}</span>}
                </div>
                
                {/* Phone Number */}
@@ -87,24 +88,41 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
                  {errors.phoneNumber && <span className="text-destructive text-sm">{errors.phoneNumber.message}</span>}
                </div>
 
-               {/* Manufacturer Date */}
+               {/* address */}
                <div className="flex flex-col space-y-1.5">
-                 <Label>Manufacturer Date</Label>
-                 <Input type="date" {...register("manufacturerDate", { required: "Manufacturer Date is required" })} />
-                 {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}
+                 <Label>Address</Label>
+                 <Input type="text" {...register("address", { required: "Address is required" })} />
+                 {errors.address && <span className="text-destructive text-sm">{errors.address.message}</span>}
                </div>
-               {/* Expiry Date */}
+
+               {/* Position */}
                <div className="flex flex-col space-y-1.5">
-                 <Label>Expire Date</Label>
-                 <Input type="date" {...register("ExpireDate", { required: "Expire Date is required" })} />
-                 {errors.ExpireDate && <span className="text-destructive text-sm">{errors.ExpireDate.message}</span>}
+                 <Label>Position</Label>
+                 <Input type="text" {...register("position", { required: "Position is required" })} />
+                 {errors.position && <span className="text-destructive text-sm">{errors.position.message}</span>}
                </div>
-               {/* Package Count */}
+
+               {/* Department */}
                <div className="flex flex-col space-y-1.5">
-                 <Label>Package Count</Label>
-                 <Input type="number" {...register("PackageCount", { required: "Package Count is required" })} />
-                 {errors.PackageCount && <span className="text-destructive text-sm">{errors.PackageCount.message}</span>}
+                 <Label>Department</Label>
+                 <Input type="text" {...register("department", { required: "Department is required" })} />
+                 {errors.department && <span className="text-destructive text-sm">{errors.department.message}</span>}
                </div>
+
+               {/* Joined Date */}
+               <div className="flex flex-col space-y-1.5">
+                 <Label>Joined Date</Label>
+                 <Input type="date" {...register("dateJoined", { required: "Joined Date is required" })} />
+                 {errors.dateJoined && <span className="text-destructive text-sm">{errors.dateJoined.message}</span>}
+               </div>
+
+               {/* Month */}
+               <div className="flex flex-col space-y-1.5">
+                 <Label>Month</Label>
+                 <Input type="text" {...register("month", { required: "Month is required" })} />
+                 {errors.month && <span className="text-destructive text-sm">{errors.month.message}</span>}
+               </div>
+               
              </CardContent>
  
              <CardFooter>
@@ -119,4 +137,4 @@ import { SubmitHandler, useForm } from "react-hook-form"; // form validation
    );
  };
  
- export default Inventory_FinalProduct_insert;
+ export default Staff_Employee_insert;

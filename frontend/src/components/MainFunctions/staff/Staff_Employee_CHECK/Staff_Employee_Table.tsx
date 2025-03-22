@@ -31,13 +31,13 @@ import { Separator } from "@/components/ui/separator";
  } from "@/components/ui/table";
  
  import {
-   Staff_Employee_getAllData,
+  getAllData_Staff_Employee,
    Staff_Employee_deleteDoc,
    Staff_Employee_getDoc
- } from "@/utils/Staff/Staff_Employee_API";
+ } from "@/utils/staff/Staff_Employee_API";
  
  
- import Staff_Employee_Update from "./Staff_Employee_Update";
+
  
  
  const table = ({ selectedMonth }: any) => {
@@ -51,7 +51,7 @@ import { Separator } from "@/components/ui/separator";
    // get data from api
    useEffect(() => {
      async function getAll() {
-       let result = await Staff_Employee_getAllData();
+       let result = await getAllData_Staff_Employee();
        setRows(result);
      }
      getAll();
@@ -64,6 +64,7 @@ import { Separator } from "@/components/ui/separator";
      { name: "Phone Number" },
      { name: "Address" },
      { name: "Position" },
+     { name: "Department" },
      { name: "Joined Date" },
      { name: "Month" },
    ];
@@ -129,7 +130,7 @@ import { Separator } from "@/components/ui/separator";
  
  import { Button } from "@/components/ui/button";
  import { DialogClose } from "@radix-ui/react-dialog";
- import Staff_Employee_update from "./Staff_Employee_Update";
+ 
  
  const UpdateBtn = (updateId: any) => {
    return (
@@ -142,7 +143,7 @@ import { Separator } from "@/components/ui/separator";
          </DialogTrigger>
          <DialogContent>
            <div>
-             <Staff_Employee_update />
+             
            </div>
          </DialogContent>
        </Dialog>
