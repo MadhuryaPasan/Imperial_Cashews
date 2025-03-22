@@ -123,7 +123,7 @@ const table = ({ selectedMonth }: any) => {
                     {rowData.month !== currentMonth ? (
                       <div>
                         {/* Update */}
-                        {UpdateBtn()}
+                        {UpdateBtn(rowData._id)}
 
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
@@ -157,7 +157,13 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 
 import { getAll_Sales_Customer_Data, Sales_Customer_deleteDoc } from "@/utils/sales/Sales_Customer_API";
-const UpdateBtn = () => {
+import Sales_Customer_Update from "../update/Sales_Customer_Update"
+
+
+const UpdateBtn = (updateId: any) => {
+
+
+
   return (
     <>
       <Dialog>
@@ -167,29 +173,10 @@ const UpdateBtn = () => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator />
-
-          {/* deleteNow */}
-
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">Update</Button>
-                <Button
-                  variant="outline"
-                  className="my-2 mx-0.5 border-1 border-primary w-full"
-                >
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
+          <div>
+            {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+            <Sales_Customer_Update currentData={updateId}/>
+          </div>
         </DialogContent>
       </Dialog>
     </>
@@ -224,7 +211,8 @@ const deleteBtn = (deleteId: any) => {
               account and remove your data from our servers.
             </DialogDescription>
           </DialogHeader>
-
+          <Separator />
+          <DialogTitle>"ID: {deleteId}"</DialogTitle>
 
           {/* deleteNow */}
 
