@@ -45,14 +45,17 @@ router.route("/quality_raw_material_check").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     batch_id: req.body.batch_id,
-    product_grade: req.body.product_grade,
-    color_uniformity: req.body.color_uniformity, 
-    taste_test: req.body.taste_test,
-    packaging_integrity: req.body.packaging_integrity,
-    approved: req.body.approved,
+    supplier_id: req.body.supplier_id,
+    material_type: req.body.material_type,
+    size_category: req.body.size_category,
+    moisture_level: req.body.moisture_level,
+    foreign_objects_detected: req.body.foreign_objects_detected,
+    color: req.body.color,
+    broken_percentage: req.body.broken_percentage,
     checked_by: req.body.checked_by,
     timestamp: req.body.timestamp || new Date()
-  };
+};
+
   let data = await db.collection("quality_raw_material_check").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
