@@ -42,9 +42,8 @@ router.route("/Finance_PettyCash/:id").delete(async (req, res) => {
 
 //insert data
 router.route("/Finance_PettyCash").post(async (req, res) => {
-
   let db = DB.getDB();
-  
+
   let mongoObject = {
     transaction_date: new Date(new Date().toISOString()),
     amount: parseFloat(req.body.amount),
@@ -70,28 +69,27 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
     .sort({ _id: 1 })
     .limit(1)
     .toArray();
-    
-    let current_balance = firstDoc[0].current_balance;
-  allPreviousDoc.forEach(async(element) => {
+
+  let current_balance = firstDoc[0].current_balance;
+  allPreviousDoc.forEach(async (element) => {
     console.log(element);
     console.log(firstDoc[0].transaction_type);
     if (element.transaction_type === firstDoc[0].transaction_type) {
       console.log("first");
-    }
-    else{
+    } else {
       current_balance = current_balance - parseFloat(element.amount);
       console.log("amount" + current_balance);
 
       console.log(element._id);
 
       let current_object = {
-          $set: {
-            current_balance: parseFloat(current_balance),
-          },
-        }
-        await db.collection("Finance_PettyCash").updateOne({ _id:element._id }, current_object);
-
-
+        $set: {
+          current_balance: parseFloat(current_balance),
+        },
+      };
+      await db
+        .collection("Finance_PettyCash")
+        .updateOne({ _id: element._id }, current_object);
     }
   });
   console.log("Data inserted successfully");
@@ -99,7 +97,6 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
 
 router.route("/Finance_PettyCash/:id").put(async (req, res) => {
   let db = DB.getDB();
-  
 
   let mongoObject = {
     $set: {
@@ -112,6 +109,45 @@ router.route("/Finance_PettyCash/:id").put(async (req, res) => {
     .collection("Finance_PettyCash")
     .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
   res.json(data);
+
+  // get all previous doc
+  let allPreviousDoc = await db
+    .collection("Finance_PettyCash")
+    .find()
+    .sort({ _id: 1 })
+    .toArray();
+
+  // get month first doc
+  let firstDoc = await db
+    .collection("Finance_PettyCash")
+    .find()
+    .sort({ _id: 1 })
+    .limit(1)
+    .toArray();
+
+  let current_balance = firstDoc[0].current_balance;
+  allPreviousDoc.forEach(async (element) => {
+    console.log(element);
+    console.log(firstDoc[0].transaction_type);
+    if (element.transaction_type === firstDoc[0].transaction_type) {
+      console.log("first");
+    } else {
+      current_balance = current_balance - parseFloat(element.amount);
+      console.log("amount" + current_balance);
+
+      console.log(element._id);
+
+      let current_object = {
+        $set: {
+          current_balance: parseFloat(current_balance),
+        },
+      };
+      await db
+        .collection("Finance_PettyCash")
+        .updateOne({ _id: element._id }, current_object);
+    }
+  });
+
   console.log("Data updated successfully");
 });
 

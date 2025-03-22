@@ -34,7 +34,7 @@ const Finance_PettyCash_Insert = () => {
   const CreateDoc: SubmitHandler<any> = async (data) => {
     await Finance_PettyCash_createNew(data);
     // wait for 1 seconds
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     // reload the page
     window.location.reload();
   };
