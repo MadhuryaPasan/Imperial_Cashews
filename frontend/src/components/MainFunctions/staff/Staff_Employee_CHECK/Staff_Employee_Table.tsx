@@ -30,16 +30,6 @@ import { Separator } from "@/components/ui/separator";
    TableRow,
  } from "@/components/ui/table";
  
- import {
-  getAllData_Staff_Employee,
-   Staff_Employee_deleteDoc,
-   Staff_Employee_getDoc
- } from "@/utils/staff/Staff_Employee_API";
- 
- 
-
- 
- 
  const table = ({ selectedMonth }: any) => {
    // get current month
    const currentMonth: string = new Date().toLocaleString("en-US", {
@@ -51,7 +41,7 @@ import { Separator } from "@/components/ui/separator";
    // get data from api
    useEffect(() => {
      async function getAll() {
-       let result = await getAllData_Staff_Employee();
+       let result = await Staff_Employee_getAllData();
        setRows(result);
      }
      getAll();
@@ -71,6 +61,10 @@ import { Separator } from "@/components/ui/separator";
  
    return (
      <>
+      {/* insert */}
+
+        <div className="p-3">
+        <div className="flex justify-begin py-3">{insertBtn()}</div>
        <div className="rounded-md border">
          <Table>
            <TableHeader>
@@ -91,7 +85,7 @@ import { Separator } from "@/components/ui/separator";
            {/* columns */}
            <TableBody>
              {rows
-               // .filter((rowsData: any) => rowsData.month === "March")
+               .filter((rowsData: any) => rowsData.month === "March")
                .map((rowsData: any) => (
                  <TableRow key={rowsData._id} className="hover:bg-primary/10">
                    <TableCell>{rowsData.name}</TableCell>
@@ -122,6 +116,7 @@ import { Separator } from "@/components/ui/separator";
            </TableBody>
          </Table>
        </div>
+       </div>
      </>
    );
  };
@@ -130,23 +125,31 @@ import { Separator } from "@/components/ui/separator";
  
  import { Button } from "@/components/ui/button";
  import { DialogClose } from "@radix-ui/react-dialog";
+ import {
+  Staff_Employee_deleteDoc,
+  Staff_Employee_getAllData,
+  Staff_Employee_getDoc,
+} from "@/utils/staff/Staff_Employee_API";
+
+import Staff_Employee_Update from "./Staff_Employee_Update";
  
  
  const UpdateBtn = (updateId: any) => {
    return (
      <>
-       <Dialog>
-         <DialogTrigger>
-           <Button variant="ghost" className="my-2 mx-0.5">
-             <Edit className="  stroke-primary" />
-           </Button>
-         </DialogTrigger>
-         <DialogContent>
-           <div>
-             
-           </div>
-         </DialogContent>
-       </Dialog>
+        <Dialog>
+        <DialogTrigger>
+          <Button variant="ghost" className="my-2 mx-0.5">
+            <Edit className="  stroke-primary" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <div>
+            {/* {currentData ? <Staff_Employee_Update {...currentData} /> : <p>Loading...</p>} */}
+            <Staff_Employee_Update currentData={updateId}/>
+          </div>
+        </DialogContent>
+      </Dialog>
      </>
    );
  };
@@ -202,3 +205,19 @@ import { Separator } from "@/components/ui/separator";
      </>
    );
  };
+
+ import Staff_Employee_insert from '@/components/MainFunctions/staff/Staff_Employee_CHECK/Staff_Employee_insert'
+ const insertBtn = () => {
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger>
+          <Button className="left-0">Insert Now</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <Staff_Employee_insert/>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};

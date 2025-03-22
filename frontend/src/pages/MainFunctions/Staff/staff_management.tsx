@@ -7,7 +7,6 @@ const staff_management = () => {
     <>
       <div>staff_management</div>
       <Staff_Employee/>
-
     </>
   )
 }

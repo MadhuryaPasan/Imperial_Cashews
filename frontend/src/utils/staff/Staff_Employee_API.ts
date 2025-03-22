@@ -1,12 +1,11 @@
 
 import axios from 'axios';
 
-  
 
 const URL = "http://localhost:5000";
 const URL_COLLECTION = "/Staff_Employee";
 
-export async function getAllData_Staff_Employee() {
+export async function Staff_Employee_getAllData() {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
@@ -21,7 +20,9 @@ export async function getAllData_Staff_Employee() {
     }
 
 }
-export async function Staff_Employee_getDoc(id: string) {
+
+
+export async function Staff_Employee_getDoc(id:string){
     const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
     return response.data;
 }
@@ -32,10 +33,18 @@ export async function Staff_Employee_deleteDoc(id:string){
     return response;
 }
 
-export async function createNew_Staff_Employee(data: any) {
-    console.log("Data to be sent:", data);  // Log data here
-    const response = await axios.post(`${URL}${URL_COLLECTION}`, data);
-    console.log("Response from server:", response);  // Log the response
+export async function Staff_Employee_createNew(data:any){
+    // console.log(data);
+    const response = await axios.post(`${URL}${URL_COLLECTION}`,data);
+    // alert("Document added successfully");
+    console.log(data);
+    console.log(response);
     return response;
-  }
-  
+}
+
+
+export async function Staff_Employee_updateDoc(id:string,data:any){
+    const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
+    alert("Document updated successfully");
+    return response;
+}

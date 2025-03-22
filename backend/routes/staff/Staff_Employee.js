@@ -1,5 +1,5 @@
 import express from "express";
-import DB from "../../connection.js";
+import DB from "../connection.js";
 import { ObjectId } from "mongodb";
 
 let router = express.Router();
@@ -21,6 +21,7 @@ router.route("/Staff_Employee").get(async (req, res) => {
 });
 
 // read data single data
+
 router.route("/Staff_Employee/:id").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db
@@ -41,7 +42,6 @@ router.route("/Staff_Employee/:id").delete(async (req, res) => {
 
 //insert data
 router.route("/Staff_Employee").post(async (req, res) => {
-  console.log(req.body);
   let db = DB.getDB();
   let mongoObject = {
     name: req.body.name,
@@ -51,15 +51,18 @@ router.route("/Staff_Employee").post(async (req, res) => {
     position: req.body.position,
     department: req.body.department,
     dateJoined: req.body.dateJoined,
+    month: req.body.month,
   };
   let data = await db.collection("Staff_Employee").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
 
-//update one data
-router.route("/Staff_Employee/id").put(async (req, res) => {
+//update data
+router.route("/Staff_Employee/:id").put(async (req, res) => {
   let db = DB.getDB();
+  
+
   let mongoObject = {
     $set: {
       name: req.body.name,
@@ -69,11 +72,17 @@ router.route("/Staff_Employee/id").put(async (req, res) => {
       position: req.body.position,
       department: req.body.department,
       dateJoined: req.body.dateJoined,
-    }   
+      month: req.body.month,
+    },
   };
-  let data = await db.collection("Staff_Employee").updateOne(mongoObject);
+
+  let data = await db
+    .collection("Staff_Employee")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
   res.json(data);
-  console.log("Data inserted successfully");
+  console.log("Data updated successfully");
 });
 
 export default router;
+
+
