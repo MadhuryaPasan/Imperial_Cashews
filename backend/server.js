@@ -13,7 +13,8 @@ import Sales_Payment from "./routes/sales/Sales_Payment.js"
 import Sales_Sales from "./routes/sales/Sales_Sales.js"
 import Quality_end_product_check from "./routes/QualityControle/quality_end_product_check.js"
 import Inventory_FinalProduct from "./routes/Inventory/Inventory_FinalProduct.js";
-import Inventory_RawMaterial from "./routes/Inventory/Inventory_RawMaterial.js";
+import Inventory_Material from "./routes/Inventory/Inventory_Material.js";
+import Inventory_Stock from  "./routes/Inventory/Inventory_Stock.js";
 
 
 dotenv.config(); // Load .env file
@@ -34,7 +35,8 @@ app.use(Sales_Orders);
 app.use(Sales_Payment);
 app.use(Sales_Sales);
 app.use(Inventory_FinalProduct);
-app.use(Inventory_RawMaterial);
+app.use(Inventory_Material);
+app.use(Inventory_Stock);
 
 app.listen(PORT, () => {
   console.log(` Server is running on port ${PORT}`);

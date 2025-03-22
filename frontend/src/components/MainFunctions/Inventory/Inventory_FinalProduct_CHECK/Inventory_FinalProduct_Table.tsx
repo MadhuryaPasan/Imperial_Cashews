@@ -60,7 +60,7 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
     { name: "Category" },
-    { name: "Price" },
+    { name: "SellPrice" },
     { name: "Weight" },
     { name: "Manufacturer Date" },
     { name: "Expire Date" },
@@ -93,7 +93,7 @@ const table = ({ selectedMonth }: any) => {
               .map((rowsData: any) => (
                 <TableRow key={rowsData._id} className="hover:bg-primary/10">
                   <TableCell>{rowsData.category}</TableCell>
-                  <TableCell>{rowsData.price}</TableCell>
+                  <TableCell>{rowsData.Sellprice}</TableCell>
                   <TableCell>{rowsData.weight}</TableCell>
                   <TableCell>{rowsData.manufacturerDate}</TableCell>
                   <TableCell>{rowsData.ExpireDate}</TableCell>

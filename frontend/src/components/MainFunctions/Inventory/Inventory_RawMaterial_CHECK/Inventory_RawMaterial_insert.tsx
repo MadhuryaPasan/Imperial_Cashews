@@ -58,7 +58,7 @@ const Inventory_RawMaterial_insert = () => {
           >
             <CardHeader>
               <CardTitle>Insert Raw Material</CardTitle>
-              <CardDescription>Insert new raw material</CardDescription>
+              <CardDescription>get raw material </CardDescription>
             </CardHeader>
             <CardContent>
               {/* Get Date */}

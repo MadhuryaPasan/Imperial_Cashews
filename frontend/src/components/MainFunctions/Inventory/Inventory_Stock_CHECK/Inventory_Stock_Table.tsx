@@ -1,13 +1,12 @@
 import { Separator } from "@/components/ui/separator";
 import {
-    Table,
-    TableBody,
-    TableCell,  // Add this line
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table";
-  
+  Table,
+  TableBody,
+  TableCell, // Add this line
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 import {
   Dialog,
@@ -31,12 +30,11 @@ import {
 } from "lucide-react";
 
 import {
-  Inventory_RawMaterial_getAllData,
-  Inventory_RawMaterial_deleteDoc,
-  Inventory_RawMaterial_getDoc
-} from "@/utils/inventory/Inventory_RawMaterial_API";
+  Inventory_Stock_getAllData,
+  Inventory_Stock_deleteDoc,
+  Inventory_Stock_getDoc
+} from "@/utils/inventory/Inventory_Stock_API";
 
-import Inventory_RawMaterial_Update from "./Inventory_RawMaterial_Update";
 
 const table = ({ selectedMonth }: any) => {
   // get current month
@@ -49,7 +47,7 @@ const table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await Inventory_RawMaterial_getAllData();
+      let result = await Inventory_Stock_getAllData();
       setRows(result);
     }
     getAll();
@@ -57,19 +55,18 @@ const table = ({ selectedMonth }: any) => {
 
   // table rows
   const columns = [
-    { name: "Get Date" },
-    { name: "Expire Date" },
-    { name: "Buyer Name" },
-    { name: "Seller Name" },
-    { name: "Weight" },
-    { name: "Price" },
-    { name: "Location" },
+    { name: "Stock Date" },
+    { name: "Item Name" },
+    { name: "Category" },
+    { name: "Min Stock" },
+    { name: "Max Stock" },
+    { name: "Reorder Level" },
+    { name: "Current Stock" },
+    { name: "Last Update Time" },
   ];
 
   return (
     <>
-    <div className="p-3">
-    <div className="flex justify-begin py-3">{insertBtn()}</div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -88,13 +85,14 @@ const table = ({ selectedMonth }: any) => {
           <TableBody>
             {rows.map((rowsData: any) => (
               <TableRow key={rowsData._id} className="hover:bg-primary/10">
-                <TableCell>{rowsData.getDate}</TableCell>
-                <TableCell>{rowsData.expireDate}</TableCell>
-                <TableCell>{rowsData.buyerName}</TableCell>
-                <TableCell>{rowsData.sellerName}</TableCell>
-                <TableCell>{rowsData.weight}</TableCell>
-                <TableCell>{rowsData.price}</TableCell>
-                <TableCell>{rowsData.location}</TableCell>
+                <TableCell>{rowsData.stockDate}</TableCell>
+                <TableCell>{rowsData.itemName}</TableCell>
+                <TableCell>{rowsData.category}</TableCell>
+                <TableCell>{rowsData.minStock}</TableCell>
+                <TableCell>{rowsData.maxStock}</TableCell>
+                <TableCell>{rowsData.reorderLevel}</TableCell>
+                <TableCell>{rowsData.currentStock}</TableCell>
+                <TableCell>{rowsData.lastUpdateTime}</TableCell>
 
                 {rowsData.month !== currentMonth ? (
                   <div>
@@ -111,6 +109,7 @@ const table = ({ selectedMonth }: any) => {
           </TableBody>
         </Table>
       </div>
+    </>
   );
 };
 
@@ -118,7 +117,6 @@ export default table;
 
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-
 
 const UpdateBtn = (updateId: any) => {
   return (
@@ -131,7 +129,6 @@ const UpdateBtn = (updateId: any) => {
         </DialogTrigger>
         <DialogContent>
           <div>
-            <Inventory_RawMaterial_Update />
           </div>
         </DialogContent>
       </Dialog>
@@ -142,7 +139,7 @@ const UpdateBtn = (updateId: any) => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Inventory_RawMaterial_deleteDoc(id);
+    await Inventory_Stock_deleteDoc(id);
     window.location.reload();
   };
 
@@ -159,7 +156,7 @@ const deleteBtn = (deleteId: any) => {
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
               This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              stock item and remove your data from our servers.
             </DialogDescription>
           </DialogHeader>
           <Separator />
@@ -183,21 +180,6 @@ const deleteBtn = (deleteId: any) => {
               </div>
             </DialogClose>
           </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-}
-import Inventory_RawMaterial_insert from "@/components/MainFunctions/Inventory/Inventory_RawMaterial_CHECK/Inventory_RawMaterial_insert";
-const insertBtn = () => {
-  return (
-    <>
-      <Dialog>
-        <DialogTrigger>
-          <Button className="left-0">Insert Now</Button>
-        </DialogTrigger>
-        <DialogContent>
-           <Inventory_RawMaterial_insert />
         </DialogContent>
       </Dialog>
     </>

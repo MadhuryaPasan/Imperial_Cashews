@@ -32,7 +32,7 @@ const Inventory_FinalProduct_insert = () => {
   } = useForm({
     defaultValues: {
       category: "",
-      price: "",
+      sellprice: "",
       weight: "",
       manufacturerDate: "",
       ExpireDate: "",
@@ -47,7 +47,7 @@ const Inventory_FinalProduct_insert = () => {
           <Card
             className={`md:w-[50vw] p-[25px] lg:w-[30vw]  ${
               errors.category ||
-              errors.price ||
+              errors.sellprice ||
               errors.weight ||
               errors.manufacturerDate ||
               errors.ExpireDate ||
@@ -70,8 +70,8 @@ const Inventory_FinalProduct_insert = () => {
               {/* Price */}
               <div className="flex flex-col space-y-1.5">
                 <Label>Price</Label>
-                <Input type="number" {...register("price", { required: "Price is required" })} />
-                {errors.price && <span className="text-destructive text-sm">{errors.price.message}</span>}
+                <Input type="number" {...register("sellprice", { required: "Price is required" })} />
+                {errors.sellprice && <span className="text-destructive text-sm">{errors.sellprice.message}</span>}
               </div>
               {/* Weight */}
               <div className="flex flex-col space-y-1.5">
