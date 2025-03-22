@@ -49,9 +49,9 @@ router.route("/Sales_Sales").post(async (req, res) => {
     sales_date: req.body.sales_date,
     payment_status: req.body.payment_status,
     sales_status: req.body.sales_status,
-    total_amount: req.body.total_amount,
-    unit_price: req.body.unit_price,
-    quantity: req.body.quantity,
+    total_amount: parseFloat(req.body.total_amount),
+    unit_price: parseFloat(req.body.unit_price),
+    quantity: parseInt(req.body.quantity),
   };
   let data = await db.collection("Sales_Sales").insertOne(mongoObject);
   res.json(data);
