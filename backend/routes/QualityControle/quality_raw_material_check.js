@@ -41,7 +41,7 @@ router.route("/quality_raw_material_check/:id").delete(async (req, res) => {
 });
 
 //insert data
-router.route("/quality_end_product_check").post(async (req, res) => {
+router.route("/quality_raw_material_check").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
     batch_id: req.body.batch_id,
@@ -53,7 +53,7 @@ router.route("/quality_end_product_check").post(async (req, res) => {
     checked_by: req.body.checked_by,
     timestamp: req.body.timestamp || new Date()
   };
-  let data = await db.collection("quality_end_product_check").insertOne(mongoObject);
+  let data = await db.collection("quality_raw_material_check").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
