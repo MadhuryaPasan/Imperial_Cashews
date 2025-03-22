@@ -30,8 +30,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
-
 const table = ({ selectedMonth }: any) => {
   // grt current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
@@ -61,75 +59,76 @@ const table = ({ selectedMonth }: any) => {
 
   return (
     <>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {/* table rows here */}
-            <TableRow className="font-bold">
-              {columns.map((columns: any) => (
-                <TableHead
-                  className=" font-bold text-[15px]"
-                  key={columns.name}
-                >
-                  {columns.name}
-                </TableHead>
-              ))}
-              <TableHead className=" font-bold text-[15px]">Options</TableHead>
-            </TableRow>
-          </TableHeader>
+      {/* insert */}
 
-          {/* columns */}
-          <TableBody>
-            {rows
-              .filter((rowsData: any) => rowsData.month === "March")
-              .map((rowsData: any) => (
-                <TableRow key={rowsData._id} className="hover:bg-primary/10">
-                  <TableCell>
-                    {rowsData.transaction_date
-                      ? new Date(rowsData.transaction_date).toLocaleString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell>{rowsData.transaction_type}</TableCell>
-                  <TableCell>{rowsData.description}</TableCell>
-                  <TableCell>{rowsData.amount}</TableCell>
-                  <TableCell>{rowsData.month}</TableCell>
-                  <TableCell>{rowsData.current_balance}</TableCell>
-
-                  {/* show current month only */}
-                  {rowsData.month === currentMonth ? (
-                    <div>
-                      {/* Update */}
-                      {UpdateBtn(rowsData._id)}
-
-                      {/* Delete */}
-                      {deleteBtn(rowsData._id)}
-                    </div>
-                  ) : (
+      <div className="p-3">
+        <div className="flex justify-begin py-3">{insertBtn()}</div>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {/* table rows here */}
+              <TableRow className="font-bold">
+                {columns.map((columns: any) => (
+                  <TableHead
+                    className=" font-bold text-[15px]"
+                    key={columns.name}
+                  >
+                    {columns.name}
+                  </TableHead>
+                ))}
+                <TableHead className=" font-bold text-[15px]">Options</TableHead>
+              </TableRow>
+            </TableHeader>
+        
+            {/* columns */}
+            <TableBody>
+              {rows
+                .filter((rowsData: any) => rowsData.month === "March")
+                .map((rowsData: any) => (
+                  <TableRow key={rowsData._id} className="hover:bg-primary/10">
                     <TableCell>
-                      <Lock className="size-5 opacity-20" />
+                      {rowsData.transaction_date
+                        ? new Date(rowsData.transaction_date).toLocaleString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )
+                        : "N/A"}
                     </TableCell>
-                  )}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+                    <TableCell>{rowsData.transaction_type}</TableCell>
+                    <TableCell>{rowsData.description}</TableCell>
+                    <TableCell>{rowsData.amount}</TableCell>
+                    <TableCell>{rowsData.month}</TableCell>
+                    <TableCell>{rowsData.current_balance}</TableCell>
+        
+                    {/* show current month only */}
+                    {rowsData.month === currentMonth ? (
+                      <div>
+                        {/* Update */}
+                        {UpdateBtn(rowsData._id)}
+        
+                        {/* Delete */}
+                        {deleteBtn(rowsData._id)}
+                      </div>
+                    ) : (
+                      <TableCell>
+                        <Lock className="size-5 opacity-20" />
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </>
   );
 };
 
 export default table;
-
-
-
-
 
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -139,49 +138,30 @@ import {
   Finance_PettyCash_getDoc,
 } from "@/utils/Finance/Finance_PettyCash_API";
 
-
 import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
+const UpdateBtn = (updateId: any) => {
 
 
-const UpdateBtn = (updateId:any) => {
-  const [currentData, setCurrentData] = useState<any>(null);
-  // useEffect(() => {
-    
-  //   async function fetchData() {
-  //     try {
-  //       const result = await Finance_PettyCash_getDoc(updateId);
-  //       setCurrentData(result);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, [updateId]);
 
   return (
     <>
       <Dialog>
-        <DialogTrigger >
+        <DialogTrigger>
           <Button variant="ghost" className="my-2 mx-0.5">
             <Edit className="  stroke-primary" />
           </Button>
         </DialogTrigger>
         <DialogContent>
-          
-
-         <div>
-         {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
-         <Finance_PettyCash_update  /> 
-         </div>
-
+          <div>
+            {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+            <Finance_PettyCash_update currentData={updateId}/>
+          </div>
         </DialogContent>
       </Dialog>
     </>
   );
 };
-
-
 
 
 
@@ -192,8 +172,6 @@ const deleteBtn = (deleteId: any) => {
     window.location.reload();
   };
 
-
-  
   return (
     <>
       <Dialog>
@@ -233,6 +211,22 @@ const deleteBtn = (deleteId: any) => {
               </div>
             </DialogClose>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+import Finance_PettyCash_Insert from "@/components/MainFunctions/Finance/Finance_PettyCash/Finance_PettyCash_Insert";
+const insertBtn = () => {
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger>
+          <Button className="left-0">Insert Now</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <Finance_PettyCash_Insert />
         </DialogContent>
       </Dialog>
     </>

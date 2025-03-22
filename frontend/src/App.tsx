@@ -3,6 +3,8 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/home";
 import Shop from "./pages/shop";
+import ShopProduct from "./pages/shop/productRead";
+import ShopCart from "./pages/shop/cart";
 
 import Quality from "./pages/quality";
 
@@ -44,7 +46,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             {/* http://localhost:5173/*/}
             <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/:id" element={<Shop />} />
+            <Route path="/shop/product/:id" element={<ShopProduct />} />
+            <Route path="/shop/cart" element={<ShopCart />} />
             {/* http://localhost:5173/#/shop */}
             <Route path="/quality" element={<Quality />} />
             {/* http://localhost:5173/#/shop */}

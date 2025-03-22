@@ -99,7 +99,7 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
 
 router.route("/Finance_PettyCash/:id").put(async (req, res) => {
   let db = DB.getDB();
-  console.log("hello");
+  
 
   let mongoObject = {
     $set: {
