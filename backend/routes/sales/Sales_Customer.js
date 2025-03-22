@@ -51,8 +51,8 @@ router.route("/Sales_Customer").post(async (req, res) => {
     customer_id: req.body.customer_id,
     address: req.body.address,
     created_date: req.body.crated_date,
-    orders_count: req.body.orders_count,
-    total_spent: req.body.total_spent,
+    orders_count: parseInt(req.body.orders_count),
+    total_spent: parseFloat(req.body.total_spent),
   };
   let data = await db.collection("Sales_Customer").insertOne(mongoObject);
   res.json(data);

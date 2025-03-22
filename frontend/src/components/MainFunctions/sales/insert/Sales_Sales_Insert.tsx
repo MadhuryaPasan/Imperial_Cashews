@@ -66,14 +66,14 @@ const Sales_Sales_Insert = () => {
               placeholder="Insert Customer ID"
               {...register("customer_id", {
                 required: "Customer ID is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
+                minLength: { value:6 , message: "Customer ID must be at least 6 characters long" },
                 maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
+                  value: 12,
+                  message: "Customer ID cannot exceed 12 characters",
                 },
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^[A-Za-z0-9]{6,12}$/i,
+                  message: "Please enter a valid customer ID",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -91,14 +91,10 @@ const Sales_Sales_Insert = () => {
               placeholder="Insert Sales Date"
               {...register("sales_date", {
                 required: "Sales Date is required",
-                min: {
-                  value: 18,
-                  message: "you need to be at least 18 years old",
-                },
-                max: { value: 100, message: "Maximum value is 100" },
+            
                 pattern: {
-                  value: /^[0-9]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/i,
+                  message: "Please enter a valid sales date in YYYY-MM-DD format",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -114,11 +110,10 @@ const Sales_Sales_Insert = () => {
               placeholder="Insert Sales Status"
               {...register("sales_status", {
                 required: "Sales Status is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+            
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^(completed|pending|canceled)$/i,
+                  message: "Please enter a valid sales status (completed, pending, or canceled)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -134,6 +129,10 @@ const Sales_Sales_Insert = () => {
               placeholder="Payment Status"
               {...register("payment_status", {
                 required: "Payment Status is required",
+                pattern: {
+                  value: /^(paid|pending|failed)$/i,
+                  message: "Please enter a valid payment status (paid, pending, or failed)",
+                },
               })}
             />
             {errors.payment_status&& (
@@ -149,6 +148,10 @@ const Sales_Sales_Insert = () => {
               placeholder="Total Amount"
               {...register("total_amount", {
                 required: " Total Amount is required",
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?$/i,
+                  message: "Please enter a valid total amount (positive numbers with up to two decimal places)",
+                },
               })}
             />
             {errors.total_amount&& (
@@ -164,6 +167,10 @@ const Sales_Sales_Insert = () => {
               placeholder="Unit Price"
               {...register("unit_price", {
                 required: " Unit Price is required",
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?$/i,
+                  message: "Please enter a valid unit price (positive numbers with up to two decimal places)",
+                },
               })}
             />
             {errors.unit_price&& (
@@ -179,6 +186,15 @@ const Sales_Sales_Insert = () => {
               placeholder="Quantity"
               {...register("quantity", {
                 required: "Quantity is required",
+                minLength: { value:1 , message: "Quantity must be at least 1" },
+                maxLength: {
+                  value: 100,
+                  message: "Quantity cannot exceed 100.",
+                },
+                pattern: {
+                  value: /^\d+$ /i,
+                  message: "Please enter a valid quantity ",
+                },
               })}
             />
             {errors.quantity&& (
@@ -194,6 +210,9 @@ const Sales_Sales_Insert = () => {
               placeholder="Month"
               {...register("month", {
                 required: "Month is required",
+                pattern: {
+                  value: /^(0[1-9]|1[0-2])$/i,
+                  message: "Please enter a valid month (between 01 and 12)" },
               })}
             />
             {errors.month&& (

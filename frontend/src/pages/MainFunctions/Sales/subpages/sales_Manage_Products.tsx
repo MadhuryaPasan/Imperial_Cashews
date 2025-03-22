@@ -5,7 +5,7 @@ import Sales_Order_table from "@/components/MainFunctions/sales/Sales_Manage_Pro
 import Sales_Payment_table from "@/components/MainFunctions/sales/Sales_Manage_Products/Sales_Payment_table"
 import Sales_Sales_table from "@/components/MainFunctions/sales/Sales_Manage_Products/Sales_Sales_table"
 
-import Sales_Products_Insert from '@/components/MainFunctions/sales/insert/Sales_Produuct_Insert'
+import Sales_Products_Insert from '@/components/MainFunctions/sales/insert/Sales_Product_Insert'
 
 const sales_Manage_Products = () => {
   return (

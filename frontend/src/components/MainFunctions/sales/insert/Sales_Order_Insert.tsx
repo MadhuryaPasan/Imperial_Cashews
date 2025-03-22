@@ -66,14 +66,14 @@ const Sales_Order_Insert = () => {
               placeholder="Insert Customer ID"
               {...register("customer_id", {
                 required: "Customer ID is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
+                minLength: { value:6 , message: "Customer ID must be at least 6 characters long" },
                 maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
+                  value: 12,
+                  message: "Customer ID cannot exceed 12 characters",
                 },
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^[A-Za-z0-9]{6,12}$/i,
+                  message: "Please enter a valid customer ID",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -91,14 +91,10 @@ const Sales_Order_Insert = () => {
               placeholder="Insert Order Date "
               {...register("order_date", {
                 required: "Order date is required",
-                min: {
-                  value: 18,
-                  message: "you need to be at least 18 years old",
-                },
-                max: { value: 100, message: "Maximum value is 100" },
+              
                 pattern: {
-                  value: /^[0-9]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/i,
+                  message: "Please enter a valid order date in YYYY-MM-DD format",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -114,11 +110,10 @@ const Sales_Order_Insert = () => {
               placeholder="Insert Status"
               {...register("status", {
                 required: "Status is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+          
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^(active|inactive|pending)$/i,
+                  message: "Please enter a valid status (active, inactive, or pending)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -134,6 +129,11 @@ const Sales_Order_Insert = () => {
               placeholder="Order Price"
               {...register("order_price", {
                 required: "Order price is required",
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?$/i,
+                  message: "Please enter a valid order price (positive numbers with up to two decimal places)",
+                },
+               
               })}
             />
             {errors.order_price && (

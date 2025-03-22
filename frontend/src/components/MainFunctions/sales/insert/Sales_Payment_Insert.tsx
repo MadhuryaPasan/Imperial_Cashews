@@ -66,14 +66,14 @@ const Sales_Payment_Insert = () => {
               placeholder="Insert Order ID"
               {...register("order_id", {
                 required: "Order ID is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
+                minLength: { value: 8, message: "Order ID must be at least 8 characters long" },
                 maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
+                  value: 15,
+                  message: "Order ID cannot exceed 15 characters",
                 },
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^[A-Za-z0-9]{8,15}$/i,
+                  message: "Please enter a valid order ID (alphanumeric, between 8 and 15 characters)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -92,13 +92,13 @@ const Sales_Payment_Insert = () => {
               {...register("customer_id", {
                 required: "Customer ID is required",
                 min: {
-                  value: 18,
-                  message: "you need to be at least 18 years old",
+                  value: 6,
+                  message: "Customer ID must be at least 6 characters long",
                 },
-                max: { value: 100, message: "Maximum value is 100" },
+                max: { value: 12, message: "Customer ID cannot exceed 12 characters" },
                 pattern: {
-                  value: /^[0-9]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^[A-Za-z0-9]{6,12}$/i,
+                  message: "Please enter a valid customer ID",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -114,11 +114,10 @@ const Sales_Payment_Insert = () => {
               placeholder="Insert Payment Date"
               {...register("payment_date", {
                 required: "Payment Date is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+          
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/i,
+                  message: "Please enter a valid payment date in YYYY-MM-DD format",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -134,6 +133,10 @@ const Sales_Payment_Insert = () => {
               placeholder="Amount Paid"
               {...register("amount_paid", {
                 required: "Amount Paid is required",
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?$/i,
+                  message: "Please enter a valid amount paid (positive numbers with up to two decimal places)",
+                },
               })}
             />
             {errors.amount_paid && (
@@ -149,6 +152,10 @@ const Sales_Payment_Insert = () => {
               placeholder="Payment Method"
               {...register("payment_method", {
                 required: "Payment Method is required",
+                pattern: {
+                  value: /^(credit\s?card|cash|online)$/i,
+                  message: "Please enter a valid payment method (credit card, cash, or online)",
+                },
               })}
             />
             {errors.payment_method && (
@@ -164,11 +171,15 @@ const Sales_Payment_Insert = () => {
               placeholder="Status"
               {...register("status", {
                 required: "Status is required",
+                pattern: {
+                  value: /^(active|inactive|pending)$/i,
+                  message: "Please enter a valid status (active, inactive, or pending)",
+                },
               })}
             />
-            {errors.payment_method && (
+            {errors.status && (
               <span className="text-destructive">
-                {errors.payment_method.message}
+                {errors.status.message}
               </span>
             )}
           </div>

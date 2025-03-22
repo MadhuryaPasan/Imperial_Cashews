@@ -66,14 +66,11 @@ const Sales_Product_Insert = () => {
               placeholder="Insert Name"
               {...register("name", {
                 required: "Name is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
-                maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
-                },
+                minLength: { value: 2, message: "Name must be at least 2 characters long" },
+                maxLength: { value: 50, message: "Name cannot exceed 50 characters" },
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^[A-Za-z\s'-]{2,50}$/i,
+                  message: "Please enter a valid name (only letters, spaces, apostrophes, and hyphens, between 2 to 50 characters)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -91,14 +88,10 @@ const Sales_Product_Insert = () => {
               placeholder="Insert Category"
               {...register("category", {
                 required: "Category is required",
-                min: {
-                  value: 18,
-                  message: "you need to be at least 18 years old",
-                },
-                max: { value: 100, message: "Maximum value is 100" },
+              
                 pattern: {
-                  value: /^[0-9]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^[A-Za-z\s-]{3,50}$/i,
+                  message: "Please enter a valid category",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -114,11 +107,9 @@ const Sales_Product_Insert = () => {
               placeholder="Insert Created Date"
               {...register("created_date", {
                 required: "Created Date is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$ /i,
+                  message: "Please enter a valid date in YYYY-MM-DD format",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -134,6 +125,12 @@ const Sales_Product_Insert = () => {
               placeholder="Description"
               {...register("description", {
                 required: "Description is required",
+                minLength: { value: 10, message: "Description must be at least 10 characters long" },
+                maxLength: { value: 500, message: "Description cannot exceed 500 characters" },
+                pattern: {
+                  value: /^[A-Za-z0-9\s.,;!?'"-]{10,500}$/i,
+                  message: "Please enter a valid description",
+                },
               })}
             />
             {errors.description && (
@@ -149,6 +146,10 @@ const Sales_Product_Insert = () => {
               placeholder="Image"
               {...register("image", {
                 required: "Image is required",
+                pattern: {
+                  value: /^(https?:\/\/.*\.(?:jpg|jpeg|png|gif|bmp))$/i,
+                  message: "Please enter a valid image URL (jpg, jpeg, png, gif, bmp)",
+                },
               })}
             />
             {errors.image && (
@@ -164,6 +165,11 @@ const Sales_Product_Insert = () => {
               placeholder="Size"
               {...register("size", {
                 required: "Size is required",
+                min: { value: 1, message: "Size must be at least 1 gram" },
+                max: { value: 5000, message: "Size cannot exceed 5000 grams" },
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?(cm|in|m)?$/i,
+                  message: "Please enter a valid size " },
               })}
             />
             {errors.size && (
@@ -179,6 +185,9 @@ const Sales_Product_Insert = () => {
               placeholder="Month"
               {...register("month", {
                 required: "Month is required",
+                pattern: {
+                  value: /^(0[1-9]|1[0-2])$/i,
+                  message: "Please enter a valid month (between 01 and 12)" },
               })}
             />
             {errors.month && (
@@ -194,7 +203,13 @@ const Sales_Product_Insert = () => {
               placeholder="Price Per Unit"
               {...register("price_per_unit", {
                 required: "Price per unit  is required",
+                min: { value: 1, message: "Price per unit must be at least 1" },
+                max: { value: 1000, message: "Price per unit cannot exceed 1000" },
+                pattern: {
+                  value: /^\d+(\.\d{1,2})?$/i,
+                  message: "Please enter a valid price per unit" },
               })}
+            
             />
             {errors.price_per_unit && (
               <span className="text-destructive">
@@ -209,6 +224,11 @@ const Sales_Product_Insert = () => {
               placeholder="Stock Quantity"
               {...register("stock_quantity", {
                 required: "Stock Qantity  is required",
+                min: { value: 1, message: "Stock quantity must be at least 1" },
+                max: { value: 1000, message: "Stock quantity cannot exceed 10000" },
+                pattern: {
+                  value: /^\d+$/i,
+                  message: "Please enter a valid stock quantity (positive whole numbers)" },
               })}
             />
             {errors.stock_quantity && (

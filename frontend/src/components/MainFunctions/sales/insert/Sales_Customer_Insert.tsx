@@ -66,14 +66,15 @@ const Sales_Customer_Insert = () => {
               placeholder="Insert Address"
               {...register("address", {
                 required: "Address is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
+                minLength: { value: 5, message: "Minimum 5 characters" },
                 maxLength: {
                   value: 100,
                   message: "maximum 100 characters",
                 },
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^[A-Za-z0-9\s,.-/#]+$/i,
+                  message: "Please enter a valid address."
+
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -91,14 +92,11 @@ const Sales_Customer_Insert = () => {
               placeholder="Contact Number"
               {...register("contact_number", {
                 required: "Contact Number is required",
-                minLength: { value: 3, message: "Minimum 3 characters" },
-                maxLength: {
-                  value: 100,
-                  message: "maximum 100 characters",
-                },
+          
                 pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "Only letters can be inserted",
+                  value: /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}?\)?[-.\s]?\d{3,4}[-.\s]?\d{3,6}$/i,
+                  message: "Please enter a valid contact number (7 to 15 digits)."
+
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -116,14 +114,9 @@ const Sales_Customer_Insert = () => {
               placeholder="Insert Email"
               {...register("email", {
                 required: "Email is required",
-                min: {
-                  value: 18,
-                  message: "you need to be at least 18 years old",
-                },
-                max: { value: 100, message: "Maximum value is 100" },
                 pattern: {
-                  value: /^[0-9]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^[\w\.-]+@[\w\.-]+\.\w{2,}$/i,
+                  message: "Please enter a valid email address.",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -139,11 +132,11 @@ const Sales_Customer_Insert = () => {
               placeholder="Insert Name"
               {...register("name", {
                 required: "Name is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+                minLength: { value: 2, message: "Name must be at least 2 characters long" },
+                maxLength: { value: 50, message: "Name cannot exceed 50 characters" },
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^[A-Za-z\s'-]{2,50}$/i,
+                  message: "Please enter a valid name (only letters, spaces, apostrophes, and hyphens, between 2 to 50 characters)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -159,6 +152,11 @@ const Sales_Customer_Insert = () => {
               placeholder="Created Date"
               {...register("created_date", {
                 required: "Created Date is required",
+              
+                pattern: {
+                  value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$ /i,
+                  message: "Please enter a valid date in YYYY-MM-DD format",
+                },
               })}
             />
             {errors.created_date && (
@@ -174,11 +172,11 @@ const Sales_Customer_Insert = () => {
               placeholder="Orders Count"
               {...register("orders_count", {
                 required: "Orders Count is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+                min: { value: 1, message: "Order count must be at least 1" },
+                max: { value: 100, message: "Order count cannot exceed 1000" },
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d+$/i,
+                  message: "Please enter a valid order count (only positive whole numbers)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
@@ -194,11 +192,10 @@ const Sales_Customer_Insert = () => {
               placeholder="Insert Total Spent"
               {...register("total_spent", {
                 required: "Total Spent is required",
-                min: { value: 0, message: "Minimum value is 0" },
-                max: { value: 5.0, message: "Maximum value is 5.0" },
+              
                 pattern: {
-                  value: /^[0-9.]+$/i,
-                  message: "Only numbers can be inserted",
+                  value: /^\d+(\.\d{1,2})?$ /i,
+                  message: "Please enter a valid total spent amount (positive numbers with up to two decimal places)",
                 },
               })}
               {...(isSubmitSuccessful ? { disabled: true } : {})}
