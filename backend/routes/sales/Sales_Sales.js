@@ -46,7 +46,7 @@ router.route("/Sales_Sales").post(async (req, res) => {
   let mongoObject = {
     sales_id: req.body.sales_id,
     customer_id: req.body.customer_id,
-    sales_date: req.body.sales_date,
+    sales_date: new Date(new Date().toISOString()),
     payment_status: req.body.payment_status,
     sales_status: req.body.sales_status,
     total_amount: parseFloat(req.body.total_amount),

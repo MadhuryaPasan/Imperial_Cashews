@@ -47,7 +47,7 @@ router.route("/Sales_Product").post(async (req, res) => {
     name: req.body.name,
     product_id: req.body.product_id,
     category: req.body.category,
-    created_date: req.body.created_date,
+    created_date: new Date(new Date().toISOString()),
     description: req.body.description,
     image: req.body.image,
     size: parseInt(req.body.size),

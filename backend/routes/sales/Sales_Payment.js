@@ -46,7 +46,7 @@ router.route("/Sales_Payment").post(async (req, res) => {
   let mongoObject = {
     payment_id: req.body.payment_id,
     customer_id: req.body.customer_id,
-    payment_date: req.body.payment_date,
+    payment_date: new Date(new Date().toISOString()),
     amount_paid: parseFloat(req.body.amount_paid),
     payment_method: req.body.payment_method,
 

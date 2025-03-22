@@ -48,7 +48,7 @@ const table = ({ selectedMonth }: any) => {
     month: "long",
   });
 
-  const [row, setRow] = useState< any>([]);
+  const [row, setRow] = useState<any>([]);
 
   // get data from api
   useEffect(() => {
@@ -62,7 +62,7 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
 
-    
+
 
     { name: "Payment Date" },
     { name: "Amount Paid" },
@@ -72,69 +72,72 @@ const table = ({ selectedMonth }: any) => {
 
   return (
     <>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {/* table rows here */}
-            <TableRow className="font-bold">
-              {columns.map((columnData: any) => (
-                <TableHead
-                  className=" font-bold text-[15px]"
-                  key={columnData.name}
-                >
-                  {columnData.name}
-                </TableHead>
-              ))}
-              <TableHead className=" font-bold text-[15px]">Options</TableHead>
-            </TableRow>
-          </TableHeader>
+      <div className="p-3">
+        <div className="flex justify-begin py-3">{insertBtn()}</div>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {/* table rows here */}
+              <TableRow className="font-bold">
+                {columns.map((columnData: any) => (
+                  <TableHead
+                    className=" font-bold text-[15px]"
+                    key={columnData.name}
+                  >
+                    {columnData.name}
+                  </TableHead>
+                ))}
+                <TableHead className=" font-bold text-[15px]">Options</TableHead>
+              </TableRow>
+            </TableHeader>
 
-          {/* columns */}
-          <TableBody>
-            {row
-              // .filter((rowData: any) => rowData.month === "March")
-              .map((rowData: any) => (
-                <TableRow key={rowData._id} className="hover:bg-primary/10">
-                  {/* change this */}
-              
-                  
-                
-                  
-                  <TableCell>{rowData.payment_date
+            {/* columns */}
+            <TableBody>
+              {row
+                // .filter((rowData: any) => rowData.month === "March")
+                .map((rowData: any) => (
+                  <TableRow key={rowData._id} className="hover:bg-primary/10">
+                    {/* change this */}
+
+
+
+
+                    <TableCell>{rowData.payment_date
                       ? new Date(rowData.payment_date).toLocaleString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )
                       : "N/A"}</TableCell>
-                  <TableCell>{rowData.amount_paid}</TableCell>
-                  <TableCell>{rowData.payment_method}</TableCell>
-          
-                  <TableCell>{rowData.status}</TableCell>
-                  
-  
+                    <TableCell>{rowData.amount_paid}</TableCell>
+                    <TableCell>{rowData.payment_method}</TableCell>
 
-                  {/* show current month only */}
-                  {rowData.month !== currentMonth ? (
-                    <div>
-                      {/* Update */}
-                      {UpdateBtn()}
+                    <TableCell>{rowData.status}</TableCell>
 
-                      {/* Delete */}
-                      {deleteBtn(rowData._id)}
-                    </div>
-                  ) : (
-                    <TableCell>
-                      <Lock className="size-5 opacity-20" />
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+
+
+                    {/* show current month only */}
+                    {rowData.month !== currentMonth ? (
+                      <div>
+                        {/* Update */}
+                        {UpdateBtn()}
+
+                        {/* Delete */}
+                        {deleteBtn(rowData._id)}
+                      </div>
+                    ) : (
+                      <TableCell>
+                        <Lock className="size-5 opacity-20" />
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </>
   );
@@ -220,8 +223,7 @@ const deleteBtn = (deleteId: any) => {
               account and remove your data from our servers.
             </DialogDescription>
           </DialogHeader>
-          <Separator />
-            <DialogTitle>"ID: {deleteId}"</DialogTitle>
+          
 
           {/* deleteNow */}
 
@@ -240,6 +242,22 @@ const deleteBtn = (deleteId: any) => {
               </div>
             </DialogClose>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+import Sales_Payment_Insert from "@/components/MainFunctions/sales/insert/Sales_Payment_Insert"
+const insertBtn = () => {
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger>
+          <Button className="left-0">Insert Now</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <Sales_Payment_Insert />
         </DialogContent>
       </Dialog>
     </>

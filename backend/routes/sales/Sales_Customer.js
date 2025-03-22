@@ -50,7 +50,7 @@ router.route("/Sales_Customer").post(async (req, res) => {
     email: req.body.email,
     customer_id: req.body.customer_id,
     address: req.body.address,
-    created_date: req.body.crated_date,
+    created_date: new Date(new Date().toISOString()),
     orders_count: parseInt(req.body.orders_count),
     total_spent: parseFloat(req.body.total_spent),
   };
