@@ -60,6 +60,8 @@ const table = ({ selectedMonth }: any) => {
 
   return (
     <>
+    <div className="p-3">
+    <div className="flex justify-begin py-3">{insertBtn()}</div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -111,6 +113,7 @@ const table = ({ selectedMonth }: any) => {
               ))}
           </TableBody>
         </Table>
+      </div>
       </div>
     </>
   );
@@ -195,4 +198,24 @@ const deleteBtn = (deleteId: any) => {
       </Dialog>
     </>
   );
+};
+
+
+
+
+
+import Quality_iso_sls_check_Insert from "@/components/MainFunctions//Quality/Quality_iso_sls_check/quality_iso_sls_check_Insert";
+const insertBtn = () => {
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger>
+          <Button className="left-0">Insert Now</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <Quality_iso_sls_check_Insert />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 };

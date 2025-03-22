@@ -33,8 +33,8 @@ app.use(Sales_Orders);
 app.use(Sales_Payment);
 app.use(Sales_Sales);
 app.use(Inventory_FinalProduct);
-app.use(quality_iso_sls_check);
-app.use(quality_raw_material_check);
+app.use(Quality_iso_sls_check);
+app.use(Quality_raw_material_check);
 
 app.listen(PORT, () => {
   console.log(` Server is running on port ${PORT}`);

@@ -43,11 +43,14 @@ router.route("/quality_iso_sls_check/:id").delete(async (req, res) => {
 //insert data
 router.route("/quality_iso_sls_check").post(async (req, res) => {
   let db = DB.getDB();
+  const date = new Date(req.body.last_audit_date);
+
   let mongoObject = {
     batch_id: req.body.batch_id,
     iso_certified: req.body.iso_certified,
     sls_certified: req.body.sls_certified,
-    last_audit_date: req.body.last_audit_date,
+    // last_audit_date: req.body.last_audit_date,
+    last_audit_date: date.toISOString(),
     next_audit_date: req.body.next_audit_date,
     inspector: req.body.inspector,
     remarks: req.body.remarks
