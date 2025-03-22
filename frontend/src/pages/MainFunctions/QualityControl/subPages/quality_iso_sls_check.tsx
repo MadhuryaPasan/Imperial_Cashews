@@ -1,6 +1,6 @@
 import React from 'react';
-import Quality_iso_sls_check_Insert from "@/components/MainFunctions/Quality/quality_iso_sls_check/quality_iso_sls_check_Insert";
-import Quality_iso_sls_check from "@/components/MainFunctions/Quality/quality_iso_sls_check/quality_iso_sls_check_Table";
+import Quality_iso_sls_check_Insert from "@/components/MainFunctions/Quality/Quality_iso_sls_check/quality_iso_sls_check_insert";
+import Quality_iso_sls_check from "@/components/MainFunctions/Quality/Quality_iso_sls_check/quality_iso_sls_check_Table";
 
 const QualityExample = () => {
   return (

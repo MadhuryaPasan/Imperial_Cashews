@@ -8,6 +8,7 @@ const quality_example = () => {
     <div>quality_example</div>
     <Quality_end_product_check/>
       < Quality_end_product_check_Insert/>
+  
     </div>
   )
 }
