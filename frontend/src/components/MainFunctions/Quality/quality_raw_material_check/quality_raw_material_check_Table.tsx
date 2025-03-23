@@ -1,156 +1,201 @@
-import { SubmitHandler, useForm } from "react-hook-form"; // form validation // API
+import { Separator } from "@/components/ui/separator";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
-import { quality_raw_material_check_getDoc, quality_raw_material_check_updateDoc } from "@/utils/quality/quality_raw_material_check_Api";  // Assume correct import for your collection API
+import { Edit, Lock, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  quality_end_product_check_getAllData,
+  quality_raw_material_check_deleteDoc,
+  quality_raw_material_check_updateDoc,
+} from "@/utils/quality/quality_raw_material_check_Api"; // assuming the API function exists
 
-const quality_raw_material_check_Update: React.FC<any> = (currentData) => {
-  const updateId = currentData.currentData;
+const quality_raw_material_check_Table = ({ selectedMonth }: any) => {
+  // Get current month
+  const currentMonth: string = new Date().toLocaleString("en-US", { month: "long" });
 
-  // Get data according to this id
-  const [data, setData] = useState<any>();
+  const [rows, setRows] = useState<any>([]);
+
+  // Get data from API
   useEffect(() => {
-    async function loadPost() {
-      try {
-        let result = await quality_raw_material_check_getDoc(updateId); // Assuming function to get the specific document
-        if (result) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    async function getAll() {
+      let result = await quality_end_product_check_getAllData();
+      setRows(result);
     }
-    loadPost();
-  }, [updateId]);
+    getAll();
+  }, []);
 
-  // Assign data to temp variables
-  const UpdateDoc: SubmitHandler<any> = async (data) => {
-    await quality_raw_material_check_updateDoc(updateId, data); // Update API call with the document ID
-  };
-
-  let batch_id: string = data?.batch_id;
-  let moisture_content: string = data?.moisture_content;
-  let foreign_materials: string = data?.foreign_materials;
-  let size_uniformity: string = data?.size_uniformity;
-  let overall_quality: string = data?.overall_quality;
-  let inspected_by: string = data?.inspected_by;
-
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    handleSubmit,
-  } = useForm({
-    defaultValues: {
-      batch_id,
-      moisture_content,
-      foreign_materials,
-      size_uniformity,
-      overall_quality,
-      inspected_by,
-    },
-  });
+  // Table columns
+  const columns = [
+    // { name: "Batch ID" },
+    // { name: "Supplier ID" },
+    { name: "Material Type" },
+    { name: "Size Category" },
+    { name: "Moisture Level (%)" },
+    { name: "Foreign Objects Detected" },
+    { name: "Color" },
+    { name: "Broken Percentage" },
+    { name: "Checked By" },
+    { name: "Timestamp" },
+    { name: "Month" },
+  ];
 
   return (
-    <div>
-      {data ? (
-        <form onSubmit={handleSubmit(UpdateDoc)}>
-          <Card
-            className={`${errors.batch_id || errors.moisture_content || errors.foreign_materials || errors.size_uniformity || errors.overall_quality || errors.inspected_by
-              ? "bg-destructive/5 outline-1 outline-destructive"
-              : ""
-              } ${isSubmitSuccessful ? "bg-primary/5 outline-1 outline-primary" : ""}`}
-          >
-            <CardHeader>
-              <CardTitle>Update Quality Raw Material Check</CardTitle>
-              <CardDescription>Update data for the raw material quality check</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="batch_id">Batch ID</Label>
-                  <Input
-                    defaultValue={batch_id}
-                    placeholder="Batch ID"
-                    {...register("batch_id", { required: "Batch ID is required" })}
-                  />
-                  {errors.batch_id && <span className="text-destructive">{errors.batch_id.message}</span>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="moisture_content">Moisture Content</Label>
-                  <Input
-                    defaultValue={moisture_content}
-                    placeholder="Moisture Content"
-                    {...register("moisture_content", { required: "Moisture content is required" })}
-                  />
-                  {errors.moisture_content && <span className="text-destructive">{errors.moisture_content.message}</span>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="foreign_materials">Foreign Materials</Label>
-                  <Input
-                    defaultValue={foreign_materials}
-                    placeholder="Foreign Materials"
-                    {...register("foreign_materials", { required: "Foreign materials field is required" })}
-                  />
-                  {errors.foreign_materials && <span className="text-destructive">{errors.foreign_materials.message}</span>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="size_uniformity">Size Uniformity</Label>
-                  <Input
-                    defaultValue={size_uniformity}
-                    placeholder="Size Uniformity"
-                    {...register("size_uniformity", { required: "Size uniformity is required" })}
-                  />
-                  {errors.size_uniformity && <span className="text-destructive">{errors.size_uniformity.message}</span>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="overall_quality">Overall Quality</Label>
-                  <Input
-                    defaultValue={overall_quality}
-                    placeholder="Overall Quality"
-                    {...register("overall_quality", { required: "Overall quality is required" })}
-                  />
-                  {errors.overall_quality && <span className="text-destructive">{errors.overall_quality.message}</span>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="inspected_by">Inspected By</Label>
-                  <Input
-                    defaultValue={inspected_by}
-                    placeholder="Inspector's Name"
-                    {...register("inspected_by", { required: "Inspector name is required" })}
-                  />
-                  {errors.inspected_by && <span className="text-destructive">{errors.inspected_by.message}</span>}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button
-                className={`cursor-pointer w-full ${errors.batch_id || errors.moisture_content || errors.foreign_materials || errors.size_uniformity || errors.overall_quality || errors.inspected_by
-                  ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
-                  : ""
-                  }`}
-                type="submit"
-                {...(isSubmitSuccessful ? { disabled: true } : {})}
-              >
-                {isSubmitSuccessful ? "Submitted" : "Submit"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      ) : (
-        "Loading..."
-      )}
+    <div className="p-3">
+      <div className="flex justify-begin py-3">{insertBtn()}</div>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow className="font-bold">
+              {columns.map((column: any) => (
+                <TableHead key={column.name} className="font-bold text-[15px]">
+                  {column.name}
+                </TableHead>
+              ))}
+              <TableHead className="font-bold text-[15px]">Options</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          {/* Table rows */}
+          <TableBody>
+            {rows
+              .filter((rowData: any) => rowData.month === selectedMonth) // filter by selected month
+              .map((rowData: any) => (
+                <TableRow key={rowData._id} className="hover:bg-primary/10">
+                  {/* <TableCell>{rowData.batch_id}</TableCell> */}
+                  {/* <TableCell>{rowData.supplier_id}</TableCell> */}
+                  <TableCell>{rowData.material_type}</TableCell>
+                  <TableCell>{rowData.size_category}</TableCell>
+                  <TableCell>{rowData.moisture_level}</TableCell>
+                  <TableCell>{rowData.foreign_objects_detected ? "Yes" : "No"}</TableCell>
+                  <TableCell>{rowData.color}</TableCell>
+                  <TableCell>{rowData.broken_percentage}</TableCell>
+                  <TableCell>{rowData.checked_by}</TableCell>
+                  <TableCell>
+                    {rowData.timestamp
+                      ? new Date(rowData.timestamp).toLocaleString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>{rowData.month}</TableCell>
+
+                  {/* Show options only for the current month */}
+                  {rowData.month === currentMonth ? (
+                    <div>
+                      {/* Update */}
+                      {UpdateBtn(rowData._id)}
+
+                      {/* Delete */}
+                      {deleteBtn(rowData._id)}
+                    </div>
+                  ) : (
+                    <TableCell>
+                      <Lock className="size-5 opacity-20" />
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
 
-export default quality_raw_material_check_Update;
+export default quality_raw_material_check_Table;
+
+const UpdateBtn = (updateId: any) => {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button variant="ghost" className="my-2 mx-0.5">
+          <Edit className="stroke-primary" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <div>
+          <Button
+            variant="ghost"
+            className="my-2 mx-0.5"
+            onClick={async () => {
+              const data = {}; // Replace with the actual data to update
+              await quality_raw_material_check_updateDoc(updateId, data);
+            }}
+          >
+            Update
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const deleteBtn = (deleteId: any) => {
+  const deleteOne = async (id: string) => {
+    await quality_raw_material_check_deleteDoc(id);
+    window.location.reload();
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button variant="ghost" className="my-2 mx-0.5">
+          <Trash2 className="stroke-destructive" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete the entry and remove the data from our system.
+          </DialogDescription>
+        </DialogHeader>
+        <Separator />
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <div className="flex flex-col items-center w-full">
+              <Button
+                variant="destructive"
+                onClick={() => deleteOne(deleteId)}
+                className="w-full"
+              >
+                Delete
+              </Button>
+              <Button variant="outline" className="my-2 mx-0.5 border-1 border-primary w-full">
+                Close
+              </Button>
+            </div>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+import QualityRawMaterialCheckInsert from "@/components/MainFunctions/Quality/quality_raw_material_check/quality_raw_material_check_Insert";
+import quality_raw_material_check from "@/pages/MainFunctions/QualityControl/subPages/quality_raw_material_check";
+
+const insertBtn = () => {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button className="left-0">Insert Now</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <QualityRawMaterialCheckInsert />
+      </DialogContent>
+    </Dialog>
+  );
+};

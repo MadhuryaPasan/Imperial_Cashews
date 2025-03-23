@@ -197,4 +197,4 @@ const deleteBtn = (deleteId: any) => {
       </Dialog>
     </>
   );
-};
+}
