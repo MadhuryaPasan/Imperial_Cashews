@@ -186,7 +186,7 @@ const elements = () => {
                   disabled
                   value={currentMonth}
                   {...register("month", {
-                    required: "Name is required",
+                    required: "month is required",
                   })}
                 />
                 {errors.month && (

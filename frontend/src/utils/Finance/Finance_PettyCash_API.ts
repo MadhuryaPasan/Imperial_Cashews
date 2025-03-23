@@ -45,7 +45,6 @@ export async function Finance_PettyCash_createNew(data:any){
 
 export async function Finance_PettyCash_updateDoc(id:string,data:any){
     const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
-    console.log("hello api");
     alert("Document updated successfully");
     return response;
 }

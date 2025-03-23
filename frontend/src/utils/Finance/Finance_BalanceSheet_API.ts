@@ -2,12 +2,10 @@
 import axios from 'axios';
 
 
-  
-
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Sales_Customer";
+const URL_COLLECTION = "/Finance_BalanceSheet";
 
-export async function getAll_Sales_Customer_Data() {
+export async function Finance_BalanceSheet_getAllData() {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
@@ -23,17 +21,20 @@ export async function getAll_Sales_Customer_Data() {
 
 }
 
-export async function Sales_Customer_deleteDoc(id:string){
+
+export async function Finance_BalanceSheet_getDoc(id:string){
+    const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
+    return response.data;
+}
+
+export async function Finance_BalanceSheet_deleteDoc(id:string){
     const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
     alert("Document deleted successfully");
     return response;
 }
 
-
-
-
-export async function createNew_Sales_Customer(data:any){
-    console.log(data);
+export async function FFinance_BalanceSheet_createNew(data:any){
+    // console.log(data);
     const response = await axios.post(`${URL}${URL_COLLECTION}`,data);
     // alert("Document added successfully");
     console.log(data);
@@ -41,13 +42,12 @@ export async function createNew_Sales_Customer(data:any){
     return response;
 }
 
-export async function createNew_Sales_updateDoc(id:string,data:any){
+
+export async function Finance_BalanceSheet_updateDoc(id:string,data:any){
     const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
     alert("Document updated successfully");
     return response;
 }
 
-export async function createNew_Sales_getDoc(id:string){
-    const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
-    return response.data;
-}
+
+

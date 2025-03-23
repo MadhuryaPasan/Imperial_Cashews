@@ -34,9 +34,9 @@ const Finance_PettyCash_Insert = () => {
   const CreateDoc: SubmitHandler<any> = async (data) => {
     await Finance_PettyCash_createNew(data);
     // wait for 1 seconds
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     // reload the page
-    // window.location.reload();
+    window.location.reload();
   };
 
   // form validation and submission
@@ -56,9 +56,9 @@ const Finance_PettyCash_Insert = () => {
 
   return (
     <>
-      <div className=" ]">
+      <div>
         <form onSubmit={handleSubmit(CreateDoc)}>
-          <Card className={`md:w-[50vw] p-[25px] lg:w-[30vw]  ${
+          <Card className={` p-[25px]   ${
             errors.transaction_type || errors.description || errors.month || errors.amount
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null
@@ -145,7 +145,7 @@ const Finance_PettyCash_Insert = () => {
                       message: "Amount should be at most 1000000",
                     },
                     pattern: {
-                      value: /^[0-9]+$/i,
+                      value: /^[0-9.]+$/i,
                       message: "Only numbers",
                     },
                   })}

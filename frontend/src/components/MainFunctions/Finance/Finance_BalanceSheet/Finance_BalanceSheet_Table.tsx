@@ -20,14 +20,6 @@ import {
   Recycle,
   Trash2,
 } from "lucide-react";
-import { getAllData } from "@/utils/dbAPI";
-import { deleteDoc } from "@/utils/dbAPI";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 
 import {
   Table,
@@ -38,98 +30,106 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
-
-
-
-const table = ({ selectedMonth }: any) => {
+const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
   // grt current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
   });
 
-  const [row, setRow] = useState<any>([]);
+  const [rows, setRows] = useState<any>([]);
 
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await getAll_Sales_Order_Data();
-      setRow(result);
+      let result = await Finance_BalanceSheet_getAllData();
+      setRows(result);
     }
     getAll();
   }, []);
 
   // table rows
   const columns = [
+    { name: "Date" },
+    { name: "Current Month" },
+    { name: "Description" },
+    
+    { name: "Bank Balance" },
+    { name: "Inventory Value" },
+    { name: "Account Receivable" },
+    { name: "Equipment Machinery" },
 
-    { name: "Order Date" },
-    { name: "Status" },
-    { name: "Total Price" },
-
+    { name: "Accounts Payable" },
+    { name: "Loan Payable" },
+    { name: "Taxes Payable" },
+    
+    { name: "Owners Capital" },
+    { name: "Retained Earnings" },
   ];
 
   return (
     <>
+      {/* insert */}
 
       <div className="p-3">
-
-
-
-
-      <div className="text-4xl font-bold text-center">Order Management</div>
-        <p className=" text-sm text-center px-[50px] py-4">
-          Manage Customer database
-        </p>
-        <Separator className="my-5" />
         <div className="flex justify-begin py-3">{insertBtn()}</div>
         <div className="rounded-md border">
           <Table>
             <TableHeader>
               {/* table rows here */}
               <TableRow className="font-bold">
-                {columns.map((columnData: any) => (
+                {columns.map((columns: any) => (
                   <TableHead
                     className=" font-bold text-[15px]"
-                    key={columnData.name}
+                    key={columns.name}
                   >
-                    {columnData.name}
+                    {columns.name}
                   </TableHead>
                 ))}
                 <TableHead className=" font-bold text-[15px]">Options</TableHead>
               </TableRow>
             </TableHeader>
-
+        
             {/* columns */}
             <TableBody>
-              {row
-                // .filter((rowData: any) => rowData.month === "March")
-                .map((rowData: any) => (
-                  <TableRow key={rowData._id} className="hover:bg-primary/10">
-                    {/* change this */}
+              {rows
+                .filter((rowsData: any) => rowsData.month === "March")
+                .map((rowsData: any) => (
+                  <TableRow key={rowsData._id} className="hover:bg-primary/10">
+                    <TableCell>
+                      {rowsData.date
+                        ? new Date(rowsData.date).toLocaleString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )
+                        : "N/A"}
+                    </TableCell>
+                    <TableCell>{rowsData.month }</TableCell>
+                    <TableCell>{rowsData.description }</TableCell>
 
+                    <TableCell>{rowsData.Bank_Balance}</TableCell>
+                    <TableCell>{rowsData.Inventory_Value}</TableCell>
+                    <TableCell>{rowsData.Account_Receivable}</TableCell>
+                    <TableCell>{rowsData.Equipment_Machinery}</TableCell>
 
-                    <TableCell>{rowData.order_date
-                      ? new Date(rowData.order_date).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )
-                      : "N/A"}</TableCell>
-                    <TableCell>{rowData.status}</TableCell>
-                    <TableCell>{rowData.total_price}</TableCell>
+                    <TableCell>{rowsData.Accounts_Payable}</TableCell>
+                    <TableCell>{rowsData.Loan_Payable}</TableCell>
+                    <TableCell>{rowsData.Taxes_Payable}</TableCell>
 
-
+                    <TableCell>{rowsData.Owners_Capital}</TableCell>
+                    <TableCell>{rowsData.Retained_Earnings}</TableCell>
+        
                     {/* show current month only */}
-                    {rowData.month !== currentMonth ? (
+                    {rowsData.month === currentMonth ? (
                       <div>
                         {/* Update */}
-                        {UpdateBtn(rowData._id)}
-
+                        {UpdateBtn(rowsData._id)}
+        
                         {/* Delete */}
-                        {deleteBtn(rowData._id)}
+                        {deleteBtn(rowsData._id)}
                       </div>
                     ) : (
                       <TableCell>
@@ -146,21 +146,17 @@ const table = ({ selectedMonth }: any) => {
   );
 };
 
-export default table;
+export default Finance_BalanceSheet_Table;
 
-
-
-
-
-
-
-
-
-import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { getAll_Sales_Order_Data, Sales_Order_deleteDoc } from "@/utils/sales/Sales_Order_API";
-import Sales_Order_Update  from "@/components/MainFunctions/sales/update/Sales_Order_Update "
+import { DialogClose } from "@radix-ui/react-dialog";
+import {
+  Finance_PettyCash_deleteDoc,
+  Finance_PettyCash_getAllData,
+  Finance_PettyCash_getDoc,
+} from "@/utils/Finance/Finance_PettyCash_API";
 
+// import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
 const UpdateBtn = (updateId: any) => {
 
@@ -177,7 +173,7 @@ const UpdateBtn = (updateId: any) => {
         <DialogContent>
           <div>
             {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
-            <Sales_Order_Update currentData={updateId}/>
+            {/* <Finance_PettyCash_update currentData={updateId}/> */}
           </div>
         </DialogContent>
       </Dialog>
@@ -187,16 +183,13 @@ const UpdateBtn = (updateId: any) => {
 
 
 
-
-
-
-
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Sales_Order_deleteDoc(id);
+    await Finance_PettyCash_deleteDoc(id);
     window.location.reload();
   };
+
   return (
     <>
       <Dialog>
@@ -213,14 +206,18 @@ const deleteBtn = (deleteId: any) => {
               account and remove your data from our servers.
             </DialogDescription>
           </DialogHeader>
-          
-
+          <Separator />
           {/* deleteNow */}
 
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <div className="flex flex-col items-center w-full ">
-                <Button variant="destructive" type="submit" onClick={() => deleteOne(deleteId)} className="w-full">
+                <Button
+                  variant="destructive"
+                  type="submit"
+                  onClick={() => deleteOne(deleteId)}
+                  className="w-full"
+                >
                   Delete
                 </Button>
                 <Button
@@ -238,8 +235,8 @@ const deleteBtn = (deleteId: any) => {
   );
 };
 
-
-import Sales_Order_Insert from "@/components/MainFunctions/sales/insert/Sales_Order_Insert"
+import Finance_BalanceSheet_Insert from "./Finance_BalanceSheet_Insert";
+import { Finance_BalanceSheet_getAllData } from "@/utils/Finance/Finance_BalanceSheet_API";
 const insertBtn = () => {
   return (
     <>
@@ -247,8 +244,8 @@ const insertBtn = () => {
         <DialogTrigger>
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
-        <DialogContent>
-          <Sales_Order_Insert />
+        <DialogContent >
+          <Finance_BalanceSheet_Insert />
         </DialogContent>
       </Dialog>
     </>
