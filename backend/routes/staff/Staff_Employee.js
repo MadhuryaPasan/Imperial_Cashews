@@ -1,5 +1,5 @@
 import express from "express";
-import DB from "../connection.js";
+import DB from "../../connection.js";
 import { ObjectId } from "mongodb";
 
 let router = express.Router();
@@ -71,8 +71,6 @@ router.route("/Staff_Employee/:id").put(async (req, res) => {
       address: req.body.address,
       position: req.body.position,
       department: req.body.department,
-      dateJoined: req.body.dateJoined,
-      month: req.body.month,
     },
   };
 
