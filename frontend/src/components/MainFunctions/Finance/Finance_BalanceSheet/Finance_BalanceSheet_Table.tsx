@@ -92,7 +92,7 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
             {/* columns */}
             <TableBody>
               {rows
-                .filter((rowsData: any) => rowsData.month === "March")
+                // .filter((rowsData: any) => rowsData.month === "March")
                 .map((rowsData: any) => (
                   <TableRow key={rowsData._id} className="hover:bg-primary/10">
                     <TableCell>
@@ -123,7 +123,7 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
                     <TableCell>{rowsData.Retained_Earnings}</TableCell>
         
                     {/* show current month only */}
-                    {rowsData.month === currentMonth ? (
+                    {/* {rowsData.month === currentMonth ? ( */}
                       <div>
                         {/* Update */}
                         {UpdateBtn(rowsData._id)}
@@ -131,11 +131,11 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
                         {/* Delete */}
                         {deleteBtn(rowsData._id)}
                       </div>
-                    ) : (
+                    {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
             </TableBody>
@@ -245,7 +245,7 @@ const insertBtn = () => {
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
         <DialogContent >
-          <Finance_BalanceSheet_Insert />
+          {/* <Finance_BalanceSheet_Insert /> */}
         </DialogContent>
       </Dialog>
     </>
