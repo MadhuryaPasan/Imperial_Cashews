@@ -86,7 +86,39 @@ const app_sidebar = () => {
         icon: ChartAreaIcon,
       },
     ];
-  } else {
+  } 
+  
+  else if ("Sales" === workspace){
+    value = [
+      {
+        title: "Customer",
+        url: "Sales_Customer_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Order",
+        url: "Sales_Order_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Payments",
+        url: "Sales_Payment_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Products",
+        url: "Sales_Products_table",
+        icon: Book,
+      },
+      {
+        title: "Sales",
+        url: "Sales_Sales_table",
+        icon: Book,
+      },
+    ];
+  }
+  
+  else {
     value = [{ title: "No data", url: null, icon: FileWarningIcon }];
   }
 
