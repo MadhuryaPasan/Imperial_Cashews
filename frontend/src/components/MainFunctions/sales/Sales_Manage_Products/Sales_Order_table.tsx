@@ -72,6 +72,15 @@ const table = ({ selectedMonth }: any) => {
     <>
 
       <div className="p-3">
+
+
+
+
+      <div className="text-4xl font-bold text-center">Order Management</div>
+        <p className=" text-sm text-center px-[50px] py-4">
+          Manage Customer database
+        </p>
+        <Separator className="my-5" />
         <div className="flex justify-begin py-3">{insertBtn()}</div>
         <div className="rounded-md border">
           <Table>
