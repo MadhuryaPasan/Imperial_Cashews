@@ -98,8 +98,8 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
             } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
           >
             <CardHeader>
-              <CardTitle>Insert Final product</CardTitle>
-              <CardDescription>Insert new final product</CardDescription>
+              <CardTitle>Insert supplier dtails</CardTitle>
+              <CardDescription>Insert new supplier details</CardDescription>
             </CardHeader>
             <CardContent>
 
@@ -107,6 +107,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="supplierName"> Suplier Name</Label>
               <Input
+          defaultValue={supplierName}    
                 id="supplierName"
                 placeholder="Insert Name"
                 {...register("supplierName", {
@@ -129,7 +130,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="address">Address</Label>
               <Input
-
+          defaultValue={address}
                 placeholder="Insert Address"
                 {...register("address", {
                   required: "Address is required",
@@ -156,7 +157,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="phoneNumber1">Phone Number 1</Label>
               <Input
-
+          defaultValue={phoneNumber1}
                 placeholder="phoneNumber1"
                 {...register("phoneNumber1", {
                   required: "Phone Number is required",
@@ -180,7 +181,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
              <div className="flex flex-col space-y-1.5">
               <Label htmlFor="phoneNumber2">Phone Number 1</Label>
               <Input
-
+        defaultValue={phoneNumber2}
                 placeholder="phoneNumber2"
                 {...register("phoneNumber2", {
                   required: "Phone Number is required",
@@ -204,7 +205,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
                  <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
               <Input
-
+        defaultValue={email}
                 placeholder="Insert Email"
                 {...register("email", {
                   required: "Email is required",
@@ -225,6 +226,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
 <div className="flex flex-col space-y-1.5">
   <Label htmlFor="supplierMaterial">Supplier Material</Label>
   <Input
+  defaultValue={supplierMaterial}
     id="supplierMaterial"
     placeholder="Enter supplier material"
     {...register("supplierMaterial", {
@@ -248,6 +250,7 @@ const Inventory_supplierDetail_Update: React.FC<any> = (currentData) => {
              <div className="flex flex-col space-y-1.5">
               <Label htmlFor="leadTime">Lead time</Label>
               <Input
+              defaultValue={leadTime}
                 id="leadTime"
                 placeholder="leadTime"
                 {...register("leadTime", {

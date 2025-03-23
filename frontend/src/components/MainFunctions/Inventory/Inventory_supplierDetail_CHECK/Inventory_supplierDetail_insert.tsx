@@ -77,8 +77,8 @@ const Inventory_FinalProduct_insert = () => {
             } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
           >
             <CardHeader>
-              <CardTitle>Insert Final product</CardTitle>
-              <CardDescription>Insert new final product</CardDescription>
+              <CardTitle>Insert new supplier details</CardTitle>
+              <CardDescription>Insert new supplier details</CardDescription>
             </CardHeader>
             <CardContent>
 
