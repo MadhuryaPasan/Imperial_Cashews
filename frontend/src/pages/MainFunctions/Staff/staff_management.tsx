@@ -1,12 +1,12 @@
 import React from 'react'
-import Staff_example from './subpages/staff_example'
+import Staff_Employee from './subpages/Staff_Employee'
 
 
 const staff_management = () => {
   return (
     <>
       <div>staff_management</div>
-      <Staff_example />
+      <Staff_Employee/>
     </>
   )
 }

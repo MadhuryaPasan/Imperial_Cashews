@@ -16,6 +16,8 @@ import Inventory_FinalProduct from "./routes/Inventory/Inventory_FinalProduct.js
 import Finance_BalanceSheet from "./routes/Finance/Finance_BalanceSheet.js";
 import Quality_iso_sls_check from "./routes/QualityControle/quality_iso_sls_check.js";
 import Quality_raw_material_check from "./routes/QualityControle/quality_raw_material_check.js";
+import Staff_Employee from "./routes/staff/Staff_Employee.js"
+
 
 dotenv.config(); // Load .env file
 
@@ -38,7 +40,7 @@ app.use(Inventory_FinalProduct);
 app.use(Finance_BalanceSheet);
 app.use(Quality_iso_sls_check);
 app.use(Quality_raw_material_check);
-
+app.use(Staff_Employee);
 
 app.listen(PORT, () => {
   console.log(` Server is running on port ${PORT}`);
