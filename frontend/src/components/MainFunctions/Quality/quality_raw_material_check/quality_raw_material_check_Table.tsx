@@ -13,14 +13,15 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { quality_raw_material_check_deleteDoc, quality_raw_material_check_getDoc } from "@/utils/quality/quality_raw_material_check_Api";
 import QualityRawMaterialCheckUpdate from "./quality_raw_material_check_Update";
+import { quality_end_product_check_getAllData } from "@/utils/quality/quality_end_product_check";
 
-const QualityRawMaterialCheckTable = ({ selectedMonth }: any) => {
+const Quality_raw_material_CheckTable = ({ selectedMonth }: any) => {
   const currentMonth: string = new Date().toLocaleString("en-US", { month: "long" });
   const [rows, setRows] = useState<any>([]);
 
   useEffect(() => {
     async function getAll() {
-      let result = await quality_raw_material_check_getDoc("some-id"); // Replace "some-id" with the appropriate ID or logic to fetch data
+      let result = await quality_end_product_check_getAllData(); // Replace "some-id" with the appropriate ID or logic to fetch data
       setRows(result);
     }
     getAll();
@@ -83,7 +84,7 @@ const QualityRawMaterialCheckTable = ({ selectedMonth }: any) => {
   );
 };
 
-export default QualityRawMaterialCheckTable;
+export default Quality_raw_material_CheckTable;
 
 const UpdateBtn = (updateId: any) => (
   <Dialog>

@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { quality_raw_material_check_createNew, quality_raw_material_check_updateDoc } from "@/utils/quality/quality_raw_material_check";
+import { quality_raw_material_check_createNew, quality_raw_material_check_updateDoc } from "@/utils/quality/quality_raw_material_check_Api";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const QualityRawMaterialCheckUpdate: React.FC<any> = (currentData) => {
+const Quality_raw_material_check_Update: React.FC<any> = (currentData) => {
   // Get current timestamp
   const currentTimestamp = new Date();
 
@@ -117,4 +117,4 @@ const QualityRawMaterialCheckUpdate: React.FC<any> = (currentData) => {
   );
 };
 
-export default QualityRawMaterialCheckUpdate;
+export default Quality_raw_material_check_Update;

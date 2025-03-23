@@ -41,24 +41,24 @@ router.route("/quality_raw_material_check/:id").delete(async (req, res) => {
 });
 
 //insert data
-router.route("/quality_raw_material_check").post(async (req, res) => {
-  let db = DB.getDB();
-  let mongoObject = {
-    batch_id: req.body.batch_id,
-    supplier_id: req.body.supplier_id,
-    material_type: req.body.material_type,
-    size_category: req.body.size_category,
-    moisture_level: req.body.moisture_level,
-    foreign_objects_detected: req.body.foreign_objects_detected,
-    color: req.body.color,
-    broken_percentage: req.body.broken_percentage,
-    checked_by: req.body.checked_by,
-    timestamp: req.body.timestamp || new Date()
-};
+// router.route("/quality_raw_material_check").post(async (req, res) => {
+//   let db = DB.getDB();
+//   let mongoObject = {
+//     batch_id: req.body.batch_id,
+//     supplier_id: req.body.supplier_id,
+//     material_type: req.body.material_type,
+//     size_category: req.body.size_category,
+//     moisture_level: req.body.moisture_level,
+//     foreign_objects_detected: req.body.foreign_objects_detected,
+//     color: req.body.color,
+//     broken_percentage: req.body.broken_percentage,
+//     checked_by: req.body.checked_by,
+//     timestamp: req.body.timestamp || new Date()
+// };
 
-  let data = await db.collection("quality_raw_material_check").insertOne(mongoObject);
-  res.json(data);
-  console.log("Data inserted successfully");
-});
+//   let data = await db.collection("quality_raw_material_check").insertOne(mongoObject);
+//   res.json(data);
+//   console.log("Data inserted successfully");
+// });
 
 export default router;
