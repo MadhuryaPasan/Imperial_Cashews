@@ -1,120 +1,150 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { quality_raw_material_check_createNew, quality_raw_material_check_updateDoc } from "@/utils/quality/quality_raw_material_check_Api";
+import { Separator } from "@/components/ui/separator";
+
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose } from "@/components/ui/dialog";
+
+import { useEffect, useState } from "react";
+import { Edit, Lock, Trash2 } from "lucide-react";
+import { quality_raw_material_check_getDoc, quality_raw_material_check_deleteDoc } from "@/utils/quality/quality_raw_material_check_Api";
+import QualityRawMaterialCheckUpdate from "./quality_raw_material_check_Update";
+
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { Button } from "@/components/ui/button";
 
-const Quality_raw_material_check_Update: React.FC<any> = (currentData) => {
-  // Get current timestamp
-  const currentTimestamp = new Date();
+const Quality_raw_material_CheckTable = ({ selectedMonth }: any) => {
+  const currentMonth: string = new Date().toLocaleString("en-US", { month: "long" });
+  const [rows, setRows] = useState<any>([]);
 
-  const UpdateDoc: SubmitHandler<any> = async (data) => {
-    await quality_raw_material_check_updateDoc(currentData._id, data);
-  };
+  useEffect(() => {
+    async function getAll() {
+      let result = await quality_raw_material_check_getDoc("defaultId"); // Replace "defaultId" with the appropriate ID
+      setRows(result);
+    }
+    getAll();
+  }, []);
 
-  // Form validation and submission
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    handleSubmit,
-    setValue,
-  } = useForm({
-    defaultValues: {
-      supplier_id: "",
-      material_type: "Cashew Nuts",
-      size_category: "Medium",
-      moisture_level: "",
-      timestamp: currentTimestamp,
-    },
-  });
+  const columns = [
+    { name: "Batch ID" },
+    { name: "Supplier ID" },
+    { name: "Material Type" },
+    { name: "Size Category" },
+    { name: "Moisture Level" },
+    { name: "Foreign Objects Detected" },
+    { name: "Color" },
+    { name: "Broken Percentage" },
+    { name: "Checked By" },
+    { name: "Timestamp" },
+  ];
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(UpdateDoc)}>
-        <Card className="md:w-[50vw] p-[25px] lg:w-[30vw]">
-          <CardHeader>
-            <CardTitle>Raw Material Quality Check</CardTitle>
-            <CardDescription>Enter raw material quality details</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Supplier ID */}
-            <div className="flex flex-col space-y-1.5">
-              <label htmlFor="supplier_id">Supplier ID</label>
-              <Input
-                id="supplier_id"
-                placeholder="Enter supplier ID"
-                {...register("supplier_id", { required: "Supplier ID is required" })}
-              />
-              {errors.supplier_id && <span className="text-red-500">{errors.supplier_id.message}</span>}
-            </div>
-
-            {/* Material Type */}
-            <div className="flex flex-col space-y-1.5">
-              <label htmlFor="material_type">Material Type</label>
-              <Input
-                id="material_type"
-                disabled
-                value="Cashew Nuts"
-                {...register("material_type")}
-              />
-            </div>
-
-            {/* Size Category */}
-            <div className="flex flex-col space-y-1.5">
-              <label htmlFor="size_category">Size Category</label>
-              <Select
-                defaultValue="Medium"
-                onValueChange={(value) => setValue("size_category", value)}
-              >
-                <SelectTrigger id="size_category">
-                  <SelectValue placeholder="Select size category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Small">Small</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="Large">Large</SelectItem>
-                </SelectContent>
-              </Select>
-              <input type="hidden" {...register("size_category", { required: "Size category is required" })} />
-              {errors.size_category && <span className="text-red-500">{errors.size_category.message}</span>}
-            </div>
-
-            {/* Moisture Level */}
-            <div className="flex flex-col space-y-1.5">
-              <label htmlFor="moisture_level">Moisture Level (%)</label>
-              <Input
-                id="moisture_level"
-                type="number"
-                placeholder="Enter moisture level"
-                {...register("moisture_level", { required: "Moisture level is required" })}
-              />
-              {errors.moisture_level && <span className="text-red-500">{errors.moisture_level.message}</span>}
-            </div>
-          </CardContent>
-
-          <CardFooter>
-            <Button type="submit" className="w-full">
-              {isSubmitSuccessful ? "Submitted" : "Submit Quality Check"}
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
+    <div className="p-3">
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow className="font-bold">
+              {columns.map((column) => (
+                <TableHead className="font-bold text-[15px]" key={column.name}>
+                  {column.name}
+                </TableHead>
+              ))}
+              <TableHead className="font-bold text-[15px]">Options</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row: any) => (
+              <TableRow key={row._id} className="hover:bg-primary/10">
+                <TableCell>{row.batch_id}</TableCell>
+                <TableCell>{row.supplier_id}</TableCell>
+                <TableCell>{row.material_type}</TableCell>
+                <TableCell>{row.size_category}</TableCell>
+                <TableCell>{row.moisture_level}</TableCell>
+                <TableCell>{row.foreign_objects_detected ? "Yes" : "No"}</TableCell>
+                <TableCell>{row.color}</TableCell>
+                <TableCell>{row.broken_percentage}</TableCell>
+                <TableCell>{row.checked_by}</TableCell>
+                <TableCell>{new Date(row.timestamp).toLocaleDateString()}</TableCell>
+                {row.month !== currentMonth ? (
+                  <TableCell>
+                    {UpdateBtn(row._id)}
+                    {DeleteBtn(row._id)}
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <Lock className="size-5 opacity-20" />
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
 
-export default Quality_raw_material_check_Update;
+export default Quality_raw_material_CheckTable;
+
+const UpdateBtn = (updateId: any) => (
+  <Dialog>
+    <DialogTrigger>
+      <Button variant="ghost" className="my-2 mx-0.5">
+        <Edit className="stroke-primary" />
+      </Button>
+    </DialogTrigger>
+    <DialogContent>
+      <QualityRawMaterialCheckUpdate UpdateId={updateId} />
+    </DialogContent>
+  </Dialog>
+);
+
+const DeleteBtn = (deleteId: any) => {
+  const deleteOne = async (id: string) => {
+    await quality_raw_material_check_deleteDoc(id);
+    window.location.reload();
+  };
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button variant="ghost" className="my-2 mx-0.5">
+          <Trash2 className="stroke-destructive" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete this record.
+          </DialogDescription>
+        </DialogHeader>
+        <Separator />
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <div className="flex flex-col items-center w-full ">
+              <Button variant="destructive" type="submit" onClick={() => deleteOne(deleteId)} className="w-full">
+                Delete
+              </Button>
+              <Button variant="outline" className="my-2 mx-0.5 border-1 border-primary w-full">
+                Close
+              </Button>
+            </div>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};

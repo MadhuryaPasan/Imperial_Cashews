@@ -270,3 +270,6 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
 };
 
 export default quality_end_product_check_Update;
+
+
+

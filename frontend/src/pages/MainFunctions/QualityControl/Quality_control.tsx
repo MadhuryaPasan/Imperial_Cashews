@@ -10,7 +10,7 @@ const Quality_control = () => {
         <div>Quality_control</div>
         <Quality_example/>
         <Quality_iso_sls_check/>    
-        <Quality_raw_material_check />
+    
         
       </>
 
