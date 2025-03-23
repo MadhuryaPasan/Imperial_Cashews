@@ -1,8 +1,5 @@
 //Inventory_FinalProduct
 
-
-
-
 import express from "express";
 import DB from "../../connection.js"; // Move up two directories
 
@@ -57,13 +54,12 @@ router.route("/Inventory_FinalProduct").post(async (req, res) => {
   
   // Format dates as YYYY.MM.DD
   const formattedManufacturerDate = formatDateWithDots(manufacturerDate);
-  const formattedExpireDate = formatDateWithDots(ExpireDate);
+
   
   let mongoObject = {     
     /*1*/ category: req.body.category,     
     /*2*/ weight: req.body.weight,     
     /*3*/ manufacturerDate: formattedManufacturerDate,     
-    /*4*/ ExpireDate: formattedExpireDate,     
     /*5*/ PackageCount: req.body.PackageCount,                         
     /*6*/ sellprice: parseFloat(req.body.sellprice),    
   };    
@@ -79,17 +75,16 @@ router.route("/Inventory_FinalProduct/:id").put(async (req, res) => {
   
   // Parse dates from request body
   const manufacturerDate = new Date(req.body.manufacturerDate);   
-  const ExpireDate = new Date(req.body.ExpireDate);      
+     
   
   // Format dates as YYYY.MM.DD
   const formattedManufacturerDate = formatDateWithDots(manufacturerDate);
-  const formattedExpireDate = formatDateWithDots(ExpireDate);
+ 
   
   let mongoObject = {     
     /*1*/ category: req.body.category,     
     /*2*/ weight: req.body.weight,     
-    /*3*/ manufacturerDate: formattedManufacturerDate,     
-    /*4*/ ExpireDate: formattedExpireDate,     
+    /*3*/ manufacturerDate: formattedManufacturerDate,         
     /*5*/ PackageCount: req.body.PackageCount,     
     /*6*/ sellprice: parseFloat(req.body.sellprice),   
   };      

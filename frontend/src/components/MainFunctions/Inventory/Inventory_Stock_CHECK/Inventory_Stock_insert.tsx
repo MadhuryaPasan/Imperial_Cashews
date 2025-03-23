@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form"; // form validation
 import { Inventory_Stock_createNew } from "@/utils/inventory/Inventory_Stock_API"; // API
 import {
+
   Card,
   CardContent,
   CardDescription,
@@ -15,15 +16,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const Inventory_Stock_Insert = () => {
-  // get current date and time
-  const currentTime: string = new Date().toLocaleString("en-US", {
+
+
+
+const Inventory_Stock_insert = () => {
+  // get current month
+  const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
   });
 
@@ -31,9 +35,9 @@ const Inventory_Stock_Insert = () => {
   const CreateDoc: SubmitHandler<any> = async (data) => {
     await Inventory_Stock_createNew(data);
     // wait for 1 seconds
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     // reload the page
-    // window.location.reload();
+    window.location.reload();
   };
 
   // form validation and submission
@@ -44,85 +48,84 @@ const Inventory_Stock_Insert = () => {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      item_name: null, min_stock: null,  max_stock: null, currentStock: null, lastUpdateTime: currentTime, note: null, ReorderLevel: null,
+      itemname:null,
+      minstock:null,
+      maxstock:null,
+      currentStock:null,
+      description:null,
+      ReorderLevel:null,
+      month: currentMonth,
     },
   });
 
   return (
     <>
-      <div className=" ]">
+      <div>
         <form onSubmit={handleSubmit(CreateDoc)}>
-          <Card className={`  ${
-            errors.item_name || errors.min_stock || errors.max_stock || errors.currentStock || errors.lastUpdateTime || errors.note || errors.ReorderLevel
+          <Card className={` p-[25px]   ${
+            errors.itemname || errors.minstock ||errors.maxstock||errors.currentStock||errors.description||errors.ReorderLevel|| errors.month 
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null
-          } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : null}`}>
+          } ${
+            isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : null
+          }`}>
             <CardHeader>
-              <CardTitle>Insert Inventory Stock</CardTitle>
-              <CardDescription>Insert new inventory stock record</CardDescription>
+              <CardTitle>Insert Stock</CardTitle>
+              <CardDescription>Insert Stock Detail</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Item Name */}
+
+               {/* Name */}
               <div className="flex flex-col space-y-1.5">
-                <Label>Item Name</Label>
+                <Label>itemname</Label>
                 <Input
-                  disabled
-                  value="Raw Cashew nut"
-                  {...register("item_name", {
-                    required: "Item name is required",
+                  {...register("itemname", {
+                    required: "itemname is required",
                   })}
                 />
-                {errors.item_name && (
+                {errors.itemname && (
                   <span className="text-destructive text-sm">
-                    {errors.item_name.message}
+                    {errors.itemname.message}
                   </span>
                 )}
               </div>
-              
-              {/* Min Stock */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Min Stock</Label>
+
+                  {/* min stock */}
+                <div className="flex flex-col space-y-1.5">
+                <Label>minstock</Label>
                 <Input
-                  disabled
-                  value="100KG"
-                  {...register("min_stock", {
-                    required: "Min stock is required",
+                  {...register("minstock", {
+                    required: "minstock is required",
                   })}
                 />
-                {errors.min_stock && (
+                {errors.minstock && (
                   <span className="text-destructive text-sm">
-                    {errors.min_stock.message}
+                    {errors.minstock.message}
                   </span>
                 )}
               </div>
-              
-              {/* Max Stock */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Max Stock</Label>
+
+                 {/* max stock*/}
+                <div className="flex flex-col space-y-1.5">
+                <Label>maxstock</Label>
                 <Input
-                  disabled
-                  value="500KG"
-                  {...register("max_stock", {
-                    required: "Max stock is required",
+                  {...register("maxstock", {
+                    required: "maxstock is required",
                   })}
                 />
-                {errors.max_stock && (
+                {errors.maxstock && (
                   <span className="text-destructive text-sm">
-                    {errors.max_stock.message}
+                    {errors.maxstock.message}
                   </span>
                 )}
               </div>
-              
-              {/* Current Stock */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Current Stock</Label>
+
+                 {/* currentStock */}
+                <div className="flex flex-col space-y-1.5">
+                <Label>currentStock</Label>
                 <Input
                   {...register("currentStock", {
-                    required: "Current stock is required",
-                    pattern: {
-                      value: /^[0-9]+(KG)$/i,
-                      message: "Current stock should be a number followed by 'KG'",
-                    },
+                    required: "currentStock is required",
                   })}
                 />
                 {errors.currentStock && (
@@ -132,56 +135,27 @@ const Inventory_Stock_Insert = () => {
                 )}
               </div>
 
-              {/* Last Update Time */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Last Update Time</Label>
+                 {/* description */}
+                <div className="flex flex-col space-y-1.5">
+                <Label>description</Label>
                 <Input
-                  disabled
-                  value={currentTime}
-                  {...register("lastUpdateTime", {
-                    required: "Last update time is required",
+                  {...register("description", {
+                    required: "description is required",
                   })}
                 />
-                {errors.lastUpdateTime && (
+                {errors.description && (
                   <span className="text-destructive text-sm">
-                    {errors.lastUpdateTime.message}
+                    {errors.description.message}
                   </span>
                 )}
               </div>
 
-              {/* Note */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Note</Label>
-                <Textarea
-                  id="note"
-                  placeholder="Enter note"
-                  {...register("note", {
-                    required: "Note is required",
-                    minLength: {
-                      value: 5,
-                      message: "Note should be at least 5 characters",
-                    },
-                    maxLength: {
-                      value: 100,
-                      message: "Note should be at most 100 characters",
-                    },
-                  })}
-                />
-                {errors.note && (
-                  <span className="text-destructive text-sm">
-                    {errors.note.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Reorder Level */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Reorder Level</Label>
+                 {/* ReorderLevel*/}
+                <div className="flex flex-col space-y-1.5">
+                <Label>ReorderLevel</Label>
                 <Input
-                  disabled
-                  value="50KG"
                   {...register("ReorderLevel", {
-                    required: "Reorder level is required",
+                    required: "Department is required",
                   })}
                 />
                 {errors.ReorderLevel && (
@@ -190,6 +164,24 @@ const Inventory_Stock_Insert = () => {
                   </span>
                 )}
               </div>
+
+                {/* Month */}
+              <div className="flex flex-col space-y-1.5">
+                <Label>Month</Label>
+                <Input
+                  disabled
+                  value={currentMonth}
+                  {...register("month", {
+                    required: "error",
+                  })}
+                />
+                {errors.month && (
+                  <span className="text-destructive text-sm">
+                    {errors.month.message}
+                  </span>
+                )}
+              </div>
+             
             </CardContent>
 
             <CardFooter>
@@ -204,7 +196,4 @@ const Inventory_Stock_Insert = () => {
   );
 };
 
-export default Inventory_Stock_Insert;
-
-
-
+export default Inventory_Stock_insert;

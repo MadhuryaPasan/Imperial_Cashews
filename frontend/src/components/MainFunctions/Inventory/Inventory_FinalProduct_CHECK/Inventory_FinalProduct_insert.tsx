@@ -34,7 +34,6 @@ const Inventory_FinalProduct_insert = () => {
      /*1*/ category: "",
     /*2*/ weight: "",
     /*3*/ manufacturerDate:  "",
-    /*4*/ ExpireDate : "",
     /*5*/ PackageCount: "",                    
     /*6*/ sellprice: "",
     },
@@ -49,7 +48,6 @@ const Inventory_FinalProduct_insert = () => {
             errors.category ||
             errors.weight ||
             errors.manufacturerDate  ||
-            errors.ExpireDate||
             errors.PackageCount ||
             errors.sellprice 
               ? "bg-destructive/5 outline-1 outline-destructive"
@@ -87,16 +85,6 @@ const Inventory_FinalProduct_insert = () => {
               {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}
             </div>
             
-            {/* Expiry Date */}
-            <div className="flex flex-col space-y-1.5">
-              <Label>Expire Date</Label>
-              <Input 
-              
-              type="date" {...register("ExpireDate", { required: "Expire Date is required" })} />
-              {errors.ExpireDate && <span className="text-destructive text-sm">{errors.ExpireDate.message}</span>}
-            </div>
-
-
             {/* Package Count */}
             <div className="flex flex-col space-y-1.5">
               <Label>Package Count</Label>

@@ -1,7 +1,3 @@
-//Inventory_Stock
-
-
-
 import express from "express";
 import DB from "../../connection.js";
 import { ObjectId } from "mongodb";
@@ -12,7 +8,7 @@ let router = express.Router();
 router.route("/Inventory_Stock").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Inventory_Stock").find({}).toArray();
+    let result = await db.collection("StInventory_Stock").find({}).toArray();
     res
       .status(200)
       .json({ message: "Data retrieved successfully", data: result });
@@ -23,6 +19,8 @@ router.route("/Inventory_Stock").get(async (req, res) => {
     });
   }
 });
+
+
 
 // read data single data
 
@@ -43,41 +41,37 @@ router.route("/Inventory_Stock/:id").delete(async (req, res) => {
   res.json(data);
   console.log("Data deleted successfully");
 });
-
+//errors.itemname || errors.minstock || errors.maxstock || errors.currentStock ||  errors.description || errors.ReorderLevel || errors.month
 //insert data
 router.route("/Inventory_Stock").post(async (req, res) => {
   let db = DB.getDB();
-  const expireDate = new Date(req.body.expireDate);
-
   let mongoObject = {
-   /*1*/ item_name: req.body.item_name,
-   /*2*/ min_stock : req.body.min_stock,
-   /*3*/ max_stock: req.body.max_stock,
-   /*4*/ ReorderLevel : req.body.ReorderLevel,
-   /*5*/ currentStock: req.body.currentStock,
-   /*6*/lastUpdateTime : req.body.lastUpdateTime,
-   /*7*/ note: req.body.note
+    itemname: req.body.itemname,
+    minstock: req.body.minstock,
+    maxstock : req.body.maxstock ,
+    currentStock: req.body.currentStock,
+    description: req.body.description,
+    ReorderLevel: req.body.ReorderLevel,
+    month: req.body.month,
   };
   let data = await db.collection("Inventory_Stock").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
 
-//update data 
+//update data
 router.route("/Inventory_Stock/:id").put(async (req, res) => {
   let db = DB.getDB();
   
 
   let mongoObject = {
     $set: {
-  /*1*/ item_name: req.body.item_name,
-   /*2*/ min_stock : req.body.min_stock,
-   /*3*/ max_stock: req.body.max_stock,
-   /*4*/ ReorderLevel : req.body.ReorderLevel,
-   /*5*/ currentStock: req.body.currentStock,
-   /*6*/lastUpdateTime : req.body.lastUpdateTime,
-   /*7*/ note: req.body.note
-
+      itemname: req.body.itemname,
+      minstock: req.body.minstock,
+      maxstock : req.body.maxstock ,
+      currentStock: req.body.currentStock,
+      description: req.body.description,
+     
     },
   };
 
@@ -89,21 +83,3 @@ router.route("/Inventory_Stock/:id").put(async (req, res) => {
 });
 
 export default router;
-
-
-/*
-
-item_name
-"Raw Cashew nut"
-min_stock
-"100KG"
-max_stock
-"500kg"
-ReorderLevel
-"50kg"
-currentStock
-"75kg"
-lastUpdateTime
-"2025.03.21 - 11.30 AM"
-note
-"this is all raw cashews" */

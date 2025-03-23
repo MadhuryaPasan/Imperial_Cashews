@@ -1,3 +1,4 @@
+
 import { Separator } from "@/components/ui/separator";
 
 import {
@@ -62,19 +63,18 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
 
-    { name: "Item Name" },
-    { name: "Min Stock" },
-    { name: "Max Stock" },
-    { name: "ReOrder Level" },
-    { name: "Current Stock" },
-    { name: "Last Update Time" },
-    { name: "Note" },
+    { name: "itemname" },
+    { name: "minstock" },
+    { name: "maxstock" },
+    { name: "currentStock" },
+    {name: "description"},
+    {name:"ReorderLevel"},
+        { name: "month" },
 
   ];
 
   return (
     <>
-
       <div className="p-3">
         <div className="flex justify-begin py-3">{insertBtn()}</div>
         <div className="rounded-md border">
@@ -100,43 +100,29 @@ const table = ({ selectedMonth }: any) => {
                 // .filter((rowData: any) => rowData.month === "March")
                 .map((rowData: any) => (
                   <TableRow key={rowData._id} className="hover:bg-primary/10">
-                    {/* change this */}
-
-
-                    <TableCell>{rowData.order_date
-                      ? new Date(rowData.order_date).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )
-                      : "N/A"}</TableCell>
-                    <TableCell>{rowData.item_name}</TableCell>
-                    <TableCell>{rowData.min_stock}</TableCell>
-                    <TableCell>{rowData.max_stock}</TableCell>
-                    <TableCell>{rowData.ReorderLevel}</TableCell>
+                    <TableCell>{rowData.itemname}</TableCell>
+                    <TableCell>{rowData.minstock}</TableCell>
+                    <TableCell>{rowData.maxstock}</TableCell>
                     <TableCell>{rowData.currentStock}</TableCell>
-                    <TableCell>{rowData.lastUpdateTime}</TableCell>
-                    <TableCell>{rowData.note}</TableCell>
-                  
+                    <TableCell>{rowData.description}</TableCell>
+                    <TableCell>{rowData.ReorderLevel}</TableCell>
+                    <TableCell>{rowData.month}</TableCell>
 
 
                     {/* show current month only */}
-                    {rowData.month !== currentMonth ? (
+                    {/* {rowData.month !== currentMonth ? ( */}
                       <div>
                         {/* Update */}
-                        {UpdateBtn()}
+                        {UpdateBtn(rowData._id)}
 
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
                       </div>
-                    ) : (
+                    {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
             </TableBody>
@@ -150,10 +136,24 @@ const table = ({ selectedMonth }: any) => {
 export default table;
 
 
+
+
+
+
+
+
+
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { Inventory_Stock_getAllData,  Inventory_Stock_deleteDoc} from "@/utils/inventory/Inventory_Stock_API";
-const UpdateBtn = () => {
+
+import { Inventory_Stock_getAllData, Inventory_Stock_deleteDoc } from "@/utils/inventory/Inventory_Stock_API";
+import Inventory_Stock_Update from "../Inventory_Stock_CHECK/Inventory_Stock_Update"
+
+
+const UpdateBtn = (updateId: any) => {
+
+
+
   return (
     <>
       <Dialog>
@@ -163,29 +163,10 @@ const UpdateBtn = () => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator />
-
-          {/* deleteNow */}
-
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">Update</Button>
-                <Button
-                  variant="outline"
-                  className="my-2 mx-0.5 border-1 border-primary w-full"
-                >
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
+          <div>
+            {/* {currentData ? <Staff_Employee_Update {...currentData} /> : <p>Loading...</p>} */}
+            <Inventory_Stock_Update currentData={updateId}/>
+          </div>
         </DialogContent>
       </Dialog>
     </>
@@ -220,7 +201,8 @@ const deleteBtn = (deleteId: any) => {
               account and remove your data from our servers.
             </DialogDescription>
           </DialogHeader>
-          
+          <Separator />
+          <DialogTitle>"ID: {deleteId}"</DialogTitle>
 
           {/* deleteNow */}
 
@@ -246,8 +228,8 @@ const deleteBtn = (deleteId: any) => {
 };
 
 
+import Inventory_Stock_insert from '@/components/MainFunctions/Inventory/Inventory_Stock_CHECK/Inventory_Stock_insert';
 
-import Inventory_Stock_insert from "@/components/MainFunctions/Inventory/Inventory_Stock_CHECK/Inventory_Stock_insert"
 const insertBtn = () => {
   return (
     <>

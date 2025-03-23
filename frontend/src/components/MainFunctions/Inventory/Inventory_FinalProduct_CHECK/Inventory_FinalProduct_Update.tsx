@@ -56,7 +56,6 @@ const Inventory_FinalProduct_Update: React.FC<any> = (currentData) => {
   let  category: string = data?. category;
   let weight: string = data?.weight;
   let manufacturerDate: string = data?.manufacturerDate;
-  let ExpireDate: string = data?.ExpireDate;
   let PackageCount: string = data?.PackageCount;
   let sellprice : string = data?.sellprice ;
 
@@ -69,7 +68,6 @@ const Inventory_FinalProduct_Update: React.FC<any> = (currentData) => {
      /*1*/ category: category,
     /*2*/ weight: weight,
     /*3*/ manufacturerDate:  manufacturerDate,
-    /*4*/ ExpireDate : ExpireDate,
     /*5*/ PackageCount: PackageCount,                    
     /*6*/ sellprice: sellprice
     },
@@ -89,7 +87,6 @@ const Inventory_FinalProduct_Update: React.FC<any> = (currentData) => {
             errors.weight ||
             errors.sellprice ||
             errors.manufacturerDate ||
-            errors.ExpireDate ||
             errors.PackageCount 
               ? "bg-destructive/5 outline-1 outline-destructive"
               : ""
@@ -128,17 +125,6 @@ const Inventory_FinalProduct_Update: React.FC<any> = (currentData) => {
               type="date" {...register("manufacturerDate", { required: "Manufacturer Date is required" })} />
               {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}
             </div>
-            
-            {/* Expiry Date */}
-            <div className="flex flex-col space-y-1.5">
-              <Label>Expire Date</Label>
-              <Input 
-              
-          defaultValue={ExpireDate}    
-              type="date" {...register("ExpireDate", { required: "Expire Date is required" })} />
-              {errors.ExpireDate && <span className="text-destructive text-sm">{errors.ExpireDate.message}</span>}
-            </div>
-
 
             {/* Package Count */}
             <div className="flex flex-col space-y-1.5">
