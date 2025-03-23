@@ -55,6 +55,26 @@ router.route("/Sales_Order").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+
+router.route("/Sales_Order/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      customer_id: req.body.customer_id,
+      status: req.body.status,
+      total_price: parseFloat(req.body.total_price),
+    },
+  };
+
+  let data = await db
+    .collection("Sales_Order")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
+});
+
 export default router;
 
 //http://localhost:5000/Sales_Order

@@ -118,19 +118,19 @@ const table = ({ selectedMonth }: any) => {
 
 
                     {/* show current month only */}
-                    {rowData.month !== currentMonth ? (
+                    {/* {rowData.month !== currentMonth ? ( */}
                       <div>
                         {/* Update */}
-                        {UpdateBtn()}
+                        {UpdateBtn(rowData._id)}
 
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
                       </div>
-                    ) : (
+                    {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
             </TableBody>
@@ -154,8 +154,12 @@ export default table;
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { getAll_Sales_Sales_Data, Sales_Sales_deleteDoc } from "@/utils/sales/Sales_Sales_API";
+import Sales_Sales_Update  from "@/components/MainFunctions/sales/update/Sales_Sales_Update"
 
-const UpdateBtn = () => {
+const UpdateBtn = (updateId: any) => {
+
+
+
   return (
     <>
       <Dialog>
@@ -165,29 +169,10 @@ const UpdateBtn = () => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator />
-
-          {/* deleteNow */}
-
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <div className="flex flex-col items-center w-full ">
-                <Button type="submit" className="w-full">Update</Button>
-                <Button
-                  variant="outline"
-                  className="my-2 mx-0.5 border-1 border-primary w-full"
-                >
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
+          <div>
+            {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+            <Sales_Sales_Update currentData={updateId}/>
+          </div>
         </DialogContent>
       </Dialog>
     </>

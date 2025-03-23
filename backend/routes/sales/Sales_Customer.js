@@ -59,6 +59,8 @@ router.route("/Sales_Customer").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+
+// update
 router.route("/Sales_Customer/:id").put(async (req, res) => {
   let db = DB.getDB();
   

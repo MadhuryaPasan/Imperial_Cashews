@@ -47,8 +47,8 @@ const Sales_Order_Insert = () => {
     <div><form onSubmit={handleSubmit(CreateDoc)}>
       <Card
         className={`${errors.customer_id || errors.order_date || errors.status || errors.total_price
-            ? "bg-destructive/5 outline-1 outline-destructive"
-            : null
+          ? "bg-destructive/5 outline-1 outline-destructive"
+          : null
           } ${isSubmitSuccessful ? "bg-primary/5 outline-1 outline-primary" : null
           }`}
       >
@@ -125,18 +125,17 @@ const Sales_Order_Insert = () => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-                  <Button
-                    className={`cursor-pointer w-full ${
-                      errors.customer_id || errors.order_date || errors.status || errors.total_price
-                        ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
-                        : null
-                    }`}
-                    type="submit"
-                    {...(isSubmitSuccessful ? { disabled: true } : {})}
-                  >
-                    {isSubmitSuccessful ? "Submitted" : "Submit"}
-                  </Button>
-                </CardFooter>
+          <Button
+            className={`cursor-pointer w-full ${errors.customer_id || errors.order_date || errors.status || errors.total_price
+                ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse"
+                : null
+              }`}
+            type="submit"
+            {...(isSubmitSuccessful ? { disabled: true } : {})}
+          >
+            {isSubmitSuccessful ? "Submitted" : "Submit"}
+          </Button>
+        </CardFooter>
       </Card>
     </form></div>
   )

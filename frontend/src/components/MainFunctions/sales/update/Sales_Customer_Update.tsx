@@ -1,8 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form"; // form validation
-import {
-  Finance_PettyCash_getDoc,
-  Finance_PettyCash_updateDoc,
-} from "@/utils/Finance/Finance_PettyCash_API"; // API
+import { SubmitHandler, useForm } from "react-hook-form"; // form validation // API
 import {
   Card,
   CardContent,
@@ -12,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { Textarea } from "@/components/ui/textarea";
+
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -134,7 +130,7 @@ const Sales_Customer_Update: React.FC<any> = (currentData) => {
                         )}
                       </div>
                       <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="contact_number">Contact Number</Label>
+                      sales_managementsales_management             <Label htmlFor="contact_number">Contact Number</Label>
                         <Input
           defaultValue={contact_number}
                           placeholder="Contact Number"

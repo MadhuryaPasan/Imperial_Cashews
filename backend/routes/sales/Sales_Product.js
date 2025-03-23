@@ -61,6 +61,33 @@ router.route("/Sales_Product").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+
+router.route("/Sales_Product/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      name: req.body.name,
+    product_id: req.body.product_id,
+    category: req.body.category,
+    description: req.body.description,
+    image: req.body.image,
+    size: parseInt(req.body.size),
+    month: req.body.month,
+    price_per_unit: parseFloat(req.body.price_per_unit),
+    status: req.body.status,
+    stock_quantity: parseInt(req.body.stock_quantity),
+    },
+  };
+
+  let data = await db
+    .collection("Sales_Product")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
+});
+
 export default router;
 
 //http://localhost:5000/Sales_Product
