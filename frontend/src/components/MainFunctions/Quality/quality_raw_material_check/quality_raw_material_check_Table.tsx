@@ -92,7 +92,7 @@ const quality_raw_material_check_Table = ({ selectedMonth }: any) => {
                   <TableCell>{rowData.month}</TableCell>
 
                   {/* Show options only for the current month */}
-                  {rowData.month === currentMonth ? (
+                  {/* {rowData.month === currentMonth ? ( */}
                     <div>
                       {/* Update */}
                       {UpdateBtn(rowData._id)}
@@ -100,11 +100,11 @@ const quality_raw_material_check_Table = ({ selectedMonth }: any) => {
                       {/* Delete */}
                       {deleteBtn(rowData._id)}
                     </div>
-                  ) : (
+                  {/* ) : ( 
                     <TableCell>
                       <Lock className="size-5 opacity-20" />
                     </TableCell>
-                  )}
+                  {/* )} */}
                 </TableRow>
               ))}
           </TableBody>
