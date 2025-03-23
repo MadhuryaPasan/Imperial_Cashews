@@ -1,4 +1,4 @@
-import { Controller, SubmitHandler, useForm } from "react-hook-form"; // form validation
+import { SubmitHandler, useForm } from "react-hook-form"; // form validation
 import { Inventory_Stock_createNew } from "@/utils/inventory/Inventory_Stock_API"; // API
 import {
   Card,
@@ -8,153 +8,192 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
 
-const Inventory_Stock_insert = () => {
+const Inventory_Stock_Insert = () => {
+  // get current date and time
+  const currentTime: string = new Date().toLocaleString("en-US", {
+    month: "long",
+  });
+
   // insert data
   const CreateDoc: SubmitHandler<any> = async (data) => {
     await Inventory_Stock_createNew(data);
+    // wait for 1 seconds
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    // reload the page
+    // window.location.reload();
   };
 
   // form validation and submission
+
   const {
     register,
     formState: { errors, isSubmitSuccessful },
-    control,
     handleSubmit,
   } = useForm({
     defaultValues: {
-      stockDate: "",
-      itemName: "",
-      category: "",
-      minStock: "",
-      maxStock: "",
-      reorderLevel: "",
-      currentStock: "",
-      lastUpdateTime: "",
+      item_name: null, min_stock: null,  max_stock: null, currentStock: null, lastUpdateTime: currentTime, note: null, ReorderLevel: null,
     },
   });
 
   return (
     <>
-      <div className="">
+      <div className=" ]">
         <form onSubmit={handleSubmit(CreateDoc)}>
-          <Card
-            className={`md:w-[50vw] p-[25px] lg:w-[30vw]  ${errors.stockDate ||
-              errors.itemName ||
-              errors.category ||
-              errors.minStock ||
-              errors.maxStock ||
-              errors.reorderLevel ||
-              errors.currentStock ||
-              errors.lastUpdateTime
+          <Card className={`  ${
+            errors.item_name || errors.min_stock || errors.max_stock || errors.currentStock || errors.lastUpdateTime || errors.note || errors.ReorderLevel
               ? "bg-destructive/5 outline-1 outline-destructive"
-              : ""
-              } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
-          >
+              : null
+          } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : null}`}>
             <CardHeader>
-              <CardTitle>Insert Stock</CardTitle>
-              <CardDescription>Insert new stock information</CardDescription>
+              <CardTitle>Insert Inventory Stock</CardTitle>
+              <CardDescription>Insert new inventory stock record</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Stock Date */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Stock Date</Label>
-                <Input type="date" {...register("stockDate", { required: "Stock Date is required" })} />
-                {errors.stockDate && <span className="text-destructive text-sm">{errors.stockDate.message}</span>}
-              </div>
-
-              {/* Date Picker */}
-              <div className="flex flex-col space-y-1.5">
-                <label>Date</label>
-                <Controller
-                  name="lastUpdateTime"
-                  control={control}
-                  rules={{ required: "Last Update Time is required" }}
-                  render={({ field }) => (
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className=" justify-start text-left font-normal"
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {field.value ? (
-                            format(new Date(field.value), "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value ? new Date(field.value) : undefined}
-                          onSelect={(date) =>
-                            field.onChange(date ? format(date, "yyyy-MM-dd") : null)
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  )}
-                />
-                {errors.lastUpdateTime && (
-                  <p className="text-red-500">{errors.lastUpdateTime.message}</p>
-                )}
-              </div>
-
               {/* Item Name */}
               <div className="flex flex-col space-y-1.5">
                 <Label>Item Name</Label>
-                <Input {...register("itemName", { required: "Item Name is required" })} />
-                {errors.itemName && <span className="text-destructive text-sm">{errors.itemName.message}</span>}
+                <Input
+                  disabled
+                  value="Raw Cashew nut"
+                  {...register("item_name", {
+                    required: "Item name is required",
+                  })}
+                />
+                {errors.item_name && (
+                  <span className="text-destructive text-sm">
+                    {errors.item_name.message}
+                  </span>
+                )}
               </div>
-
-              {/* Category */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Category</Label>
-                <Input {...register("category", { required: "Category is required" })} />
-                {errors.category && <span className="text-destructive text-sm">{errors.category.message}</span>}
-              </div>
-
+              
               {/* Min Stock */}
               <div className="flex flex-col space-y-1.5">
                 <Label>Min Stock</Label>
-                <Input type="text" {...register("minStock", { required: "Min Stock is required" })} />
-                {errors.minStock && <span className="text-destructive text-sm">{errors.minStock.message}</span>}
+                <Input
+                  disabled
+                  value="100KG"
+                  {...register("min_stock", {
+                    required: "Min stock is required",
+                  })}
+                />
+                {errors.min_stock && (
+                  <span className="text-destructive text-sm">
+                    {errors.min_stock.message}
+                  </span>
+                )}
               </div>
-
+              
               {/* Max Stock */}
               <div className="flex flex-col space-y-1.5">
                 <Label>Max Stock</Label>
-                <Input type="text" {...register("maxStock", { required: "Max Stock is required" })} />
-                {errors.maxStock && <span className="text-destructive text-sm">{errors.maxStock.message}</span>}
+                <Input
+                  disabled
+                  value="500KG"
+                  {...register("max_stock", {
+                    required: "Max stock is required",
+                  })}
+                />
+                {errors.max_stock && (
+                  <span className="text-destructive text-sm">
+                    {errors.max_stock.message}
+                  </span>
+                )}
+              </div>
+              
+              {/* Current Stock */}
+              <div className="flex flex-col space-y-1.5">
+                <Label>Current Stock</Label>
+                <Input
+                  {...register("currentStock", {
+                    required: "Current stock is required",
+                    pattern: {
+                      value: /^[0-9]+(KG)$/i,
+                      message: "Current stock should be a number followed by 'KG'",
+                    },
+                  })}
+                />
+                {errors.currentStock && (
+                  <span className="text-destructive text-sm">
+                    {errors.currentStock.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Last Update Time */}
+              <div className="flex flex-col space-y-1.5">
+                <Label>Last Update Time</Label>
+                <Input
+                  disabled
+                  value={currentTime}
+                  {...register("lastUpdateTime", {
+                    required: "Last update time is required",
+                  })}
+                />
+                {errors.lastUpdateTime && (
+                  <span className="text-destructive text-sm">
+                    {errors.lastUpdateTime.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Note */}
+              <div className="flex flex-col space-y-1.5">
+                <Label>Note</Label>
+                <Textarea
+                  id="note"
+                  placeholder="Enter note"
+                  {...register("note", {
+                    required: "Note is required",
+                    minLength: {
+                      value: 5,
+                      message: "Note should be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 100,
+                      message: "Note should be at most 100 characters",
+                    },
+                  })}
+                />
+                {errors.note && (
+                  <span className="text-destructive text-sm">
+                    {errors.note.message}
+                  </span>
+                )}
               </div>
 
               {/* Reorder Level */}
               <div className="flex flex-col space-y-1.5">
                 <Label>Reorder Level</Label>
-                <Input type="text" {...register("reorderLevel", { required: "Reorder Level is required" })} />
-                {errors.reorderLevel && <span className="text-destructive text-sm">{errors.reorderLevel.message}</span>}
-              </div>
-
-              {/* Current Stock */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Current Stock</Label>
-                <Input type="text" {...register("currentStock", { required: "Current Stock is required" })} />
-                {errors.currentStock && <span className="text-destructive text-sm">{errors.currentStock.message}</span>}
+                <Input
+                  disabled
+                  value="50KG"
+                  {...register("ReorderLevel", {
+                    required: "Reorder level is required",
+                  })}
+                />
+                {errors.ReorderLevel && (
+                  <span className="text-destructive text-sm">
+                    {errors.ReorderLevel.message}
+                  </span>
+                )}
               </div>
             </CardContent>
 
             <CardFooter>
-              <Button className="w-full" type="submit">
+              <Button className="w-full">
                 {isSubmitSuccessful ? "Submitted" : "Submit"}
               </Button>
             </CardFooter>
@@ -165,4 +204,7 @@ const Inventory_Stock_insert = () => {
   );
 };
 
-export default Inventory_Stock_insert;
+export default Inventory_Stock_Insert;
+
+
+

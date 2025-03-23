@@ -53,7 +53,7 @@ const table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await Inventory_Stock_getAllData();
+      let result = await Inventory_Material_getAllData();
       setRow(result);
     }
     getAll();
@@ -62,13 +62,13 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
 
-    { name: "Item Name" },
-    { name: "Min Stock" },
-    { name: "Max Stock" },
-    { name: "ReOrder Level" },
-    { name: "Current Stock" },
-    { name: "Last Update Time" },
-    { name: "Note" },
+    { name: "Seller Name" },
+    { name: "Buyer Name" },
+    { name: "Material Name" },
+    { name: "Quantity" },
+    { name: "Get Price" },
+    { name: "Inventory Locaation" },
+    { name: "Get Date" },
 
   ];
 
@@ -113,13 +113,13 @@ const table = ({ selectedMonth }: any) => {
                         }
                       )
                       : "N/A"}</TableCell>
-                    <TableCell>{rowData.item_name}</TableCell>
-                    <TableCell>{rowData.min_stock}</TableCell>
-                    <TableCell>{rowData.max_stock}</TableCell>
-                    <TableCell>{rowData.ReorderLevel}</TableCell>
-                    <TableCell>{rowData.currentStock}</TableCell>
-                    <TableCell>{rowData.lastUpdateTime}</TableCell>
-                    <TableCell>{rowData.note}</TableCell>
+                    <TableCell>{rowData.sellerName}</TableCell>
+                    <TableCell>{rowData.buyerName}</TableCell>
+                    <TableCell>{rowData.materialName}</TableCell>
+                    <TableCell>{rowData.quantity}</TableCell>
+                    <TableCell>{rowData.getPrice}</TableCell>
+                    <TableCell>{rowData.inventoryLocation}</TableCell>
+                    <TableCell>{rowData.getData}</TableCell>
                   
 
 
@@ -127,7 +127,7 @@ const table = ({ selectedMonth }: any) => {
                     {rowData.month !== currentMonth ? (
                       <div>
                         {/* Update */}
-                        {UpdateBtn()}
+                        {UpdateBtn(rowData._id)}
 
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
@@ -150,10 +150,18 @@ const table = ({ selectedMonth }: any) => {
 export default table;
 
 
+
+
+
+
+
+
+
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { Inventory_Stock_getAllData,  Inventory_Stock_deleteDoc} from "@/utils/inventory/Inventory_Stock_API";
-const UpdateBtn = () => {
+import { Inventory_Material_getAllData,  Inventory_Material_deleteDoc} from "@/utils/inventory/Inventory_Material_API";
+import  Inventory_Material_Update from "./Inventory_Material_Update";
+const UpdateBtn = (updateId: any) => {
   return (
     <>
       <Dialog>
@@ -163,13 +171,15 @@ const UpdateBtn = () => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Now.</DialogTitle>
-            <DialogDescription>
-              You are about to update this record.
-            </DialogDescription>
-          </DialogHeader>
-          <Separator />
+          <div>
+            {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
+            <Inventory_Material_Update currentData={updateId}/>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+ );
+};
 
           {/* deleteNow */}
 
@@ -186,11 +196,9 @@ const UpdateBtn = () => {
               </div>
             </DialogClose>
           </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-};
+      
+   
+
 
 
 
@@ -201,7 +209,7 @@ const UpdateBtn = () => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Inventory_Stock_deleteDoc(id);
+    await Inventory_Material_deleteDoc(id);
     window.location.reload();
   };
   return (
@@ -246,8 +254,8 @@ const deleteBtn = (deleteId: any) => {
 };
 
 
+import Inventory_Material_insert from "@/components/MainFunctions/Inventory/Inventory_Material_CHECK/Inventory_Material_insert"
 
-import Inventory_Stock_insert from "@/components/MainFunctions/Inventory/Inventory_Stock_CHECK/Inventory_Stock_insert"
 const insertBtn = () => {
   return (
     <>
@@ -256,7 +264,7 @@ const insertBtn = () => {
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
         <DialogContent>
-          <Inventory_Stock_insert />
+          <Inventory_Material_insert />
         </DialogContent>
       </Dialog>
     </>

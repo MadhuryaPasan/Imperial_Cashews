@@ -66,6 +66,31 @@ router.route("/Inventory_Material").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+//update data
+
+router.route("/Inventory_Material/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+   /*1*/ sellerName:req.body.sellerName,
+    /*2*/  buyerName: req.body.buyerName,
+    /*3*/  materialName: req.body.materialName,
+    /*4*/  quantity: req.body.quantity,
+    /*5*/   getprice: parseFloat(req.body.price),
+    /*6*/ inventoryLocation: req.body.inventoryLocation,
+    /*7*/ getDate: new Date(getDate.toISOString()),
+
+    },
+  };
+
+  let data = await db
+    .collection("Inventory_Material")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
+});
 export default router;
 
 //Inventory_Material

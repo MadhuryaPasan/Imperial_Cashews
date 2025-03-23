@@ -53,7 +53,7 @@ const table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await Inventory_Stock_getAllData();
+      let result = await Inventory_supplierDetail_getAllData();
       setRow(result);
     }
     getAll();
@@ -62,13 +62,14 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
 
-    { name: "Item Name" },
-    { name: "Min Stock" },
-    { name: "Max Stock" },
-    { name: "ReOrder Level" },
-    { name: "Current Stock" },
-    { name: "Last Update Time" },
-    { name: "Note" },
+    { name: "Supplier Name" },
+    { name: "Address"},
+    { name: "PhoneNumber 1" },
+    { name: "PhoneNumber 2" },
+    { name: "Email" },
+    { name: "Supplier Material" },
+    {name: "Lead Time"}
+    
 
   ];
 
@@ -113,13 +114,15 @@ const table = ({ selectedMonth }: any) => {
                         }
                       )
                       : "N/A"}</TableCell>
-                    <TableCell>{rowData.item_name}</TableCell>
-                    <TableCell>{rowData.min_stock}</TableCell>
-                    <TableCell>{rowData.max_stock}</TableCell>
-                    <TableCell>{rowData.ReorderLevel}</TableCell>
-                    <TableCell>{rowData.currentStock}</TableCell>
-                    <TableCell>{rowData.lastUpdateTime}</TableCell>
-                    <TableCell>{rowData.note}</TableCell>
+                    <TableCell>{rowData.supplierName}</TableCell>
+                    <TableCell>{rowData.address}</TableCell>
+                    <TableCell>{rowData.phoneNumber1}</TableCell>
+                    <TableCell>{rowData.phoneNumber2}</TableCell>
+                    <TableCell>{rowData.email}</TableCell>
+                    <TableCell>{rowData.supplierMaterial}</TableCell>
+                    <TableCell>{rowData.leadTime}</TableCell>
+
+                   
                   
 
 
@@ -152,7 +155,7 @@ export default table;
 
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { Inventory_Stock_getAllData,  Inventory_Stock_deleteDoc} from "@/utils/inventory/Inventory_Stock_API";
+import { Inventory_supplierDetail_getAllData,  Inventory_supplierDetail_deleteDoc} from "@/utils/inventory/Inventory_supplierDetail_API";
 const UpdateBtn = () => {
   return (
     <>
@@ -201,7 +204,7 @@ const UpdateBtn = () => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Inventory_Stock_deleteDoc(id);
+    await Inventory_supplierDetail_deleteDoc(id);
     window.location.reload();
   };
   return (
@@ -246,8 +249,7 @@ const deleteBtn = (deleteId: any) => {
 };
 
 
-
-import Inventory_Stock_insert from "@/components/MainFunctions/Inventory/Inventory_Stock_CHECK/Inventory_Stock_insert"
+import Inventory_supplierDetail_insert from "@/components/MainFunctions/Inventory/Inventory_supplierDetail_CHECK/Inventory_supplierDetail_insert"
 const insertBtn = () => {
   return (
     <>
@@ -256,7 +258,7 @@ const insertBtn = () => {
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
         <DialogContent>
-          <Inventory_Stock_insert />
+          <Inventory_supplierDetail_insert />
         </DialogContent>
       </Dialog>
     </>

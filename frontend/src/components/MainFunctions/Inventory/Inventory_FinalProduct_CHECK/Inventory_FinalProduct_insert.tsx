@@ -31,82 +31,98 @@ const Inventory_FinalProduct_insert = () => {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      category: "",
-      sellprice: "",
-      weight: "",
-      manufacturerDate: "",
-      ExpireDate: "",
-      PackageCount: "",
+     /*1*/ category: "",
+    /*2*/ weight: "",
+    /*3*/ manufacturerDate:  "",
+    /*4*/ ExpireDate : "",
+    /*5*/ PackageCount: "",                    
+    /*6*/ sellprice: "",
     },
   });
 
   return (
     <>
-      <div className="">
-        <form onSubmit={handleSubmit(CreateDoc)}>
-          <Card
-            className={`md:w-[50vw] p-[25px] lg:w-[30vw]  ${
-              errors.category ||
-              errors.sellprice ||
-              errors.weight ||
-              errors.manufacturerDate ||
-              errors.ExpireDate ||
-              errors.PackageCount
-                ? "bg-destructive/5 outline-1 outline-destructive"
-                : ""
-            } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
-          >
-            <CardHeader>
-              <CardTitle>Insert Final product</CardTitle>
-              <CardDescription>Insert new final product</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Category */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Category</Label>
-                <Input {...register("category", { required: "Category is required" })} />
-                {errors.category && <span className="text-destructive text-sm">{errors.category.message}</span>}
-              </div>
-              {/* Price */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Price</Label>
-                <Input type="number" {...register("sellprice", { required: "Price is required" })} />
-                {errors.sellprice && <span className="text-destructive text-sm">{errors.sellprice.message}</span>}
-              </div>
+       <div className="">
+      <form onSubmit={handleSubmit(CreateDoc)}>
+        <Card
+          className={` ${
+            errors.category ||
+            errors.weight ||
+            errors.sellprice ||
+            errors.manufacturerDate ||
+            errors.ExpireDate ||
+            errors.PackageCount 
+              ? "bg-destructive/5 outline-1 outline-destructive"
+              : ""
+          } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
+        >
+          <CardHeader>
+            <CardTitle>Insert Final product</CardTitle>
+            <CardDescription>Insert new final product</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Category */}
+            <div className="flex flex-col space-y-1.5">
+              <Label>Category</Label>
+              <Input
+       
+              {...register("category", { required: "Category is required" })} />
+              {errors.category && <span className="text-destructive text-sm">{errors.category.message}</span>}
+            </div>
+
               {/* Weight */}
               <div className="flex flex-col space-y-1.5">
-                <Label>Weight</Label>
-                <Input type="number" {...register("weight", { required: "Weight is required" })} />
-                {errors.weight && <span className="text-destructive text-sm">{errors.weight.message}</span>}
-              </div>
-              {/* Manufacturer Date */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Manufacturer Date</Label>
-                <Input type="date" {...register("manufacturerDate", { required: "Manufacturer Date is required" })} />
-                {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}
-              </div>
-              {/* Expiry Date */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Expire Date</Label>
-                <Input type="date" {...register("ExpireDate", { required: "Expire Date is required" })} />
-                {errors.ExpireDate && <span className="text-destructive text-sm">{errors.ExpireDate.message}</span>}
-              </div>
-              {/* Package Count */}
-              <div className="flex flex-col space-y-1.5">
-                <Label>Package Count</Label>
-                <Input type="number" {...register("PackageCount", { required: "Package Count is required" })} />
-                {errors.PackageCount && <span className="text-destructive text-sm">{errors.PackageCount.message}</span>}
-              </div>
-            </CardContent>
+              <Label>Weight</Label>
+              <Input   
+              type="number" {...register("weight", { required: "Weight is required" })} />
+              {errors.weight && <span className="text-destructive text-sm">{errors.weight.message}</span>}
+            </div>
 
-            <CardFooter>
-              <Button className="w-full" type="submit">
-                {isSubmitSuccessful ? "Submitted" : "Submit"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </div>
+            {/* Manufacturer Date */}
+            <div className="flex flex-col space-y-1.5">
+              <Label>Manufacturer Date</Label>
+              
+              <Input     
+              type="date" {...register("manufacturerDate", { required: "Manufacturer Date is required" })} />
+              {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}
+            </div>
+            
+            {/* Expiry Date */}
+            <div className="flex flex-col space-y-1.5">
+              <Label>Expire Date</Label>
+              <Input 
+              
+              type="date" {...register("ExpireDate", { required: "Expire Date is required" })} />
+              {errors.ExpireDate && <span className="text-destructive text-sm">{errors.ExpireDate.message}</span>}
+            </div>
+
+
+            {/* Package Count */}
+            <div className="flex flex-col space-y-1.5">
+              <Label>Package Count</Label>
+              <Input 
+              type="number" {...register("PackageCount", { required: "Package Count is required" })} />
+              {errors.PackageCount && <span className="text-destructive text-sm">{errors.PackageCount.message}</span>}
+            </div>
+
+             {/* Price */}
+             <div className="flex flex-col space-y-1.5">
+              <Label>Sell Price</Label>
+              <Input 
+ 
+              type="number" {...register("sellprice", { required: "Price is required" })} />
+              {errors.sellprice && <span className="text-destructive text-sm">{errors.sellprice.message}</span>}
+            </div>
+          </CardContent>
+
+          <CardFooter>
+            <Button className="w-full" type="submit">
+              {isSubmitSuccessful ? "Submitted" : "Submit"}
+            </Button>
+          </CardFooter>
+        </Card>
+      </form>
+    </div>
     </>
   );
 };

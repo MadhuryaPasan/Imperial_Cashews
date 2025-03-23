@@ -1,8 +1,9 @@
 import React from 'react'
 import Inventory_example from './subpages/inventory_example'
 import Inventory_FinalProduct from "./subpages/Inventory_FinalProduct"
-import Inventory_RawMaterial from './subpages/Inventory_RawMaterial'
 import Inventory_Stock from './subpages/Inventory_Stock'
+import Inventory_Material from './subpages/Inventory_Material'
+import Inventory_supplierDetail from './subpages/Inventory_supplierDetail'
 
 const inventory_management = () => {
   return (
@@ -10,8 +11,9 @@ const inventory_management = () => {
       <div>inventory_management</div>
       <Inventory_example />
       <Inventory_FinalProduct/>
-      <Inventory_RawMaterial/>
+      <Inventory_Material/>
       <Inventory_Stock/>
+      <Inventory_supplierDetail/>
     </>
   )
 }

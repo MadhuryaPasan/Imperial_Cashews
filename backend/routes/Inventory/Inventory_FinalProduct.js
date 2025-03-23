@@ -52,7 +52,7 @@ router.route("/Inventory_FinalProduct").post(async (req, res) => {
   let mongoObject = {
     /*1*/ category: req.body.category,
     /*2*/ weight: req.body.weight,
-    /*3*/ manufacturerDate:  new Date(manufacturerDate.toISOString()),
+    /*3*/ manufacturerDate:  new Date(manufacturerDate).toISOString(),
     /*4*/  ExpireDate : new Date(getDate.toISOString()),
     /*5*/   PackageCount: req.body.PackageCount,                    
     /*6*/  sellprice: parseFloat(req.body.sellprice),
@@ -62,20 +62,37 @@ router.route("/Inventory_FinalProduct").post(async (req, res) => {
   res.json(data);
   console.log("Data inserted successfully");
 });
+//Update data
+router.route("/Inventory_FinalProduct/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+       /*1*/ category: req.body.category,
+    /*2*/ weight: req.body.weight,
+    /*3*/ manufacturerDate:  new Date(manufacturerDate.toISOString()),
+    /*4*/  ExpireDate : new Date(getDate.toISOString()),
+    /*5*/   PackageCount: req.body.PackageCount,                    
+    /*6*/  sellprice: parseFloat(req.body.sellprice),
+
+    },
+  };
+
+  let data = await db
+    .collection("Inventory_FinalProduct")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
+});
 
 export default router;
 
 /*
 
 category
-"dried salt dish"
 weight
-"150g"
 manufacturerDate
-2025-03-12T18:30:00.000+00:00
 ExpireDate
-2025-11-30T18:30:00.000+00:00
 PackageCount
-"150"
-sellprice
-"500.00"*/
+sellprice */

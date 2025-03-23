@@ -53,7 +53,7 @@ router.route("/Inventory_Stock").post(async (req, res) => {
    /*1*/ item_name: req.body.item_name,
    /*2*/ min_stock : req.body.min_stock,
    /*3*/ max_stock: req.body.max_stock,
-   /*4*/ reorderLevel : req.body.reorderLevel,
+   /*4*/ ReorderLevel : req.body.ReorderLevel,
    /*5*/ currentStock: req.body.currentStock,
    /*6*/lastUpdateTime : req.body.lastUpdateTime,
    /*7*/ note: req.body.note
@@ -61,6 +61,31 @@ router.route("/Inventory_Stock").post(async (req, res) => {
   let data = await db.collection("Inventory_Stock").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
+});
+
+//update data 
+router.route("/Inventory_Stock/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+  /*1*/ item_name: req.body.item_name,
+   /*2*/ min_stock : req.body.min_stock,
+   /*3*/ max_stock: req.body.max_stock,
+   /*4*/ ReorderLevel : req.body.ReorderLevel,
+   /*5*/ currentStock: req.body.currentStock,
+   /*6*/lastUpdateTime : req.body.lastUpdateTime,
+   /*7*/ note: req.body.note
+
+    },
+  };
+
+  let data = await db
+    .collection("Inventory_Stock")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
 });
 
 export default router;

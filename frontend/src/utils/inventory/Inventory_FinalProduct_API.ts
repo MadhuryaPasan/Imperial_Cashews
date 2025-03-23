@@ -3,7 +3,7 @@ import axios from 'axios';
 const URL = "http://localhost:5000";
 const URL_COLLECTION = "/Inventory_FinalProduct";
 
-export async function Inventory_FinalProduct_getAllData() {
+{/*export async function Inventory_FinalProduct_getAllData() {
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
         console.log(response.data.message);
@@ -11,7 +11,21 @@ export async function Inventory_FinalProduct_getAllData() {
     } catch (error: any) {
         alert(error.response.data.message + "\n" + error.response.data.error);
     }
+} */}
+
+export async function Inventory_FinalProduct_getAllData() {
+    try {
+        const response = await axios.get(`${URL}${URL_COLLECTION}`);
+        console.log(response.data.message);
+        return response.data.data;
+    } catch (error: any) {
+        console.error("Error fetching inventory stock data:", error);
+        alert(
+            error.response?.data?.message + "\n" + (error.response?.data?.error || "Unknown error")
+        );
+    }
 }
+
 
 export async function Inventory_FinalProduct_getDoc(id: string) {
     const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
