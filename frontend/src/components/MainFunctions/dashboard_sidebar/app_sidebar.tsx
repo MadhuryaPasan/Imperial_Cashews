@@ -117,6 +117,33 @@ const app_sidebar = () => {
       },
     ];
   }
+  else if ("Quality Control" === workspace){
+    value = [
+      {
+        title: "Quality End Product Check",
+        url: "quality_end_product_check_Table",
+        icon: Book,
+      },
+      {
+        title: "ISO SLS Standards", 
+        url: "quality_iso_sls_check_Table",
+        icon: Book,
+      },
+      {
+        title: "Quality Raw Material",
+        url: "quality_raw_material_check_Table",
+        icon: Book,
+      },
+
+      {
+        title: "Sencer Check",
+        url: "quality_sencer_check_Table",
+        icon: Book,
+      }
+      
+
+    ];
+  }
   
   else {
     value = [{ title: "No data", url: null, icon: FileWarningIcon }];

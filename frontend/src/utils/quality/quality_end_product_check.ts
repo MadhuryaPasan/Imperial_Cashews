@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/quality_raw_material_check";
+const URL_COLLECTION = "/quality_end_product_check";
 
 export async function quality_end_product_check_getAllData() {
 
