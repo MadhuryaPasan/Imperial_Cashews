@@ -46,13 +46,33 @@ router.route("/Sales_Order").post(async (req, res) => {
   let mongoObject = {
     order_id: req.body.order_id,
     customer_id: req.body.customer_id,
-    order_date: req.body.order_date,
+    order_date: new Date(new Date().toISOString()),
     status: req.body.status,
-    total_price: req.body.total_price,
+    total_price: parseFloat(req.body.total_price),
   };
   let data = await db.collection("Sales_Order").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
+});
+
+
+router.route("/Sales_Order/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      customer_id: req.body.customer_id,
+      status: req.body.status,
+      total_price: parseFloat(req.body.total_price),
+    },
+  };
+
+  let data = await db
+    .collection("Sales_Order")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
 });
 
 export default router;

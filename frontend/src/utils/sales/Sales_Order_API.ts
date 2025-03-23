@@ -38,3 +38,13 @@ export async function createNew_Sales_Order(data:any){
     return response;
 }
 
+export async function Sales_Order_updateDoc(id:string,data:any){
+    const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
+    alert("Document updated successfully");
+    return response;
+}
+
+export async function Sales_Order_getDoc(id:string){
+    const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
+    return response.data;
+}
