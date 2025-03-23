@@ -47,45 +47,69 @@ router.route("/Inventory_FinalProduct/:id").delete(async (req, res) => {
 });
 
 //insert data
-router.route("/Inventory_FinalProduct").post(async (req, res) => {
-  let db = DB.getDB();
-  let mongoObject = {
-    /*1*/ category: req.body.category,
-    /*2*/ weight: req.body.weight,
-    /*3*/ manufacturerDate:  new Date(manufacturerDate).toISOString(),
-    /*4*/  ExpireDate : new Date(getDate.toISOString()),
-    /*5*/   PackageCount: req.body.PackageCount,                    
-    /*6*/  sellprice: parseFloat(req.body.sellprice),
-
-  };
-  let data = await db.collection("Inventory_FinalProduct").insertOne(mongoObject);
-  res.json(data);
-  console.log("Data inserted successfully");
-});
-//Update data
-router.route("/Inventory_FinalProduct/:id").put(async (req, res) => {
-  let db = DB.getDB();
+//insert data 
+router.route("/Inventory_FinalProduct").post(async (req, res) => {   
+  let db = DB.getDB();   
   
+  // Parse dates from request body
+  const manufacturerDate = new Date(req.body.manufacturerDate);   
+  const ExpireDate = new Date(req.body.ExpireDate);    
+  
+  // Format dates as YYYY.MM.DD
+  const formattedManufacturerDate = formatDateWithDots(manufacturerDate);
+  const formattedExpireDate = formatDateWithDots(ExpireDate);
+  
+  let mongoObject = {     
+    /*1*/ category: req.body.category,     
+    /*2*/ weight: req.body.weight,     
+    /*3*/ manufacturerDate: formattedManufacturerDate,     
+    /*4*/ ExpireDate: formattedExpireDate,     
+    /*5*/ PackageCount: req.body.PackageCount,                         
+    /*6*/ sellprice: parseFloat(req.body.sellprice),    
+  };    
+  
+  let data = await db.collection("Inventory_FinalProduct").insertOne(mongoObject);   
+  res.json(data);   
+  console.log("Data inserted successfully"); 
+}); 
 
-  let mongoObject = {
-    $set: {
-       /*1*/ category: req.body.category,
-    /*2*/ weight: req.body.weight,
-    /*3*/ manufacturerDate:  new Date(manufacturerDate.toISOString()),
-    /*4*/  ExpireDate : new Date(getDate.toISOString()),
-    /*5*/   PackageCount: req.body.PackageCount,                    
-    /*6*/  sellprice: parseFloat(req.body.sellprice),
-
-    },
-  };
-
+//Update data  
+router.route("/Inventory_FinalProduct/:id").put(async (req, res) => {   
+  let db = DB.getDB();      
+  
+  // Parse dates from request body
+  const manufacturerDate = new Date(req.body.manufacturerDate);   
+  const ExpireDate = new Date(req.body.ExpireDate);      
+  
+  // Format dates as YYYY.MM.DD
+  const formattedManufacturerDate = formatDateWithDots(manufacturerDate);
+  const formattedExpireDate = formatDateWithDots(ExpireDate);
+  
+  let mongoObject = {     
+    /*1*/ category: req.body.category,     
+    /*2*/ weight: req.body.weight,     
+    /*3*/ manufacturerDate: formattedManufacturerDate,     
+    /*4*/ ExpireDate: formattedExpireDate,     
+    /*5*/ PackageCount: req.body.PackageCount,     
+    /*6*/ sellprice: parseFloat(req.body.sellprice),   
+  };      
+  
+  // Add $set operator to fix the MongoDB error
   let data = await db
     .collection("Inventory_FinalProduct")
-    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
-  res.json(data);
-  console.log("Data updated successfully");
+    .updateOne({ _id: new ObjectId(req.params.id) }, { $set: mongoObject });
+    
+  res.json(data);   
+  console.log("Data updated successfully"); 
 });
 
+// Helper function to format dates as YYYY.MM.DD
+function formatDateWithDots(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+}
 export default router;
 
 /*

@@ -48,10 +48,10 @@ const Inventory_FinalProduct_insert = () => {
           className={` ${
             errors.category ||
             errors.weight ||
-            errors.sellprice ||
-            errors.manufacturerDate ||
-            errors.ExpireDate ||
-            errors.PackageCount 
+            errors.manufacturerDate  ||
+            errors.ExpireDate||
+            errors.PackageCount ||
+            errors.sellprice 
               ? "bg-destructive/5 outline-1 outline-destructive"
               : ""
           } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}

@@ -43,54 +43,79 @@ router.route("/Inventory_Material/:id").delete(async (req, res) => {
   console.log("Data deleted successfully");
 });
 
-//insert data
-router.route("/Inventory_Material").post(async (req, res) => {
-  let db = DB.getDB();
-  const expireDate = new Date(req.body.expireDate);
-
-  let mongoObject = {
-    
-    /*1*/ sellerName:req.body.sellerName,
-    /*2*/  buyerName: req.body.buyerName,
-    /*3*/  materialName: req.body.materialName,
-    /*4*/  quantity: req.body.quantity,
-    /*5*/   getprice: parseFloat(req.body.price),
-    /*6*/ inventoryLocation: req.body.inventoryLocation,
-    /*7*/ getDate: new Date(getDate.toISOString()),
-  
-    
-
-  };
-  let data = await db.collection("Inventory_Material").insertOne(mongoObject);
-  res.json(data);
-  console.log("Data inserted successfully");
-});
-
-//update data
-
-router.route("/Inventory_Material/:id").put(async (req, res) => {
+//insert data 
+router.route("/Inventory_Material").post(async (req, res) => {   
   let db = DB.getDB();
   
+  try {
+    // Create a new date object from the request body
+    const dateObj = new Date(req.body.getdate);
+    
+    // Format date as YYYY.MM.DD
+    const formattedDate = formatDateWithDots(dateObj);
+    
+    let mongoObject = {          
+      /*1*/ sellerName: req.body.sellerName,     
+      /*2*/ buyerName: req.body.buyerName,     
+      /*3*/ materialName: req.body.materialName,     
+      /*4*/ quantity: req.body.quantity,     
+      /*5*/ getprice: parseFloat(req.body.price),     
+      /*6*/ inventoryLocation: req.body.inventoryLocation,     
+      /*7*/ getDate: formattedDate,            
+    };   
+    
+    let data = await db.collection("Inventory_Material").insertOne(mongoObject);   
+    res.json(data);   
+    console.log("Data inserted successfully");
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    res.status(500).json({ error: error.message });
+  }
+});  
 
-  let mongoObject = {
-    $set: {
-   /*1*/ sellerName:req.body.sellerName,
-    /*2*/  buyerName: req.body.buyerName,
-    /*3*/  materialName: req.body.materialName,
-    /*4*/  quantity: req.body.quantity,
-    /*5*/   getprice: parseFloat(req.body.price),
-    /*6*/ inventoryLocation: req.body.inventoryLocation,
-    /*7*/ getDate: new Date(getDate.toISOString()),
+//update data  
+router.route("/Inventory_Material/:id").put(async (req, res) => {   
+  let db = DB.getDB();
+  
+  try {
+    // Create a new date object from the request body
+    const dateObj = new Date(req.body.getdate);
+    
+    // Format date as YYYY.MM.DD
+    const formattedDate = formatDateWithDots(dateObj);
+    
+    // MongoDB requires $set for updates
+    let mongoObject = {
+      $set: {    
+        /*1*/ sellerName: req.body.sellerName,     
+        /*2*/ buyerName: req.body.buyerName,     
+        /*3*/ materialName: req.body.materialName,     
+        /*4*/ quantity: req.body.quantity,     
+        /*5*/ getprice: parseFloat(req.body.price),     
+        /*6*/ inventoryLocation: req.body.inventoryLocation,     
+        /*7*/ getDate: formattedDate,      
+      },   
+    };    
+    
+    let data = await db
+      .collection("Inventory_Material")
+      .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+      
+    res.json(data);   
+    console.log("Data updated successfully");
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: error.message });
+  }
+}); 
 
-    },
-  };
-
-  let data = await db
-    .collection("Inventory_Material")
-    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
-  res.json(data);
-  console.log("Data updated successfully");
-});
+// Helper function to format dates as YYYY.MM.DD
+function formatDateWithDots(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+}
 export default router;
 
 //Inventory_Material

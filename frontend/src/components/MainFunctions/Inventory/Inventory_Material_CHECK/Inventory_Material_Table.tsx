@@ -67,7 +67,7 @@ const table = ({ selectedMonth }: any) => {
     { name: "Material Name" },
     { name: "Quantity" },
     { name: "Get Price" },
-    { name: "Inventory Locaation" },
+    { name: "Inventory Location" },
     { name: "Get Date" },
 
   ];
@@ -112,7 +112,7 @@ const table = ({ selectedMonth }: any) => {
                           day: "numeric",
                         }
                       )
-                      : "N/A"}</TableCell>
+                      : ""}</TableCell>
                     <TableCell>{rowData.sellerName}</TableCell>
                     <TableCell>{rowData.buyerName}</TableCell>
                     <TableCell>{rowData.materialName}</TableCell>
