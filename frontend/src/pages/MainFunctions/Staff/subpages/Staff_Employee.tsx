@@ -7,7 +7,7 @@ const Staff_Employee = () => {
     <> 
     <div>Staff_Employee</div>
     <Staff_Employee_Table/>
-    <Staff_Employee_Update/> 
+    {/* <Staff_Employee_Update/>  */}
     </>
    
   )

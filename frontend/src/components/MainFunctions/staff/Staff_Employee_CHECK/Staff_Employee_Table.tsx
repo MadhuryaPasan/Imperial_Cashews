@@ -112,7 +112,7 @@ const table = ({ selectedMonth }: any) => {
 
 
                     {/* show current month only */}
-                    {rowData.month !== currentMonth ? (
+                    {/* {rowData.month !== currentMonth ? ( */}
                       <div>
                         {/* Update */}
                         {UpdateBtn(rowData._id)}
@@ -120,11 +120,11 @@ const table = ({ selectedMonth }: any) => {
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
                       </div>
-                    ) : (
+                    {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
             </TableBody>
