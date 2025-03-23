@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient,ServerApiVersion } from 'mongodb';
 
 dotenv.config(); // Load .env file
 
 const MONGO_URI = process.env.MONGO_URI || "";
 
-// Create a new MongoClient instance
+
+// Create a new MongoClient
 const CLIENT = new MongoClient(MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -14,19 +15,13 @@ const CLIENT = new MongoClient(MONGO_URI, {
   },
 });
 
-// Variable to store the database connection
+
 let DB;
 
-const connectToServer = async () => {
-  try {
-    await CLIENT.connect();  // Establish connection with MongoDB
-    DB = CLIENT.db("ImperialCashewsDB");  // Set the database (replace with your DB name)
-    console.log("Successfully connected to MongoDB");
-  } catch (error) {
-    console.error("Failed to connect to MongoDB:", error);
-  }
-};
+const connectToServer = ()=>{
+    DB=CLIENT.db("ImperialCashewsDB"); //database name
+}
 
-const getDB = () => DB;  // Return the DB connection
+const getDB = ()=>DB; //
 
-export default { connectToServer, getDB };
+export default {connectToServer,getDB};
