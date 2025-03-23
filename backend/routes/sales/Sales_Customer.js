@@ -50,14 +50,40 @@ router.route("/Sales_Customer").post(async (req, res) => {
     email: req.body.email,
     customer_id: req.body.customer_id,
     address: req.body.address,
-    created_date: req.body.crated_date,
-    orders_count: req.body.orders_count,
-    total_spent: req.body.total_spent,
+    created_date: new Date(new Date().toISOString()),
+    orders_count: parseInt(req.body.orders_count),
+    total_spent: parseFloat(req.body.total_spent),
   };
   let data = await db.collection("Sales_Customer").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
+
+
+// update
+router.route("/Sales_Customer/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+   name: req.body.name,
+    contact_number: req.body.contact_number,
+    email: req.body.email,
+    customer_id: req.body.customer_id,
+    address: req.body.address,
+    orders_count: parseInt(req.body.orders_count),
+    total_spent: parseFloat(req.body.total_spent),
+    },
+  };
+
+  let data = await db
+    .collection("Sales_Customer")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
+});
+
 
 export default router;
 

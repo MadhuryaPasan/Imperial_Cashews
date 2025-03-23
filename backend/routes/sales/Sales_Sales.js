@@ -46,16 +46,39 @@ router.route("/Sales_Sales").post(async (req, res) => {
   let mongoObject = {
     sales_id: req.body.sales_id,
     customer_id: req.body.customer_id,
-    sales_date: req.body.sales_date,
+    sales_date: new Date(new Date().toISOString()),
     payment_status: req.body.payment_status,
     sales_status: req.body.sales_status,
-    total_amount: req.body.total_amount,
-    unit_price: req.body.unit_price,
-    quantity: req.body.quantity,
+    total_amount: parseFloat(req.body.total_amount),
+    unit_price: parseFloat(req.body.unit_price),
+    quantity: parseInt(req.body.quantity),
   };
   let data = await db.collection("Sales_Sales").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
+});
+
+router.route("/Sales_Sales/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      sales_id: req.body.sales_id,
+      customer_id: req.body.customer_id,
+      payment_status: req.body.payment_status,
+      sales_status: req.body.sales_status,
+      total_amount: parseFloat(req.body.total_amount),
+      unit_price: parseFloat(req.body.unit_price),
+      quantity: parseInt(req.body.quantity),
+    },
+  };
+
+  let data = await db
+    .collection("Sales_Sales")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
 });
 
 export default router;

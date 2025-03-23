@@ -42,123 +42,92 @@ import {
   Sheet,
   SquareArrowLeftIcon,
 } from "lucide-react";
+import { useState } from "react";
+
+
+
 
 
 const app_sidebar = () => {
-  let userPosition = "finance";
   let value;
 
-  if (userPosition === "finance") {
+  // workpace options
+  const workspaceOptions = [
+    { title: "Finance" },
+    { title: "Sales" },
+    { title: "Quality Control" },
+    { title: "inventory" },
+    { title: "staff" },
+  ];
+
+  // workspace options set
+  const [workspace, setWorkspace] = useState("Finance");
+
+  if ("Finance" === workspace) {
     value = [
       {
-        title: "Home",
-        url: "#",
-        icon: Home,
-      },
-      {
         title: "Bank Books",
-        url: "#",
+        url: "testbankbooks",
         icon: Book,
-        submenus: [
-          {
-            title: "create",
-            url: "#",
-          },
-          {
-            title: "read",
-            url: "#",
-          },
-          {
-            title: "update",
-            url: "#",
-          },
-        ],
       },
       {
         title: "Balance Sheet",
-        url: "#",
+        url: "Finance_BalanceSheet_Table",
         icon: Sheet,
-        submenus: [
-          {
-            title: "create",
-            url: "#",
-          },
-          {
-            title: "read",
-            url: "#",
-          },
-          {
-            title: "update",
-            url: "#",
-          },
-        ],
       },
       {
         title: "Petty Cash",
-        url: "#",
+        url: "Finance_PettyCash_Table",
         icon: Coins,
-        submenus: [
-          {
-            title: "create",
-            url: "#",
-          },
-          {
-            title: "read",
-            url: "#",
-          },
-          {
-            title: "update",
-            url: "#",
-          },
-        ],
       },
       {
         title: "profit and Loss",
         url: "#",
         icon: ChartAreaIcon,
-        submenus: [
-          {
-            title: "create",
-            url: "#",
-          },
-          {
-            title: "read",
-            url: "#",
-          },
-          {
-            title: "update",
-            url: "#",
-          },
-        ],
+      },
+    ];
+  } 
+  
+  else if ("Sales" === workspace){
+    value = [
+      {
+        title: "Customer",
+        url: "Sales_Customer_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Order",
+        url: "Sales_Order_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Payments",
+        url: "Sales_Payment_table",
+        icon: Book,
+      },
+      {
+        title: "Sales Products",
+        url: "Sales_Products_table",
+        icon: Book,
+      },
+      {
+        title: "Sales",
+        url: "Sales_Sales_table",
+        icon: Book,
       },
     ];
   }
-
-  else{
-    value = [{title: "No data", url: null, icon: FileWarningIcon}]
+  
+  else {
+    value = [{ title: "No data", url: null, icon: FileWarningIcon }];
   }
 
-  // let value;
-  // switch (userPosition) {
-  //   case "finance":
-  //     value = "finance";
-  //     break;
-  //   case "Quality":
-  //     value = "quality";
-  //     break;
-  //   case "Sales":
-  //     value = "sales";
-  //     break;
-  //   case "staff":
-  //     value = "staff";
-  //     break;
-  //   case "inventory":
-  //     value = "inventory";
-  //     break;
-  //   default:
-  //     value = null;
-  // }
-  // console.log(value);
+
+
+  // session
+  const [active, setActive] = useState("test");
+
+  localStorage.setItem("sidebarToken", active);
 
   return (
     <>
@@ -175,13 +144,12 @@ const app_sidebar = () => {
                     <ChevronDown className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-                  <DropdownMenuItem>
-                    <span>Acme Inc</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Acme Corp.</span>
-                  </DropdownMenuItem>
+                <DropdownMenuContent className="w-56"> 
+                  {workspaceOptions.map((item: any) => (
+                    <DropdownMenuItem onClick={() => setWorkspace(item.title)}>
+                      <span>{item.title}</span>
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
@@ -196,7 +164,7 @@ const app_sidebar = () => {
                   <SidebarMenuItem key={index}>
                     <SidebarMenuButton
                       className="hover:text-primary cursor-pointer"
-                      onClick={() => console.log(item.title)}
+                      onClick={() => setActive(item.url)}
                     >
                       <item.icon />
                       <span>{item.title}</span>
@@ -229,3 +197,23 @@ const app_sidebar = () => {
 };
 
 export default app_sidebar;
+
+// {
+//   title: "Balance Sheet",
+//   url: "#",
+//   icon: Sheet,
+//   submenus: [
+//     {
+//       title: "create",
+//       url: "#",
+//     },
+//     {
+//       title: "read",
+//       url: "#",
+//     },
+//     {
+//       title: "update",
+//       url: "#",
+//     },
+//   ],
+// },

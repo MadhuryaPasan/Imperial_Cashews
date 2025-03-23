@@ -7,14 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import Image1 from "@/assets/carosousel/scsd.png";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import Image1 from "@/assets/NoImage.jpg"
 
 const productCard: React.FC<any> = (product) => {
+
   return (
     <>
-      <Link to={`/shop/${product?.id}`}>
+      <Link to={`/shop/product/${product?.id}`}>
         <Card className=" w-[100%] sm:w-[100%] gap-3">
           <div className="h-[100%] mx-2 relative">
             {product?.stock_quantity === 0 ? (

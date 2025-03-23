@@ -35,7 +35,7 @@ import Logo from "@/components/layouts/Logo";
 const navbar = () => {
   return (
     <>
-      <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700  backdrop-blur-sm">
+      <div className="shadow-lg py-2 px-5 z-10 sticky top-0 animate-in slide-in-from-top ease-in-out duration-700 bg-white/80 backdrop-blur-sm">
         <div className="flex justify-between items-center">
           <div className="h-[50px]">
             <Logo />
@@ -58,21 +58,9 @@ export default navbar;
 
 const categories = [
   {
-    name: "Raw Cashews",
-    description: "Raw cashews are cashews that are not roasted or salted.",
-  },
-  {
-    name: "Roasted Cashews",
-    description: "Roasted cashews are cashews that are roasted but not salted.",
-  },
-  {
-    name: "Salted Cashews",
-    description: "Salted cashews are cashews that are roasted and salted.",
-  },
-  {
-    name: "Unsalted Cashews",
-    description:
-      "Unsalted cashews are cashews that are roasted but not salted.",
+    name: "All",
+    description: "All cashew products",
+    link: "/shop",
   },
 ];
 
@@ -91,21 +79,23 @@ const navbarMenu = () => {
           </NavigationMenuItem>
           {/* Shop */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="font-medium  p-0">
+            <NavigationMenuTrigger className="font-medium  p-0 bg-transparent hover:bg-transparent ">
               <div className="hover:text-primary">Shop</div>
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
+            <NavigationMenuContent  >
               {categories.map((category, index) => (
-                <NavigationMenuLink
-                  className="w-[350px] my-3 p-4 hover:shadow-lg hover:bg-primary/10  hover:outline-1  outline-primary/50 "
-                  key={index}
-                >
-                  <div className="font-medium ">{category.name}</div>
-
-                  <p className=" font-normal opacity-50">
-                    {category.description}
-                  </p>
-                </NavigationMenuLink>
+                <Link to="/shop">
+                  <NavigationMenuLink
+                    className="w-[350px] my-3 p-4 hover:shadow-lg hover:bg-primary/10  hover:outline-1  outline-primary/50 "
+                    key={index}
+                  >
+                    <div className="font-medium ">{category.name}</div>
+                  
+                    <p className=" font-normal opacity-50">
+                      {category.description}
+                    </p>
+                  </NavigationMenuLink>
+                </Link>
               ))}
             </NavigationMenuContent>
           </NavigationMenuItem>
@@ -184,6 +174,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
+import { link } from "fs";
 
 // user options
 const navbarUserOptions = () => {
