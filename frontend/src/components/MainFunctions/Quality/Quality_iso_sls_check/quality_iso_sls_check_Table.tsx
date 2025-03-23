@@ -41,7 +41,7 @@ const table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await quality_iso_sls_check_getAllData();
+      let result = await quality_iso_sls_check_getAllData(null); // Pass a default value like null or appropriate argument
       setRows(result);
     }
     getAll();

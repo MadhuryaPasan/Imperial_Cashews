@@ -5,7 +5,7 @@ import axios from 'axios';
 const URL = "http://localhost:5000";
 const URL_COLLECTION = "/quality_iso_sls_check";
 
-export async function quality_iso_sls_check_getAllData() {
+export async function quality_iso_sls_check_getAllData(updateId: any) {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);

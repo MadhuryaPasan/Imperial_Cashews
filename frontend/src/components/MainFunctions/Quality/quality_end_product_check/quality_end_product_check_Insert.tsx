@@ -66,7 +66,7 @@ const quality_end_product_check_Insert = () => {
     <>
       <div>
         <form onSubmit={handleSubmit(CreateDoc)}>
-          <Card className={`md:w-[50vw] p-[25px] lg:w-[30vw] ${
+          <Card className={`${
             Object.keys(errors).length > 0
               ? "bg-destructive/5 outline-1 outline-destructive"
               : null

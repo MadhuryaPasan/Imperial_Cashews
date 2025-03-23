@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const quality_end_product_check_Update:React.FC<any> = (currentData) => {
+const quality_end_product_check_Update: React.FC<any> = (currentData) => {
   // Get current timestamp
   const currentTimestamp = new Date();
 
@@ -57,17 +57,22 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
     setValue("approved", checked);
   };
 
+  // Form submission handler
+  const onSubmit = (data: any) => {
+    UpdateDoc(data);
+  };
+
   return (
     <>
       <div>
-        <form>
-          <Card className={`md:w-[50vw] p-[25px] lg:w-[30vw] ${
-            Object.keys(errors).length > 0
-              ? "bg-destructive/5 outline-1 outline-destructive"
-              : null
-          } ${
-            isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : null
-          }`}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Card
+            className={`{
+              Object.keys(errors).length > 0
+                ? "bg-destructive/5 outline-1 outline-destructive"
+                : ""
+            } ${isSubmitSuccessful ? "bg-primary/10 outline-1 outline-primary" : ""}`}
+          >
             <CardHeader>
               <CardTitle>Quality Control Check</CardTitle>
               <CardDescription>Enter product quality check details</CardDescription>
@@ -83,7 +88,7 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
                     required: "Batch ID is required",
                     pattern: {
                       value: /^[A-Za-z0-9-_]+$/i,
-                      message: "Only alphanumeric characters, hyphens and underscores",
+                      message: "Only alphanumeric characters, hyphens, and underscores",
                     },
                   })}
                 />
@@ -97,9 +102,10 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
               {/* Product Grade */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="product_grade">Product Grade</Label>
-                <Select 
-                  defaultValue="Standard" 
+                <Select
+                  defaultValue="Standard"
                   onValueChange={(value) => setValue("product_grade", value)}
+                  {...register("product_grade", { required: "Product grade is required" })}
                 >
                   <SelectTrigger id="product_grade">
                     <SelectValue placeholder="Select product grade" />
@@ -110,12 +116,6 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
                     <SelectItem value="Economy">Economy</SelectItem>
                   </SelectContent>
                 </Select>
-                <input
-                  type="hidden"
-                  {...register("product_grade", {
-                    required: "Product grade is required",
-                  })}
-                />
                 {errors.product_grade && (
                   <span className="text-destructive text-sm">
                     {errors.product_grade.message}
@@ -126,9 +126,10 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
               {/* Color Uniformity */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="color_uniformity">Color Uniformity</Label>
-                <Select 
-                  defaultValue="Good" 
+                <Select
+                  defaultValue="Good"
                   onValueChange={(value) => setValue("color_uniformity", value)}
+                  {...register("color_uniformity", { required: "Color uniformity is required" })}
                 >
                   <SelectTrigger id="color_uniformity">
                     <SelectValue placeholder="Select color uniformity" />
@@ -140,12 +141,6 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
                     <SelectItem value="Poor">Poor</SelectItem>
                   </SelectContent>
                 </Select>
-                <input
-                  type="hidden"
-                  {...register("color_uniformity", {
-                    required: "Color uniformity is required",
-                  })}
-                />
                 {errors.color_uniformity && (
                   <span className="text-destructive text-sm">
                     {errors.color_uniformity.message}
@@ -156,9 +151,10 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
               {/* Taste Test */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="taste_test">Taste Test</Label>
-                <Select 
-                  defaultValue="Passed" 
+                <Select
+                  defaultValue="Passed"
                   onValueChange={(value) => setValue("taste_test", value)}
+                  {...register("taste_test", { required: "Taste test result is required" })}
                 >
                   <SelectTrigger id="taste_test">
                     <SelectValue placeholder="Select taste test result" />
@@ -168,12 +164,6 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
                     <SelectItem value="Failed">Failed</SelectItem>
                   </SelectContent>
                 </Select>
-                <input
-                  type="hidden"
-                  {...register("taste_test", {
-                    required: "Taste test result is required",
-                  })}
-                />
                 {errors.taste_test && (
                   <span className="text-destructive text-sm">
                     {errors.taste_test.message}
@@ -184,9 +174,10 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
               {/* Packaging Integrity */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="packaging_integrity">Packaging Integrity</Label>
-                <Select 
-                  defaultValue="Good" 
+                <Select
+                  defaultValue="Good"
                   onValueChange={(value) => setValue("packaging_integrity", value)}
+                  {...register("packaging_integrity", { required: "Packaging integrity is required" })}
                 >
                   <SelectTrigger id="packaging_integrity">
                     <SelectValue placeholder="Select packaging integrity" />
@@ -198,12 +189,6 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
                     <SelectItem value="Poor">Poor</SelectItem>
                   </SelectContent>
                 </Select>
-                <input
-                  type="hidden"
-                  {...register("packaging_integrity", {
-                    required: "Packaging integrity is required",
-                  })}
-                />
                 {errors.packaging_integrity && (
                   <span className="text-destructive text-sm">
                     {errors.packaging_integrity.message}
@@ -238,27 +223,28 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
 
               {/* Approved */}
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="approved" 
+                <Checkbox
+                  id="approved"
                   checked={approvedValue}
                   onCheckedChange={handleApprovedChange}
                 />
                 <Label htmlFor="approved">Approve Quality Check</Label>
-                <input
-                  type="hidden"
-                  {...register("approved")}
-                />
+                <input type="hidden" {...register("approved")} />
               </div>
 
               {/* Timestamp - Hidden field */}
-              <input
-                type="hidden"
-                {...register("timestamp")}
-              />
+              <input type="hidden" {...register("timestamp")} />
             </CardContent>
 
             <CardFooter>
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className={`w-full ${
+                  Object.keys(errors).length > 0
+                    ? "bg-destructive/10 border-2 border-destructive"
+                    : ""
+                }`}
+              >
                 {isSubmitSuccessful ? "Submitted" : "Submit Quality Check"}
               </Button>
             </CardFooter>
@@ -270,6 +256,3 @@ const quality_end_product_check_Update:React.FC<any> = (currentData) => {
 };
 
 export default quality_end_product_check_Update;
-
-
-
