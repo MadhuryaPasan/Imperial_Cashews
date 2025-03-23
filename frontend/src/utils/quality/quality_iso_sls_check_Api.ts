@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/quality_raw_material_check";
+const URL_COLLECTION = "/quality_iso_sls_check";
 
-export async function quality_end_product_check_getAllData() {
+export async function quality_iso_sls_check_getAllData() {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
@@ -22,18 +22,18 @@ export async function quality_end_product_check_getAllData() {
 }
 
 
-export async function quality_end_product_check_getDoc(id:string){
+export async function quality_iso_sls_check_getDoc(id:string){
     const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
     return response.data;
 }
 
-export async function quality_end_product_check_deleteDoc(id:string){
+export async function quality_iso_sls_check_deleteDoc(id:string){
     const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
     alert("Document deleted successfully");
     return response;
 }
 
-export async function quality_end_product_check_createNew(data:any){
+export async function quality_iso_sls_check_createNew(data:any){
     // console.log(data);
     const response = await axios.post(`${URL}${URL_COLLECTION}`,data);
     // alert("Document added successfully");
@@ -43,7 +43,7 @@ export async function quality_end_product_check_createNew(data:any){
 }
 
 
-export async function quality_end_product_check_updateDoc(id:string,data:any){
+export async function quality_iso_sls_check_updateDoc(id:string,data:any){
     const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
     console.log("hello api");
     alert("Document updated successfully");
