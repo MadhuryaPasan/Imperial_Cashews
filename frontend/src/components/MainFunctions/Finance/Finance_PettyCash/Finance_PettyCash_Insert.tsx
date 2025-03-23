@@ -145,7 +145,7 @@ const Finance_PettyCash_Insert = () => {
                       message: "Amount should be at most 1000000",
                     },
                     pattern: {
-                      value: /^[0-9]+$/i,
+                      value: /^[0-9.]+$/i,
                       message: "Only numbers",
                     },
                   })}

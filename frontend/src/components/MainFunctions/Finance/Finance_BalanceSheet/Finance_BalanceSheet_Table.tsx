@@ -30,7 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
+const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
   // grt current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
@@ -41,7 +41,7 @@ const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
   // get data from api
   useEffect(() => {
     async function getAll() {
-      let result = await Finance_PettyCash_getAllData();
+      let result = await Finance_BalanceSheet_getAllData();
       setRows(result);
     }
     getAll();
@@ -49,12 +49,21 @@ const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
 
   // table rows
   const columns = [
-    { name: "Transaction Date" },
-    { name: "Transaction Type" },
+    { name: "Date" },
+    { name: "Current Month" },
     { name: "Description" },
-    { name: "Amount" },
-    { name: "Month" },
-    { name: "Current Balance" },
+    
+    { name: "Bank Balance" },
+    { name: "Inventory Value" },
+    { name: "Account Receivable" },
+    { name: "Equipment Machinery" },
+
+    { name: "Accounts Payable" },
+    { name: "Loan Payable" },
+    { name: "Taxes Payable" },
+    
+    { name: "Owners Capital" },
+    { name: "Retained Earnings" },
   ];
 
   return (
@@ -87,8 +96,8 @@ const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
                 .map((rowsData: any) => (
                   <TableRow key={rowsData._id} className="hover:bg-primary/10">
                     <TableCell>
-                      {rowsData.transaction_date
-                        ? new Date(rowsData.transaction_date).toLocaleString(
+                      {rowsData.date
+                        ? new Date(rowsData.date).toLocaleString(
                             "en-US",
                             {
                               year: "numeric",
@@ -98,11 +107,20 @@ const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
                           )
                         : "N/A"}
                     </TableCell>
-                    <TableCell>{rowsData.transaction_type}</TableCell>
-                    <TableCell>{rowsData.description}</TableCell>
-                    <TableCell>{rowsData.amount}</TableCell>
-                    <TableCell>{rowsData.month}</TableCell>
-                    <TableCell>{rowsData.current_balance}</TableCell>
+                    <TableCell>{rowsData.month }</TableCell>
+                    <TableCell>{rowsData.description }</TableCell>
+
+                    <TableCell>{rowsData.Bank_Balance}</TableCell>
+                    <TableCell>{rowsData.Inventory_Value}</TableCell>
+                    <TableCell>{rowsData.Account_Receivable}</TableCell>
+                    <TableCell>{rowsData.Equipment_Machinery}</TableCell>
+
+                    <TableCell>{rowsData.Accounts_Payable}</TableCell>
+                    <TableCell>{rowsData.Loan_Payable}</TableCell>
+                    <TableCell>{rowsData.Taxes_Payable}</TableCell>
+
+                    <TableCell>{rowsData.Owners_Capital}</TableCell>
+                    <TableCell>{rowsData.Retained_Earnings}</TableCell>
         
                     {/* show current month only */}
                     {rowsData.month === currentMonth ? (
@@ -128,7 +146,7 @@ const Finance_PettyCash_Table = ({ selectedMonth }: any) => {
   );
 };
 
-export default Finance_PettyCash_Table;
+export default Finance_BalanceSheet_Table;
 
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -138,7 +156,7 @@ import {
   Finance_PettyCash_getDoc,
 } from "@/utils/Finance/Finance_PettyCash_API";
 
-import Finance_PettyCash_update from "./Finance_PettyCash_update";
+// import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
 const UpdateBtn = (updateId: any) => {
 
@@ -155,7 +173,7 @@ const UpdateBtn = (updateId: any) => {
         <DialogContent>
           <div>
             {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
-            <Finance_PettyCash_update currentData={updateId}/>
+            {/* <Finance_PettyCash_update currentData={updateId}/> */}
           </div>
         </DialogContent>
       </Dialog>
@@ -217,7 +235,8 @@ const deleteBtn = (deleteId: any) => {
   );
 };
 
-import Finance_PettyCash_Insert from "@/components/MainFunctions/Finance/Finance_PettyCash/Finance_PettyCash_Insert";
+import Finance_BalanceSheet_Insert from "./Finance_BalanceSheet_Insert";
+import { Finance_BalanceSheet_getAllData } from "@/utils/Finance/Finance_BalanceSheet_API";
 const insertBtn = () => {
   return (
     <>
@@ -225,8 +244,8 @@ const insertBtn = () => {
         <DialogTrigger>
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
-        <DialogContent>
-          <Finance_PettyCash_Insert />
+        <DialogContent >
+          <Finance_BalanceSheet_Insert />
         </DialogContent>
       </Dialog>
     </>

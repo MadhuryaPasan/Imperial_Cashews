@@ -126,12 +126,7 @@ const signin = () => {
               {/* footer */}
               <CardFooter className="flex flex-col gap-3">
                 <div className="w-full ">
-                  {/* <Button
-                      variant="outline"
-                      className=" border-1 border-primary cursor-pointer"
-                    >
-                      Cancel
-                    </Button> */}
+
                   <Button
                     className={`cursor-pointer w-full ${
                       errors.password || errors.email
