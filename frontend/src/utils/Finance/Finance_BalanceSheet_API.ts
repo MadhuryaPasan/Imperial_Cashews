@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Finance_PettyCash";
+const URL_COLLECTION = "/Finance_BalanceSheet";
 
-export async function Finance_PettyCash_getAllData() {
+export async function Finance_BalanceSheet_getAllData() {
 
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
@@ -22,18 +22,18 @@ export async function Finance_PettyCash_getAllData() {
 }
 
 
-export async function Finance_PettyCash_getDoc(id:string){
+export async function Finance_BalanceSheet_getDoc(id:string){
     const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
     return response.data;
 }
 
-export async function Finance_PettyCash_deleteDoc(id:string){
+export async function Finance_BalanceSheet_deleteDoc(id:string){
     const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
     alert("Document deleted successfully");
     return response;
 }
 
-export async function Finance_PettyCash_createNew(data:any){
+export async function FFinance_BalanceSheet_createNew(data:any){
     // console.log(data);
     const response = await axios.post(`${URL}${URL_COLLECTION}`,data);
     // alert("Document added successfully");
@@ -43,7 +43,7 @@ export async function Finance_PettyCash_createNew(data:any){
 }
 
 
-export async function Finance_PettyCash_updateDoc(id:string,data:any){
+export async function Finance_BalanceSheet_updateDoc(id:string,data:any){
     const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`,data);
     alert("Document updated successfully");
     return response;
