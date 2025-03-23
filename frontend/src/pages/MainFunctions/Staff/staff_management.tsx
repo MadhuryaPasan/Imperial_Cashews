@@ -1,5 +1,5 @@
-import React from 'react'
 import Staff_Employee from './subpages/Staff_Employee'
+import Staff_salary from './subpages/Staff_salary'
 
 
 const staff_management = () => {
@@ -7,6 +7,7 @@ const staff_management = () => {
     <>
       <div>staff_management</div>
       <Staff_Employee/>
+      <Staff_salary/>
     </>
   )
 }
