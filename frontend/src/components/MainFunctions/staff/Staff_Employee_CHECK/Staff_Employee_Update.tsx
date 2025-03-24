@@ -96,6 +96,16 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={name}
                   {...register("name", {
                     required: "Name is required",
+
+                    minLength: {
+                      value: 5,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[A-Za-z.-_ ]+$/i,
+                      message: "Only letters",
+                    },
                   })}
                 />
                 {errors.name && (
@@ -112,6 +122,11 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={email}
                   {...register("email", {
                     required: "Email is required",
+
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+                      message: "Enter a valid email address",
+                    },
                   })}
                 />
                 {errors.email && (
@@ -128,6 +143,20 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={phoneNumber}
                   {...register("phoneNumber", {
                     required: "Phone number is required",
+
+                     
+                    pattern: {
+                      value: /^\+?[0-9]{10,15}$/,
+                      message: "Enter a valid phone number (10-15 digits, optional +)",
+                    },
+                    minLength: {
+                      value: 10,
+                      message: "Phone number must be at least 10 digits",
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: "Phone number must be at most 15 digits",
+                    },
                   })}
                 />
                 {errors.phoneNumber && (
@@ -144,6 +173,16 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={address}
                   {...register("address", {
                     required: "Address is required",
+
+                    minLength: {
+                      value: 5,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[A-Za-z.-_ ]+$/i,
+                      message: "Only letters",
+                    },
                   })}
                 />
                 {errors.address && (
@@ -160,6 +199,16 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={position}
                   {...register("position", {
                     required: "Position is required",
+
+                    minLength: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[A-Za-z.-_ ]+$/i,
+                      message: "Only letters",
+                    },
                   })}
                 />
                 {errors.position && (
@@ -176,6 +225,16 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
                 defaultValue={department}
                   {...register("department", {
                     required: "Department is required",
+
+                    minLength: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[A-Za-z.-_ ]+$/i,
+                      message: "Only letters",
+                    },
                   })}
                 />
                 {errors.department && (

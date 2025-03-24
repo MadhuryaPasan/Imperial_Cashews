@@ -14,12 +14,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import {Staff_Employee_getDoc,Staff_Employee_updateDoc } from "@/utils/staff/Staff_Employee_API";
+import {Staff_salary_getDoc,Staff_salary_updateDoc } from "@/utils/staff/Staff_salary_API";
 
 
 
 
-const Staff_Employee_Update: React.FC<any> = (currentData) => {
+const Staff_salary_Update: React.FC<any> = (currentData) => {
   // get current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
@@ -32,7 +32,7 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
   useEffect(() => {
     async function loadPost() {
       try {
-        let result = await Staff_Employee_getDoc(updateId);
+        let result = await Staff_salary_getDoc(updateId);
         if (result) {
           setData(result);
         }
@@ -46,7 +46,7 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
   //asign data to temp variable
 
   const UpdateDoc: SubmitHandler<any> = async (data) => {
-    await Staff_Employee_updateDoc(updateId, data);
+    await Staff_salary_updateDoc(updateId, data);
   };
 
   let basicSalary: number = data?.basicSalary;
@@ -54,9 +54,7 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
   let epf: number = data?.epf;
   let etf: number = data?.etf;
   let totalSalary: number = data?.totalSalary;
-  let month: string = data?.month;
-  let payDate: Date = data?.payDate;
-  
+ 
 
   const {
     register,
@@ -186,4 +184,4 @@ const Staff_Employee_Update: React.FC<any> = (currentData) => {
   );
 };
 
-export default Staff_Employee_Update;
+export default Staff_salary_Update;

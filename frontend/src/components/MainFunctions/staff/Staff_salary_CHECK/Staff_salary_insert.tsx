@@ -81,6 +81,16 @@ const Staff_salary_insert = () => {
                 <Input
                   {...register("basicSalary", {
                     required: "Name is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.basicSalary && (
@@ -96,6 +106,16 @@ const Staff_salary_insert = () => {
                 <Input
                   {...register("allowances", {
                     required: "Allowances is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+              
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.allowances && (
@@ -111,6 +131,16 @@ const Staff_salary_insert = () => {
                 <Input
                   {...register("epf", {
                     required: "Phone number is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+              
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.epf && (
@@ -126,6 +156,16 @@ const Staff_salary_insert = () => {
                 <Input
                   {...register("etf", {
                     required: "Address is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.etf && (
@@ -141,6 +181,16 @@ const Staff_salary_insert = () => {
                 <Input
                   {...register("totalSalary", {
                     required: "Total Salary is required",
+
+                    min: {
+                      value: 1,
+                      message: "Amount should be at least 1",
+                    },
+                   
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.totalSalary && (
@@ -171,8 +221,21 @@ const Staff_salary_insert = () => {
                <div className="flex flex-col space-y-1.5">
                 <Label>Pay Date</Label>
                 <Input
+                type="date"
                   {...register("payDate", {
                     required: "Pay Date is required",
+
+                    pattern: {
+                      value: /^\d{4}-\d{2}-\d{2}$/,
+                      message: "Date must be in YYYY-MM-DD format",
+                    },
+                    validate: () => {
+                      const selectedDate = new Date();
+                      const currentDate = new Date();
+                      return (
+                        selectedDate <= currentDate || "Pay Date cannot be in the future"
+                      );
+                    },
                   })}
                 />
                 {errors.payDate && (

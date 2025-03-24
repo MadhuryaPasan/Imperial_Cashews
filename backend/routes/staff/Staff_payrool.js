@@ -5,10 +5,10 @@ import { ObjectId } from "mongodb";
 let router = express.Router();
 
 //read data
-router.route("/Staff_Employee").get(async (req, res) => {
+router.route("/Staff_payroll").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Staff_Employee").find({}).toArray();
+    let result = await db.collection("Staff_payroll").find({}).toArray();
     res
       .status(200)
       .json({ message: "Data retrieved successfully", data: result });
@@ -24,60 +24,58 @@ router.route("/Staff_Employee").get(async (req, res) => {
 
 // read data single data
 
-router.route("/Staff_Employee/:id").get(async (req, res) => {
+router.route("/Staff_payroll/:id").get(async (req, res) => {
   let db = DB.getDB();
   let result = await db
-    .collection("Staff_Employee")
+    .collection("Staff_payroll")
     .findOne({ _id: new ObjectId(req.params.id) });
   res.json(result);
 });
 
 //delete data
-router.route("/Staff_Employee/:id").delete(async (req, res) => {
+router.route("/Staff_payroll/:id").delete(async (req, res) => {
   let db = DB.getDB();
   let data = await db
-    .collection("Staff_Employee")
+    .collection("Staff_payroll")
     .deleteOne({ _id: new ObjectId(req.params.id) });
   res.json(data);
   console.log("Data deleted successfully");
 });
 
 //insert data
-router.route("/Staff_Employee").post(async (req, res) => {
+router.route("/Staff_payroll").post(async (req, res) => {
   let db = DB.getDB();
   let mongoObject = {
-    name: req.body.name,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    address: req.body.address,
-    position: req.body.position,
-    department: req.body.department,
-    dateJoined: new Date(),
     month: req.body.month,
+    year: req.body.year,
+    totalAllowences: req.body.totalAllowences,
+    totalEPF: req.body.totalEPF,
+    totalETF: req.body.totalETF,
+    totalPayments: req.body.totalPayments,
   };
-  let data = await db.collection("Staff_Employee").insertOne(mongoObject);
+  let data = await db.collection("Staff_payroll").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
 });
 
 //update data
-router.route("/Staff_Employee/:id").put(async (req, res) => {
+router.route("/Staff_payroll/:id").put(async (req, res) => {
   let db = DB.getDB();
   
 
   let mongoObject = {
     $set: {
-      name: req.body.name,
-      email: req.body.email,
-      phoneNumber: req.body.phoneNumber,
-      address: req.body.address,
-      position: req.body.position,
-      department: req.body.department,
+        month: req.body.month,
+        year: req.body.year,
+        totalAllowences: req.body.totalAllowences,
+        totalEPF: req.body.totalEPF,
+        totalETF: req.body.totalETF,
+        totalPayments: req.body.totalPayments,
     },
   };
 
   let data = await db
-    .collection("Staff_Employee")
+    .collection("Staff_payroll")
     .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
   res.json(data);
   console.log("Data updated successfully");

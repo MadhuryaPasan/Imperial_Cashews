@@ -18,6 +18,8 @@ import Quality_iso_sls_check from "./routes/QualityControle/quality_iso_sls_chec
 import Quality_raw_material_check from "./routes/QualityControle/quality_raw_material_check.js";
 import Staff_Employee from "./routes/staff/Staff_Employee.js"
 import Staff_salary from "./routes/staff/Staff_salary.js"
+import Staff_department from "./routes/staff/Staff_department.js"
+import Staff_payroll from "./routes/staff/Staff_payrool.js"
 
 
 dotenv.config(); // Load .env file
@@ -43,6 +45,8 @@ app.use(Quality_iso_sls_check);
 app.use(Quality_raw_material_check);
 app.use(Staff_Employee);
 app.use(Staff_salary);
+app.use(Staff_department);
+app.use(Staff_payroll)
 
 app.listen(PORT, () => {
   console.log(` Server is running on port ${PORT}`);
