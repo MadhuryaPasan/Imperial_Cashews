@@ -62,11 +62,11 @@ const table = ({ selectedMonth }: any) => {
   // table rows
   const columns = [
 
-    { name: "Address" },
-    { name: "Contact Number" },
-
-    { name: "Email" },
     { name: "Name" },
+    { name: "Address" },
+
+    { name: "Contact Number" },
+    { name: "Email" },
     { name: "Created Date" },
     { name: "Orders Count" },
     { name: "Total Spent" },

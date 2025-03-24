@@ -61,8 +61,9 @@ const app_sidebar = () => {
   ];
 
   // workspace options set
-  const [workspace, setWorkspace] = useState("Finance");
+  const [workspace, setWorkspace] = useState("Sales");
 
+ 
   if ("Finance" === workspace) {
     value = [
       {
