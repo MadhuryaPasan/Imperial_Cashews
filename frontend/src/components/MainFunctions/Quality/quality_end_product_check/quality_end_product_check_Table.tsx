@@ -45,7 +45,7 @@ const TableComponent = ({ selectedMonth }: any) => {
 
   // Table columns
   const columns = [
-    { name: "Batch ID" },
+    // { name: "Batch ID" },
     { name: "Product Grade" },
     { name: "Color Uniformity" },
     { name: "Taste Test" },
@@ -77,7 +77,7 @@ const TableComponent = ({ selectedMonth }: any) => {
             <TableBody>
               {rows.map((rowsData: any) => (
                 <TableRow key={rowsData._id} className="hover:bg-primary/10">
-                  <TableCell>{rowsData.batch_id}</TableCell>
+                  {/* <TableCell>{rowsData.batch_id}</TableCell> */}
                   <TableCell>{rowsData.product_grade}</TableCell>
                   <TableCell>{rowsData.color_uniformity}</TableCell>
                   <TableCell>{rowsData.taste_test}</TableCell>

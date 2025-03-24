@@ -109,7 +109,7 @@ const quality_end_product_check_Insert = () => {
                   <SelectTrigger id="product_grade">
                     <SelectValue placeholder="Select product grade" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent aria-required>
                     <SelectItem value="Premium">Premium</SelectItem>
                     <SelectItem value="Standard">Standard</SelectItem>
                     <SelectItem value="Economy">Economy</SelectItem>

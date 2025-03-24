@@ -49,7 +49,7 @@ const table = ({ selectedMonth }: any) => {
 
   // table rows
   const columns = [
-    { name: "Batch ID" },
+    // { name: "Batch ID" },
     { name: "ISO Certified" },
     { name: "SLS Certified" },
     { name: "Last Audit Date" },
@@ -85,7 +85,7 @@ const table = ({ selectedMonth }: any) => {
               // .filter((rowsData: any) => rowsData.month === "March")
               .map((rowsData: any) => (
                 <TableRow key={rowsData._id} className="hover:bg-primary/10">
-                   <TableCell>{rowsData.batch_id}</TableCell>
+                   {/* <TableCell>{rowsData.batch_id}</TableCell> */}
                    <TableCell>{rowsData.iso_certified ? "Yes" : "No"}</TableCell>
                    <TableCell>{rowsData.sls_certified ? "Yes" : "No"}</TableCell>
                    <TableCell>{new Date(rowsData.last_audit_date).toLocaleDateString()}</TableCell>
