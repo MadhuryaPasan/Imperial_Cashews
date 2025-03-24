@@ -25,6 +25,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -37,6 +38,7 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
   });
 
   const [rows, setRows] = useState<any>([]);
+  console.log("rows", rows);
 
   // get data from api
   useEffect(() => {
@@ -52,7 +54,7 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
     { name: "Date" },
     { name: "Current Month" },
     { name: "Description" },
-    
+
     { name: "Bank Balance" },
     { name: "Inventory Value" },
     { name: "Account Receivable" },
@@ -61,12 +63,43 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
     { name: "Accounts Payable" },
     { name: "Loan Payable" },
     { name: "Taxes Payable" },
-    
+
     { name: "Owners Capital" },
     { name: "Retained Earnings" },
   ];
 
+
+
+  let Bank_Balance = 0;
+  let Inventory_Value = 0;
+  let Account_Receivable = 0;
+  let Equipment_Machinery = 0;
+  let Accounts_Payable = 0;
+  let Loan_Payable = 0;
+  let Taxes_Payable = 0;
+  let Owners_Capital = 0;
+  let Retained_Earnings = 0;
+
+
+
+  rows.map((rowsData: any) => {
+    Bank_Balance += rowsData.assets.Bank_Balance;
+    Inventory_Value += rowsData.assets.Inventory_Value;
+    Account_Receivable += rowsData.assets.Account_Receivable;
+    Equipment_Machinery += rowsData.assets.Equipment_Machinery;
+    Accounts_Payable += rowsData.Liabilities.Accounts_Payable;
+    Loan_Payable += rowsData.Liabilities.Loan_Payable;
+    Taxes_Payable += rowsData.Liabilities.Taxes_Payable;
+    Owners_Capital += rowsData.Equity.Owners_Capital;
+    Retained_Earnings += rowsData.Equity.Retained_Earnings;
+    
+  });
+
+  
   return (
+
+    
+
     <>
       {/* insert */}
 
@@ -75,62 +108,124 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
         <div className="rounded-md border">
           <Table>
             <TableHeader>
+              <TableRow>
+                <TableCell
+                  colSpan={3}
+                  className="text-center font-medium font text-[15px] border-r-1 "
+                >
+                  
+           
+                </TableCell>
+                <TableCell
+                  colSpan={4}
+                  className="text-center font-medium text-[15px] border-r-1 "
+                >
+                  Assets
+                
+                </TableCell>
+                <TableCell
+                  colSpan={3}
+                  className="text-center font-medium text-[15px] border-r-1 "
+                >
+                  Liabilities
+                </TableCell>
+                
+                <TableCell
+                  colSpan={2}
+                  className="text-center font-medium text-[15px] border-r-1 "
+                >
+                  Equity
+                </TableCell>
+
+               
+                <TableCell
+                  colSpan={1}
+                  className="text-center font-medium text-[15px]"
+                >
+                  
+                </TableCell>
+              </TableRow>
+
               {/* table rows here */}
               <TableRow className="font-bold">
                 {columns.map((columns: any) => (
+                  
                   <TableHead
-                    className=" font-bold text-[15px]"
+                    className=" font-bold text-[15px] border-r-1 "
                     key={columns.name}
                   >
                     {columns.name}
                   </TableHead>
+                  
                 ))}
-                <TableHead className=" font-bold text-[15px]">Options</TableHead>
+                <TableHead className=" font-bold text-[15px]">
+                  Options
+                </TableHead>
               </TableRow>
             </TableHeader>
-        
+
             {/* columns */}
             <TableBody>
               {rows
                 // .filter((rowsData: any) => rowsData.month === "March")
                 .map((rowsData: any) => (
                   <TableRow key={rowsData._id} className="hover:bg-primary/10">
-                    <TableCell>
+                    <TableCell className=" border-r-1 ">
                       {rowsData.date
-                        ? new Date(rowsData.date).toLocaleString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )
+                        ? new Date(rowsData.date).toLocaleString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
                         : "N/A"}
                     </TableCell>
-                    <TableCell>{rowsData.month }</TableCell>
-                    <TableCell>{rowsData.description }</TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.month}</TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.description}</TableCell>
 
-                    <TableCell>{rowsData.Bank_Balance}</TableCell>
-                    <TableCell>{rowsData.Inventory_Value}</TableCell>
-                    <TableCell>{rowsData.Account_Receivable}</TableCell>
-                    <TableCell>{rowsData.Equipment_Machinery}</TableCell>
+                    {/* assets */}
+                    <TableCell
+                      className={`border ${
+                        rowsData.assets.Bank_Balance < 0 && "text-destructive"
+                      }`}
+                    >
+                      {rowsData.assets.Bank_Balance}
+                    </TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.assets.Inventory_Value}</TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.assets.Account_Receivable}</TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.assets.Equipment_Machinery}</TableCell>
 
-                    <TableCell>{rowsData.Accounts_Payable}</TableCell>
-                    <TableCell>{rowsData.Loan_Payable}</TableCell>
-                    <TableCell>{rowsData.Taxes_Payable}</TableCell>
+                    {/* liabilities */}
+                    <TableCell
+                      className={`border ${
+                        rowsData.Liabilities.Accounts_Payable > 0 &&
+                        "text-destructive"
+                      }`}
+                    >
+                      {rowsData.Liabilities.Accounts_Payable}
+                    </TableCell>
+                    <TableCell
+                      className={`border ${
+                        rowsData.Liabilities.Loan_Payable > 0 &&
+                        "text-destructive"
+                      }`}
+                    >
+                      {rowsData.Liabilities.Loan_Payable}
+                    </TableCell>
+                    <TableCell className=" border-r-1 ">{rowsData.Liabilities.Taxes_Payable}</TableCell>
 
-                    <TableCell>{rowsData.Owners_Capital}</TableCell>
-                    <TableCell>{rowsData.Retained_Earnings}</TableCell>
-        
+                    {/* equity */}
+                    <TableCell className=" border-r-1 ">{rowsData.Equity.Owners_Capital}</TableCell>
+                    <TableCell className="border-r-1 ">{rowsData.Equity.Retained_Earnings}</TableCell>
+
                     {/* show current month only */}
                     {/* {rowsData.month === currentMonth ? ( */}
-                      <div>
-                        {/* Update */}
-                        {UpdateBtn(rowsData._id)}
-        
-                        {/* Delete */}
-                        {deleteBtn(rowsData._id)}
-                      </div>
+                    <div>
+                      {/* Update */}
+                      {UpdateBtn(rowsData._id)}
+
+                      {/* Delete */}
+                      {deleteBtn(rowsData._id)}
+                    </div>
                     {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
@@ -139,6 +234,35 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
                   </TableRow>
                 ))}
             </TableBody>
+
+
+
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3} className="border-r-1">
+                </TableCell>
+                <TableCell className="border-r-1"> {Bank_Balance}
+                </TableCell>
+                <TableCell className="border-r-1"> {Inventory_Value}
+                </TableCell>
+                <TableCell className="border-r-1"> {Account_Receivable}
+                </TableCell>
+                <TableCell className="border-r-1"> {Equipment_Machinery}
+                </TableCell>
+                <TableCell className="border-r-1"> {Accounts_Payable}
+                </TableCell>
+                <TableCell className="border-r-1"> {Loan_Payable}
+                </TableCell>
+                <TableCell className="border-r-1"> {Taxes_Payable}
+                </TableCell>
+                <TableCell className="border-r-1"> {Owners_Capital}
+                </TableCell>
+                <TableCell className="border-r-1"> {Retained_Earnings}
+                </TableCell>
+                <TableCell> 
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </div>
@@ -159,9 +283,6 @@ import {
 // import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
 const UpdateBtn = (updateId: any) => {
-
-
-
   return (
     <>
       <Dialog>
@@ -180,8 +301,6 @@ const UpdateBtn = (updateId: any) => {
     </>
   );
 };
-
-
 
 const deleteBtn = (deleteId: any) => {
   // delete one
@@ -244,9 +363,7 @@ const insertBtn = () => {
         <DialogTrigger>
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
-        <DialogContent >
-          {/* <Finance_BalanceSheet_Insert /> */}
-        </DialogContent>
+        <DialogContent>{/* <Finance_BalanceSheet_Insert /> */}</DialogContent>
       </Dialog>
     </>
   );
