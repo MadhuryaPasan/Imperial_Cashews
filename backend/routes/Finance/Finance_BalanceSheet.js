@@ -49,15 +49,15 @@ router.route("/Finance_BalanceSheet").post(async (req, res) => {
 
 
     month: req.body.month,
-  Bank_Balance = req.body.Bank_Balance,
-  Inventory_Value = req.body.Inventory_Value,
-  Account_Receivable = req.body.Account_Receivable,
+  Bank_Balance = parseFloat(req.body.Bank_Balance),
+  Inventory_Value = parseFloat(req.body.Inventory_Value),
+  Account_Receivable = parseFloat(req.body.Account_Receivable),
   Equipment_Machinery = req.Equipment_Machinery,
-  Accounts_Payable = req.body.Accounts_Payable,
-  Loan_Payable = req.body.Loan_Payable,
-  Taxes_Payable = req.body.Taxes_Payable,
-  Owners_Capital = req.body.Owners_Capital,
-  Retained_Earnings = req.body.Retained_Earnings,
+  Accounts_Payable = parseFloat(req.body.Accounts_Payable),
+  Loan_Payable = parseFloat(req.body.Loan_Payable),
+  Taxes_Payable = parseFloat(req.body.Taxes_Payable),
+  Owners_Capital = parseFloat(req.body.Owners_Capital),
+  Retained_Earnings = parseFloat(req.body.Retained_Earnings,
 
   };
   let data = await db.collection("Finance_BalanceSheet").insertOne(mongoObject);
