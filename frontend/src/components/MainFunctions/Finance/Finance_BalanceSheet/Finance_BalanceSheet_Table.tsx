@@ -294,7 +294,7 @@ import {
 
 
 
-import {Finance_BalanceSheet_deleteDoc} from "@/utils/Finance/Finance_PettyCash_API"
+import {Finance_BalanceSheet_deleteDoc} from "@/utils/Finance/Finance_BalanceSheet_API"
 
 // import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
