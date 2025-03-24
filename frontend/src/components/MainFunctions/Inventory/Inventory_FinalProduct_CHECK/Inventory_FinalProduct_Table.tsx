@@ -59,6 +59,9 @@ const table = ({ selectedMonth }: any) => {
     getAll();
   }, []);
 
+
+console.log(row);
+
   // table rows
   const columns = [
 
@@ -96,25 +99,16 @@ const table = ({ selectedMonth }: any) => {
             {/* columns */}
             <TableBody>
               {row
-                // .filter((rowData: any) => rowData.month === "March")
+                //filter((rowData: any) => rowData.month === "March")
                 .map((rowData: any) => (
                   <TableRow key={rowData._id} className="hover:bg-primary/10">
                     {/* change this */}
 
 
-                    <TableCell>{rowData.order_date
-                      ? new Date(rowData.order_date).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )
-                      : ""}</TableCell>
+                   
                     <TableCell>{rowData.category}</TableCell>
                     <TableCell>{rowData.weight}</TableCell>
-                    <TableCell>{rowData.manufactureDate}</TableCell>
+                    <TableCell>{rowData.manufacturerDate}</TableCell>
                     <TableCell>{rowData.PackageCount}</TableCell>
                     <TableCell>{rowData.sellprice}</TableCell>
                    
@@ -122,7 +116,7 @@ const table = ({ selectedMonth }: any) => {
 
 
                     {/* show current month only */}
-                    {rowData.month !== currentMonth ? (
+                    {/* {rowData.month !== currentMonth ? ( */}
                       <div>
                         {/* Update */}
                         {UpdateBtn(rowData._id)}
@@ -130,11 +124,11 @@ const table = ({ selectedMonth }: any) => {
                         {/* Delete */}
                         {deleteBtn(rowData._id)}
                       </div>
-                    ) : (
+                    {/* ) : (
                       <TableCell>
                         <Lock className="size-5 opacity-20" />
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
             </TableBody>

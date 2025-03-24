@@ -59,9 +59,9 @@ router.route("/Inventory_Material").post(async (req, res) => {
       /*2*/ buyerName: req.body.buyerName,     
       /*3*/ materialName: req.body.materialName,     
       /*4*/ quantity: req.body.quantity,     
-      /*5*/ getprice: parseFloat(req.body.price),     
+      /*5*/ getprice: req.body.getprice,     
       /*6*/ inventoryLocation: req.body.inventoryLocation,     
-      /*7*/ getDate: formattedDate,            
+      /*7*/ getDate: formattedgetDate,            
     };   
     
     let data = await db.collection("Inventory_Material").insertOne(mongoObject);   
@@ -79,10 +79,10 @@ router.route("/Inventory_Material/:id").put(async (req, res) => {
   
   try {
     // Create a new date object from the request body
-    const dateObj = new Date(req.body.getdate);
+    const getDate = new Date(req.body.getDate);
     
     // Format date as YYYY.MM.DD
-    const formattedDate = formatDateWithDots(dateObj);
+    const formattedgetDate = formattedgetDate(getDate);
     
     // MongoDB requires $set for updates
     let mongoObject = {
@@ -91,9 +91,9 @@ router.route("/Inventory_Material/:id").put(async (req, res) => {
         /*2*/ buyerName: req.body.buyerName,     
         /*3*/ materialName: req.body.materialName,     
         /*4*/ quantity: req.body.quantity,     
-        /*5*/ getprice: parseFloat(req.body.price),     
+        /*5*/ getprice: req.body.getprice,     
         /*6*/ inventoryLocation: req.body.inventoryLocation,     
-        /*7*/ getDate: formattedDate,      
+        /*7*/ getDate:formattedgetDate,      
       },   
     };    
     

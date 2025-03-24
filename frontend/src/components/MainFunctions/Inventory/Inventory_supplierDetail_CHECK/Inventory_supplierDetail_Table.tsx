@@ -46,7 +46,7 @@ const table = ({ selectedMonth }: any) => {
   // grt current month
   const currentMonth: string = new Date().toLocaleString("en-US", {
     month: "long",
-  });
+  }); 
 
   const [row, setRow] = useState<any>([]);
 
@@ -104,16 +104,7 @@ const table = ({ selectedMonth }: any) => {
                     {/* change this */}
 
 
-                    <TableCell>{rowData.order_date
-                      ? new Date(rowData.order_date).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )
-                      : "N/A"}</TableCell>
+                    
                     <TableCell>{rowData.supplierName}</TableCell>
                     <TableCell>{rowData.address}</TableCell>
                     <TableCell>{rowData.phoneNumber1}</TableCell>

@@ -142,7 +142,7 @@ const Inventory_FinalProduct_insert = () => {
 
                   pattern: {
                     value: /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}?\)?[-.\s]?\d{3,4}[-.\s]?\d{3,6}$/i,
-                    message: "Please enter a valid phone number (7 to 15 digits)."
+                    message: "Please enter a valid phone number (10 to 15 digits)."
 
                   },
                 })}
@@ -166,7 +166,7 @@ const Inventory_FinalProduct_insert = () => {
 
                   pattern: {
                     value: /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}?\)?[-.\s]?\d{3,4}[-.\s]?\d{3,6}$/i,
-                    message: "Please enter a valid phone number (7 to 15 digits)."
+                    message: "Please enter a valid phone number (10 to 15 digits)."
 
                   },
                 })}

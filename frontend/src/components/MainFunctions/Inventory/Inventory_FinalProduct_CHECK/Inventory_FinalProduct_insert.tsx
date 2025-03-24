@@ -63,7 +63,6 @@ const Inventory_FinalProduct_insert = () => {
             <div className="flex flex-col space-y-1.5">
               <Label>Category</Label>
               <Input
-       
               {...register("category", { required: "Category is required" })} />
               {errors.category && <span className="text-destructive text-sm">{errors.category.message}</span>}
             </div>
@@ -79,7 +78,6 @@ const Inventory_FinalProduct_insert = () => {
             {/* Manufacturer Date */}
             <div className="flex flex-col space-y-1.5">
               <Label>Manufacturer Date</Label>
-              
               <Input     
               type="date" {...register("manufacturerDate", { required: "Manufacturer Date is required" })} />
               {errors.manufacturerDate && <span className="text-destructive text-sm">{errors.manufacturerDate.message}</span>}

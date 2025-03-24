@@ -57,9 +57,7 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
   let buyerName: string = data?.buyerName;
   let materialName: string = data?.materialName;
   let quantity: string = data?.quantity;
-  let getPrice: string = data?.getPrice;
   let inventoryLocation: string = data?.inventoryLocation;
-  let getDate: string = data?.getDate;
 
   const {
     register,
@@ -71,9 +69,7 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
       buyerName:buyerName,
       materialName:materialName,
       quantity:quantity,
-      getPrice:getPrice,
       inventoryLocation:inventoryLocation,
-      getDate:getDate,
     },
   });
 
@@ -84,7 +80,7 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
          <div className=" ]">
          <form onSubmit={handleSubmit(UpdateDoc)}>
            <Card className={` ${
-             errors.sellerName|| errors.buyerName || errors.materialName || errors.quantity || errors.getPrice || errors.inventoryLocation || errors.getDate
+             errors.sellerName|| errors.buyerName || errors.materialName || errors.quantity ||  errors.inventoryLocation 
                ? "bg-destructive/5 outline-1 outline-destructive"
                : null
            } ${
@@ -163,28 +159,29 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
                )}
              </div>
  
-               {/* quantity */}
-               <div className="flex flex-col space-y-1.5">
-                 <Label htmlFor="quantity">Quantity</Label>
-                 <Input
-                 id="quantity"
-                 placeholder="Insert quantity"
-                   {...register("quantity", {
-                     required: "quantity is required",
-                     min: {
-                       value: 1,
-                       message: "quantity should be at least 1",
-                     },
-                     max: {
-                       value: 1000,
-                       message: "quantity should be at most 1000",
-                     },
-                     pattern: {
-                         value: /^[A-Za-z\s'-]{2,20}$/i,
-                         message: "Please enter a valid name (only letters, spaces, apostrophes, and hyphens, between 2 to 50 characters)",
-                     },
-                   })}
-                 />
+             <div className="flex flex-col space-y-1.5">
+  <Label htmlFor="quantity">Quantity</Label>
+  <Input
+    type="number" // Ensures only numbers are entered
+    {...register("quantity", {
+      required: "Quantity is required",
+      min: {
+        value: 1,
+        message: "Quantity should be at least 1",
+      },
+      max: {
+        value: 100000,
+        message: "Quantity should be at most 100000",
+      },
+      pattern: {
+        value: /^[0-9]+$/, // Only allows numbers
+        message: "Only numbers are allowed",
+      },
+    })}
+  />
+</div>
+
+                 <div>
  
                  {errors.quantity && (
                    <span className="text-destructive text-sm">
@@ -193,27 +190,6 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
                  )}
                </div>
  
-                 {/*getPrice*/}
- 
-               <div className="flex flex-col space-y-1.5">
-               <Label htmlFor="getPrice">Get Price</Label>
-               <Input
-                 id="getPrice"
-                 placeholder="Insert getPrice"
-                 {...register("getPrice", {
-                   required: "getPrice is required",
- 
-                   pattern: {
-                     value: /^\d+(\.\d{1,2})?$/,
-                     message: "Please enter a valid getPrice  (positive numbers with up to two decimal places)",
-                   },
-                 })}
-                 {...(isSubmitSuccessful ? { disabled: true } : {})}
-               />
-               {errors.getPrice && (
-                 <span className="text-destructive">{errors.getPrice.message}</span>
-               )}
-             </div>
  
              {/*inventoryLocation*/}
              <div className="flex flex-col space-y-1.5">
@@ -242,31 +218,7 @@ const Inventory_Material_Update: React.FC<any> = (currentData) => {
                         )}
                       </div>
  
-             {/*getDate*/}
-             <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="getDate">Buy Date</Label>
-                <Input
-                 id="getDate"
-                 type="date"
-                className="border rounded-md p-2"
-                 {...register("getDate", {
-                 required: "Buy date is required",
-                 validate: (value) => {
-                 if (!value) return "Buy date is required";
-                 const selectedDate = new Date(value);
-                 const today = new Date();
-                 today.setHours(0, 0, 0, 0); // Normalize today's date to avoid time discrepancies
-                  return selectedDate <= today || "Future dates are not allowed";
-                  },
-                  })}
-                  {...(isSubmitSuccessful ? { disabled: true } : {})}
-                       />
-                  {errors.getDate && (
-                   <span className="text-destructive">{errors.getDate.message}</span>
-                    )}
-                  </div>
- 
- 
+            
              </CardContent>
  
              <CardFooter>

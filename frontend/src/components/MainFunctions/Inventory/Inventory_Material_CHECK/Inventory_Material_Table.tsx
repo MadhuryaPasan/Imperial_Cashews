@@ -66,9 +66,7 @@ const table = ({ selectedMonth }: any) => {
     { name: "Buyer Name" },
     { name: "Material Name" },
     { name: "Quantity" },
-    { name: "Get Price" },
     { name: "Inventory Location" },
-    { name: "Get Date" },
 
   ];
 
@@ -97,29 +95,19 @@ const table = ({ selectedMonth }: any) => {
             {/* columns */}
             <TableBody>
               {row
-                // .filter((rowData: any) => rowData.month === "March")
+                //.filter((rowData: any) => rowData.month === "March")
                 .map((rowData: any) => (
                   <TableRow key={rowData._id} className="hover:bg-primary/10">
                     {/* change this */}
 
 
-                    <TableCell>{rowData.order_date
-                      ? new Date(rowData.order_date).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )
-                      : ""}</TableCell>
+                
                     <TableCell>{rowData.sellerName}</TableCell>
                     <TableCell>{rowData.buyerName}</TableCell>
                     <TableCell>{rowData.materialName}</TableCell>
                     <TableCell>{rowData.quantity}</TableCell>
-                    <TableCell>{rowData.getPrice}</TableCell>
                     <TableCell>{rowData.inventoryLocation}</TableCell>
-                    <TableCell>{rowData.getData}</TableCell>
+
                   
 
 
