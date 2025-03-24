@@ -292,6 +292,10 @@ import {
   Finance_PettyCash_getDoc,
 } from "@/utils/Finance/Finance_PettyCash_API";
 
+
+
+import {Finance_BalanceSheet_deleteDoc} from "@/utils/Finance/Finance_PettyCash_API"
+
 // import Finance_PettyCash_update from "./Finance_PettyCash_update";
 
 const UpdateBtn = (updateId: any) => {
@@ -317,7 +321,7 @@ const UpdateBtn = (updateId: any) => {
 const deleteBtn = (deleteId: any) => {
   // delete one
   const deleteOne = async (id: string) => {
-    await Finance_PettyCash_deleteDoc(id);
+    await Finance_BalanceSheet_deleteDoc(id);
     window.location.reload();
   };
 
