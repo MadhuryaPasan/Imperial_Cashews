@@ -25,8 +25,10 @@ const quality_end_product_check_Update: React.FC<any> = (currentData) => {
   // Get current timestamp
   const currentTimestamp = new Date();
 
+  const UpdateId = currentData.UpdateId;
+
   const UpdateDoc: SubmitHandler<any> = async (data) => {
-    await quality_end_product_check_updateDoc(currentData._id, data);
+    await quality_end_product_check_updateDoc(UpdateId, data);
   };
 
   // form validation and submission
@@ -58,14 +60,14 @@ const quality_end_product_check_Update: React.FC<any> = (currentData) => {
   };
 
   // Form submission handler
-  const onSubmit = (data: any) => {
-    UpdateDoc(data);
-  };
+  // const onSubmit = (data: any) => {
+  //   UpdateDoc(data);
+  // };
 
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(UpdateDoc)}>
           <Card
             className={`{
               Object.keys(errors).length > 0

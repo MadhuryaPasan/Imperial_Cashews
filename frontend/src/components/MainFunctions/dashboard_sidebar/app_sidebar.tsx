@@ -61,7 +61,7 @@ const app_sidebar = () => {
   ];
 
   // workspace options set
-  const [workspace, setWorkspace] = useState("Finance");
+  const [workspace, setWorkspace] = useState("Quality Control");
 
   if ("Finance" === workspace) {
     value = [
@@ -152,7 +152,7 @@ const app_sidebar = () => {
 
 
   // session
-  const [active, setActive] = useState("test");
+  const [active, setActive] = useState("quality_end_product_check_Table");
 
   localStorage.setItem("sidebarToken", active);
 

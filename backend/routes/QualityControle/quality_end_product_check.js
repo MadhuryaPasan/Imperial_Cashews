@@ -58,4 +58,34 @@ router.route("/quality_end_product_check").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+
+
+router.route("/quality_end_product_check/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      batch_id: req.body.batch_id,
+    product_grade: req.body.product_grade,
+    color_uniformity: req.body.color_uniformity, 
+    taste_test: req.body.taste_test,
+    packaging_integrity: req.body.packaging_integrity,
+    approved: req.body.approved,
+    checked_by: req.body.checked_by,
+    },
+  };
+
+  console.log(mongoObject);
+
+  let data = await db
+    .collection("quality_end_product_check")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+
+  console.log("Data updated successfully");
+});
+
+
+
 export default router;
