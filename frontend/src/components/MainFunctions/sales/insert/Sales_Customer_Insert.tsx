@@ -133,6 +133,7 @@ const Sales_Customer_Insert = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
+                   //
                     value: /^[\w\.-]+@[\w\.-]+\.\w{2,}$/i,
                     message: "Please enter a valid email address.",
                   },
