@@ -94,6 +94,16 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                 defaultValue={basicSalary}
                   {...register("basicSalary", {
                     required: "Name is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.basicSalary && (
@@ -110,6 +120,16 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                 defaultValue={allowances}
                   {...register("allowances", {
                     required: "Allowances is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+              
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.allowances && (
@@ -126,6 +146,16 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                 defaultValue={epf}
                   {...register("epf", {
                     required: "Phone number is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+              
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.epf && (
@@ -141,7 +171,17 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                 <Input
                 defaultValue={etf}
                   {...register("etf", {
-                    required: "Address is required",
+                    required: "ETF is required",
+
+                    min: {
+                      value: 1,
+                      message: "Fill this feild",
+                    },
+                    
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.etf && (
@@ -158,6 +198,16 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                 defaultValue={totalSalary}
                   {...register("totalSalary", {
                     required: "Total Salary is required",
+
+                    min: {
+                      value: 1,
+                      message: "Amount should be at least 1",
+                    },
+                   
+                    pattern: {
+                      value: /^[0-9.]+$/i,
+                      message: "Only numbers",
+                    },
                   })}
                 />
                 {errors.totalSalary && (
