@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CartProductCard from "@/components/shop/Cart/CartProductCard";
-import Image1 from "@/assets/carosousel/scsd.png";
+import Image1 from "@/assets/carosousel/image1.jpg";
 import {
   Card,
   CardContent,

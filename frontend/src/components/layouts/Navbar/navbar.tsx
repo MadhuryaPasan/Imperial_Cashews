@@ -27,7 +27,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { Menu } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Logo from "@/components/layouts/Logo";
@@ -102,9 +102,11 @@ const navbarMenu = () => {
 
           {/* Contact us */}
           <NavigationMenuItem>
-            <NavigationMenuLink className=" font-medium hover:text-primary">
-              Contact Us
-            </NavigationMenuLink>
+            <Link to="/contact">
+              <NavigationMenuLink className=" font-medium hover:text-primary">
+                Contact Us
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
           {/* About */}
           <NavigationMenuItem>
@@ -189,14 +191,21 @@ const navbarUserOptions = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel className="py-0">Name text</DropdownMenuLabel>
+            <DropdownMenuLabel className="opacity-50 py-0">(Admin)</DropdownMenuLabel>
+            <DropdownMenuLabel className=" font-medium opacity-50">email@gmail.com</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
+              <User/>
+              Profile
+              </DropdownMenuItem>
+            <DropdownMenuItem>
+              <LayoutDashboard/>
               <Link to="/dashboard">Dashboard</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <DropdownMenuItem>
+              <LogOut/>
+              Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -3,12 +3,11 @@ import { ShoppingBag } from "lucide-react";
 
 const shop = () => {
   let data = [
-    { cx: "cscs" },
-    { cx: "cscs" },
-    { cx: "cscs" },
-    { cx: "cscs" },
-    { cx: "cscs" },
-    { cx: "cscs" },
+    { price_per_unit: "5000", name: "Cashew Nuts" },
+    { price_per_unit: "6000", name: "Cashew salted" },
+    { price_per_unit: "2000", name: " Spicy Cashew Nuts" },
+    { price_per_unit: "3000", name: "Cashew Flavored" },
+    { price_per_unit: "3500", name: "Cashew Chocolate" },
   ];
 
   return (
@@ -17,7 +16,7 @@ const shop = () => {
         <div className="flex items-center gap-2 m-3 ">
           <ShoppingBag className=" size-[50px]" />
 
-          <p className="text-3xl font-bold">Shop</p>
+          <p className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Shop</p>
         </div>
         <p className=" text-sm">
           Welcome to our All Products page, where you’ll find a wide range of

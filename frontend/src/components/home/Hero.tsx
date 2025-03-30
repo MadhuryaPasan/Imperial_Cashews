@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { ChevronRight } from "lucide-react";
-import Image1 from "@/assets/carosousel/scsd.png"
+import Image1 from "@/assets/carosousel/image1.jpg"
+import Image2 from "@/assets/carosousel/image2.jpg"
+import Image3 from "@/assets/carosousel/image3.jpg"
 
 import {
   Carousel,
@@ -15,36 +17,36 @@ import { Card, CardContent } from "../ui/card";
 const Hero = () => {
 
 const carouselItems = [{
-    title: 'Slide 1',
-    description: 'Slide 1 Description',
+    title: 'Premium Cashews, Delivered Fresh to Your Doorstep',
+    description: '',
     image: Image1,
     cta: 'Slide 1 CTA'
   }, {
-    title: 'Slide 2',
-    description: 'Slide 2 Description',
-    image: Image1,
+    title: 'Taste the Crunch, Savor the Quality – Shop Cashews Online',
+    description: '',
+    image: Image2,
     cta: 'Slide 2 CTA'
   }, {
-    title: 'Slide 3',
-    description: 'Slide 3 Description',
-    image: Image1,
+    title: 'Pure, Crunchy, and Nutritious – The Finest Cashews Await!',
+    description: '',
+    image: Image3,
     cta: 'Slide 3 CTA'
 }]
 
   return (
     <>
       
-        <Carousel className=" h-full relative">
+        <Carousel className=" h-full relative ">
           <CarouselContent>
 
           {carouselItems.map((item, index) => (
 
             <CarouselItem key={index}>
-              <div className="p-1 bg ">
-                <Card className="h-[50vh] p-0 relative">
-                  <CardContent className="flex h-full items-center justify-center p-0">
-                  <img src={item.image} alt="hero" className="w-full h-full object-cover p-0 " />
-                    <span className="text-4xl absolute bottom-5 left-5 font-semibold text-white">
+              <div className="p-1 ">
+                <Card className="h-[50vh] p-0 relative rounded-3xl">
+                  <CardContent className="flex h-full items-center justify-center p-0 ">
+                  <img src={item.image} alt="hero" className="w-full h-full object-cover p-0 brightness-50 rounded-3xl" />
+                    <span className="text-5xl absolute font-bold text-white w-[50vw] text-center">
                       {item.title}
                     </span>
                   </CardContent>

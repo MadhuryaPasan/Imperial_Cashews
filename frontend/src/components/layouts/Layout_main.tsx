@@ -10,7 +10,7 @@ const FooterLayout = () => {
     <>
       <Navbar />
       <Outlet />
-      <Footer/>
+      {/* <Footer/> */}
       
     </>
   );

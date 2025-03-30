@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FFinance_BalanceSheet_createNew } from "@/utils/Finance/Finance_BalanceSheet_API";
 
 const Finance_PettyCash_Insert = () => {
   // get current month
@@ -29,7 +30,7 @@ const Finance_PettyCash_Insert = () => {
 
   // insert data
   const CreateDoc: SubmitHandler<any> = async (data) => {
-    await Finance_PettyCash_createNew(data);
+    await FFinance_BalanceSheet_createNew(data);
     // wait for 1 seconds
     await new Promise((resolve) => setTimeout(resolve, 2000));
     // reload the page
@@ -46,15 +47,15 @@ const Finance_PettyCash_Insert = () => {
     defaultValues: {
       month: currentMonth,
       description: null,
-      Bank_Balance: null,
-      Inventory_Value: null,
-      Account_Receivable: null,
-      Equipment_Machinery: null,
-      Accounts_Payable: null,
-      Loan_Payable: null,
-      Taxes_Payable: null,
-      Owners_Capital: null,
-      Retained_Earnings: null,
+      Bank_Balance: 0,
+      Inventory_Value: 0,
+      Account_Receivable: 0,
+      Equipment_Machinery: 0,
+      Accounts_Payable: 0,
+      Loan_Payable: 0,
+      Taxes_Payable: 0,
+      Owners_Capital: 0,
+      Retained_Earnings: 0,
     },
   });
 
@@ -135,7 +136,7 @@ const Finance_PettyCash_Insert = () => {
                 )}
               </div>
 
-              <div className=" flex flex-row justify-between gap-5">
+              {/* <div className=" flex flex-row justify-between gap-5"> */}
                 {/*Account Receivable */}
                 <div>
                   {/* 	Bank Balance */}
@@ -144,10 +145,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Bank_Balance", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -172,10 +173,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Inventory_Value", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -200,10 +201,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Account_Receivable", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -228,10 +229,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Equipment_Machinery", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -259,10 +260,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Accounts_Payable", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -287,10 +288,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Loan_Payable", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -315,10 +316,10 @@ const Finance_PettyCash_Insert = () => {
                     <Input
                       {...register("Taxes_Payable", {
                         required: " Amount is required",
-                        min: {
-                          value: 1,
-                          message: "Please enter 0 if no amount",
-                        },
+                        // min: {
+                        //   value: 1,
+                        //   message: "Please enter 0 if no amount",
+                        // },
                         max: {
                           value: 100000000,
                           message: "Amount should be at most 100000000",
@@ -347,10 +348,10 @@ const Finance_PettyCash_Insert = () => {
                   <Input
                     {...register("Owners_Capital", {
                       required: " Amount is required",
-                      min: {
-                        value: 1,
-                        message: "Please enter 0 if no amount",
-                      },
+                      // min: {
+                      //   value: 1,
+                      //   message: "Please enter 0 if no amount",
+                      // },
                       max: {
                         value: 100000000,
                         message: "Amount should be at most 100000000",
@@ -375,10 +376,10 @@ const Finance_PettyCash_Insert = () => {
                   <Input
                     {...register("Retained_Earnings", {
                       required: " Amount is required",
-                      min: {
-                        value: 1,
-                        message: "Please enter 0 if no amount",
-                      },
+                      // min: {
+                      //   value: 1,
+                      //   message: "Please enter 0 if no amount",
+                      // },
                       max: {
                         value: 100000000,
                         message: "Amount should be at most 100000000",
@@ -397,7 +398,7 @@ const Finance_PettyCash_Insert = () => {
                   )}
                 </div>
               </div>
-              </div>
+              {/* </div> */}
             </CardContent>
 
             <CardFooter className="flex flex-col gap-3">
@@ -421,7 +422,7 @@ const Finance_PettyCash_Insert = () => {
                   type="submit"
                   {...(isSubmitSuccessful ? { disabled: true } : {})}
                 >
-                  {isSubmitSuccessful ? "Submitted" : "Sign in"}
+                  {isSubmitSuccessful ? "Submitted" : "Submit"}
                 </Button>
               </div>
             </CardFooter>

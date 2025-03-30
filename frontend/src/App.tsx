@@ -14,6 +14,8 @@ import Access from "./pages/access";
 import Dashboard from "./pages/dashboard";
 import Page_not_found from "./pages/page_not_found";
 
+import ContactUs from "./pages/contactUs";
+
 //layouts
 
 import Layout_Main from "./components/layouts/Layout_main";
@@ -53,6 +55,8 @@ function App() {
             {/* http://localhost:5173/#/shop */}
             <Route path="/elements" element={<Elements />} />
             {/* http://localhost:5173/#/elements */}
+
+            <Route path="/contact" element={<ContactUs />} />
 
             {/* dashboard */}
           </Route>

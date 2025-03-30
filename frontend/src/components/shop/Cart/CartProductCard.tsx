@@ -9,7 +9,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Car, Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
-import Image1 from "@/assets/carosousel/scsd.png";
+import Image1 from "@/assets/carosousel/image1.jpg";
 
 const CartProductCard = () => {
   const stock_quantity: number = 5;

@@ -125,7 +125,7 @@ const app_sidebar = () => {
 
 
   // session
-  const [active, setActive] = useState("test");
+  const [active, setActive] = useState("Finance_BalanceSheet_Table");
 
   localStorage.setItem("sidebarToken", active);
 

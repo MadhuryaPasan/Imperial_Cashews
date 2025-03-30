@@ -95,6 +95,10 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
     
   });
 
+
+  let totalAssets = Bank_Balance + Inventory_Value + Account_Receivable + Equipment_Machinery;
+  let totalLiabilities = Accounts_Payable + Loan_Payable + Taxes_Payable;
+  let totalEquity = Owners_Capital + Retained_Earnings;
   
   return (
 
@@ -105,15 +109,14 @@ const Finance_BalanceSheet_Table = ({ selectedMonth }: any) => {
 
       <div className="p-3">
 
+      <div className="text-4xl font-bold text-center">Balance Sheet</div>
+        <p className=" text-sm text-center px-[50px] py-4">
+          
+        </p>
+        <Separator className="my-5" />
+
 <div>
-{Finance_BalanceSheet_mainInterface  Retained_Earnings=Retained_Earnings Owners_Capital= Owners_Capital
-Taxes_Payable=Taxes_Payable
-Loan_Payable=Loan_Payable
-Accounts_Payable=Accounts_Payable
-Equipment_Machinery=Equipment_Machinery
-Account_Receivable=Account_Receivable
-Inventory_Value= Inventory_Value
-Bank_Balance= Bank_Balance}
+  {Finance_BalanceSheet_mainInterface  (totalAssets,totalLiabilities,totalEquity,Retained_Earnings, Owners_Capital,Taxes_Payable,Loan_Payable,Accounts_Payable,Equipment_Machinery,Account_Receivable,Inventory_Value,Bank_Balance)}
 </div>
 
         <div className="flex justify-begin py-3">{insertBtn()}</div>
@@ -252,6 +255,7 @@ Bank_Balance= Bank_Balance}
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={3} className="border-r-1">
+                  Total
                 </TableCell>
                 <TableCell className="border-r-1"> {Bank_Balance}
                 </TableCell>
@@ -310,7 +314,7 @@ const UpdateBtn = (updateId: any) => {
         <DialogContent>
           <div>
             {/* {currentData ? <Finance_PettyCash_update {...currentData} /> : <p>Loading...</p>} */}
-            {/* <Finance_PettyCash_update currentData={updateId}/> */}
+            <Finance_BalanceSheet_Update currentData={updateId}/>
           </div>
         </DialogContent>
       </Dialog>
@@ -372,6 +376,8 @@ const deleteBtn = (deleteId: any) => {
 
 import Finance_BalanceSheet_Insert from "./Finance_BalanceSheet_Insert";
 import { Finance_BalanceSheet_getAllData } from "@/utils/Finance/Finance_BalanceSheet_API";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Finance_BalanceSheet_Update from "./Finance_BalanceSheet_Update";
 const insertBtn = () => {
   return (
     <>
@@ -379,7 +385,7 @@ const insertBtn = () => {
         <DialogTrigger>
           <Button className="left-0">Insert Now</Button>
         </DialogTrigger>
-        <DialogContent>{/* <Finance_BalanceSheet_Insert /> */}</DialogContent>
+        <DialogContent><Finance_BalanceSheet_Insert /></DialogContent>
       </Dialog>
     </>
   );
@@ -395,14 +401,16 @@ const insertBtn = () => {
 
 
 
-const Finance_BalanceSheet_mainInterface = (Retained_Earnings,Owners_Capital,Taxes_Payable,Loan_Payable,Accounts_Payable,Equipment_Machinery,Account_Receivable,Inventory_Value,Bank_Balance) => {
+const Finance_BalanceSheet_mainInterface = ( totalAssets:number, totalLiabilities:number, totalEquity:number,
+  Retained_Earnings: number, Owners_Capital: number, Taxes_Payable: number, Loan_Payable: number, Accounts_Payable: number, Equipment_Machinery: number, Account_Receivable: number, Inventory_Value: number, Bank_Balance: number
+) => {
   return (
     <>
-      <div>Finance_BalanceSheet_mainInterface</div>
 
-      <Card className="m-10">
+      <Card className={`m-10 ${totalAssets !== totalLiabilities+totalEquity ? "border-2 border-destructive" : "border-2 border-primary"}`}>
         <CardHeader>
-          <CardTitle>Month</CardTitle>
+          {totalAssets !== totalLiabilities+totalEquity ? <CardTitle className="text-destructive" >Not Balanced. please check the record</CardTitle> : <CardTitle className=" text-primary" >Balanced</CardTitle>}
+
         </CardHeader>
 
         {/* Assets */}
@@ -416,24 +424,24 @@ const Finance_BalanceSheet_mainInterface = (Retained_Earnings,Owners_Capital,Tax
           <CardContent className="flex flex-col gap-3">
             <div className="flex justify-between">
               <p>Bank Balance</p>
-              <p>RS.1000</p>
+              <p>RS.{Bank_Balance}</p>
             </div>
             <div className="flex justify-between">
               <p>Inventory Value</p>
-              <p>RS.1000</p>
+              <p>RS.{Inventory_Value}</p>
             </div>
             <div className="flex justify-between">
               <p>Account Receivable</p>
-              <p>RS.1000</p>
+              <p>RS.{Account_Receivable}</p>
             </div>
             <div className="flex justify-between">
               <p>Equipment & Machinery</p>
-              <p>RS.1000</p>
+              <p>RS.{Equipment_Machinery}</p>
             </div>
             <Separator />
             <div className="flex justify-between">
               <p className="font-bold">Total Assets</p>
-              <p>RS.1000</p>
+              <p>RS.{totalAssets}</p>
             </div>
           </CardContent>
         </CardContent>
@@ -452,20 +460,20 @@ const Finance_BalanceSheet_mainInterface = (Retained_Earnings,Owners_Capital,Tax
           <CardContent className="flex flex-col gap-3">
             <div className="flex justify-between">
               <p>Accounts Payable</p>
-              <p>RS.1000</p>
+              <p>RS.{Accounts_Payable}</p>
             </div>
             <div className="flex justify-between">
               <p>Loan Payable</p>
-              <p>RS.1000</p>
+              <p>RS.{Loan_Payable}</p>
             </div>
             <div className="flex justify-between">
               <p>Taxes Payable</p>
-              <p>RS.1000</p>
+              <p>RS.{Taxes_Payable}</p>
             </div>
             <Separator />
             <div className="flex justify-between">
               <p className="font-bold">Total Liabilities</p>
-              <p>RS.1000</p>
+              <p>RS.{totalLiabilities}</p>
             </div>
           </CardContent>
         </CardContent>
@@ -481,16 +489,16 @@ const Finance_BalanceSheet_mainInterface = (Retained_Earnings,Owners_Capital,Tax
           <CardContent className="flex flex-col gap-3">
             <div className="flex justify-between">
               <p>Owner's Capital</p>
-              <p>RS.1000</p>
+              <p>RS.{Owners_Capital}</p>
             </div>
             <div className="flex justify-between">
               <p>Retained Earnings</p>
-              <p>RS.1000</p>
+              <p>RS.{Retained_Earnings}</p>
             </div>
             <Separator />
             <div className="flex justify-between">
               <p className="font-bold">Total Equity</p>
-              <p>RS.1000</p>
+              <p>RS.{totalEquity}</p>
             </div>
           </CardContent>
         </CardContent>
@@ -499,4 +507,4 @@ const Finance_BalanceSheet_mainInterface = (Retained_Earnings,Owners_Capital,Tax
   );
 };
 
-export default Finance_BalanceSheet_mainInterface;
+

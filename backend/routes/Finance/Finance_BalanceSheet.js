@@ -43,26 +43,68 @@ router.route("/Finance_BalanceSheet/:id").delete(async (req, res) => {
 //insert data
 router.route("/Finance_BalanceSheet").post(async (req, res) => {
   let db = DB.getDB();
+
   let mongoObject = {
-    
-
-
-
     month: req.body.month,
-  Bank_Balance = parseFloat(req.body.Bank_Balance),
-  Inventory_Value = parseFloat(req.body.Inventory_Value),
-  Account_Receivable = parseFloat(req.body.Account_Receivable),
-  Equipment_Machinery = req.Equipment_Machinery,
-  Accounts_Payable = parseFloat(req.body.Accounts_Payable),
-  Loan_Payable = parseFloat(req.body.Loan_Payable),
-  Taxes_Payable = parseFloat(req.body.Taxes_Payable),
-  Owners_Capital = parseFloat(req.body.Owners_Capital),
-  Retained_Earnings = parseFloat(req.body.Retained_Earnings,
+    date: new Date(new Date().toISOString()),
+    description: req.body.description,
+    assets: {
+      Bank_Balance: parseFloat(req.body.Bank_Balance),
+      Inventory_Value: parseFloat(req.body.Inventory_Value),
+      Account_Receivable: parseFloat(req.body.Account_Receivable),
+      Equipment_Machinery: parseFloat(req.body.Equipment_Machinery),
+    },
+    Liabilities: {
+      Accounts_Payable: parseFloat(req.body.Accounts_Payable),
+      Loan_Payable: parseFloat(req.body.Loan_Payable),
+      Taxes_Payable: parseFloat(req.body.Taxes_Payable),
+    },
 
+    Equity: {
+      Owners_Capital: parseFloat(req.body.Owners_Capital),
+      Retained_Earnings: parseFloat(req.body.Retained_Earnings),
+    },
   };
+  console.log(mongoObject);
   let data = await db.collection("Finance_BalanceSheet").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
+});
+
+
+
+// update
+router.route("/Finance_BalanceSheet/:id").put(async (req, res) => {
+  let db = DB.getDB();
+  
+
+  let mongoObject = {
+    $set: {
+      description: req.body.description,
+      assets: {
+        Bank_Balance: parseFloat(req.body.Bank_Balance),
+        Inventory_Value: parseFloat(req.body.Inventory_Value),
+        Account_Receivable: parseFloat(req.body.Account_Receivable),
+        Equipment_Machinery: parseFloat(req.body.Equipment_Machinery),
+      },
+      Liabilities: {
+        Accounts_Payable: parseFloat(req.body.Accounts_Payable),
+        Loan_Payable: parseFloat(req.body.Loan_Payable),
+        Taxes_Payable: parseFloat(req.body.Taxes_Payable),
+      },
+  
+      Equity: {
+        Owners_Capital: parseFloat(req.body.Owners_Capital),
+        Retained_Earnings: parseFloat(req.body.Retained_Earnings),
+      },
+    },
+  };
+
+  let data = await db
+    .collection("Finance_BalanceSheet")
+    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+  res.json(data);
+  console.log("Data updated successfully");
 });
 
 export default router;
