@@ -1,36 +1,10 @@
-import React from "react";
-
-import ProductCard from "@/web/pages/home/components/productCard";
+import ProductCard from "@/web/pages/components/productCard";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { returnAllProducts } from "@/utils/API/sales/Sales_Products_API";
 
-let product = [
-  {
-    name: "cscs",
-    price_per_unit: 100.05,
-    stock_quantity: 2,
-    image: "https://example.com/image1.jpg",
-  },
-  {
-    name: "cscs",
-    price_per_unit: 100,
-    stock_quantity: 2,
-    image: "https://example.com/image1.jpg",
-  },
-  {
-    name: "cscs",
-    price_per_unit: 100,
-    stock_quantity: 2,
-    image: "https://example.com/image1.jpg",
-  },
-  {
-    name: "cscs",
-    price_per_unit: 100.0,
-    stock_quantity: 2,
-    image: "https://example.com/image1.jpg",
-  },
-];
+
 
 const productSection = () => {
   return (
@@ -52,7 +26,7 @@ const productSection = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-4  mt-8">
-          {product.slice(0, 4).map((data, index) => (
+          {returnAllProducts().slice(0, 4).reverse().map((data, index) => (
             <ProductCard key={index} {...data} />
           ))}
         </div>

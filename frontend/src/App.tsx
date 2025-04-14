@@ -1,20 +1,82 @@
 import "./App.css";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "@/web/pages/error/pageNotFound";
 import Home from "@/web/pages/home/home";
 import Shop from "@/web/pages/shop/shop";
 import LayoutMain from "@/web/layout/layout_Main";
+import Dashboard from "@/web/admin/dashboard";
+import AdminMainLayout from "@/web/admin/layout/adminMainLayout";
+import ProductView from "@/web/pages/shop/productView";
+import Cart from "@/web/pages/shop/cart";
+
+// finance
+import FinanceWelcomeScreen from "@/web/admin/finance/financeWelcomeScreen";
+import FinanceBalanceSheet from "@/web/admin/finance/subPages/financeBalanceSheet";
+import FinanceProfitLoss from "@/web/admin/finance/subPages/financeProfitLoss";
+import FinancePettyCash from "@/web/admin/finance/subPages/financePettyCash";
+import FinanceBankBook from "@/web/admin/finance/subPages/financeBankBook";
+
+const ProtectedRoute = ({
+  user,
+  allowedRoles,
+  children,
+}: {
+  user: { role: string } | null;
+  allowedRoles: string[];
+  children: React.ReactNode;
+}) => {
+  if (!user || !allowedRoles.includes(user.role)) {
+    return <Navigate to="/404" />;
+  }
+  return <>{children}</>;
+};
 
 function App() {
+
+  // Temporary user object to simulate authentication
+  // In a real application, you would get this from your authentication context or state management
+  //change admin or user to test the route
+  const currentUser = { role: "admin" };
   return (
     <>
       <HashRouter>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
 
+          {/* admin */}
+          <Route element={<AdminMainLayout />}>
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute
+                  user={currentUser}
+                  allowedRoles={["admin", "finance"]}
+                >
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/finance" element={<FinanceWelcomeScreen />} />
+
+            <Route
+              path="/finance/balance-sheet"
+              element={<FinanceBalanceSheet />}
+            />
+            <Route
+              path="/finance/profit-loss"
+              element={<FinanceProfitLoss />}
+            />
+            <Route path="/finance/petty-cash" element={<FinancePettyCash />} />
+            <Route path="/finance/bank-book" element={<FinanceBankBook />} />
+          </Route>
           <Route element={<LayoutMain />}>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/product/:id" element={<ProductView />} />
+            <Route path="/shop/cart" element={<Cart />} />
           </Route>
         </Routes>
       </HashRouter>

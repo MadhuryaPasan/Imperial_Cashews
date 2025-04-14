@@ -20,11 +20,11 @@ const pageNotFound = () => {
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
-          <Button variant="outline" size="lg" asChild>
-            <Link to="/" className="gap-2" onClick={() => Navigate(-1)}>
+          <Button variant="outline" size="lg" onClick={() => Navigate(-1)}>
+            
               <ArrowLeft className="h-4 w-4" />
               Go back
-            </Link>
+            
           </Button>
           <Button size="lg" asChild>
             <Link to="/" className="gap-2">

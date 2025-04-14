@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import CartProductCard from "@/components/shop/Cart/CartProductCard";
+import { useState } from "react";
 import Image1 from "@/assets/carosousel/scsd.png";
 import {
   Card,
@@ -16,9 +15,6 @@ import { Button } from "@/components/ui/button";
 const cart = () => {
   const stock_quantity: number = 5;
   const [quantity, setQuantity] = useState<number>(1);
-
-
-
 
   let price = 2000;
   let Total = (price*quantity);
