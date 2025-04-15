@@ -61,7 +61,7 @@ const sidebar = ({
         </SidebarContent>
 
         <SidebarFooter>
-          <SidebarTrigger className=" b hidden md:block" />
+          <SidebarTrigger className=" hidden md:block" />
         </SidebarFooter>
       </Sidebar>
     </>

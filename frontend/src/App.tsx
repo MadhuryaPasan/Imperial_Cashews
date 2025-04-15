@@ -9,12 +9,18 @@ import AdminMainLayout from "@/web/admin/layout/adminMainLayout";
 import ProductView from "@/web/pages/shop/productView";
 import Cart from "@/web/pages/shop/cart";
 
-// finance
+
 import FinanceWelcomeScreen from "@/web/admin/finance/financeWelcomeScreen";
 import FinanceBalanceSheet from "@/web/admin/finance/subPages/financeBalanceSheet";
 import FinanceProfitLoss from "@/web/admin/finance/subPages/financeProfitLoss";
 import FinancePettyCash from "@/web/admin/finance/subPages/financePettyCash";
 import FinanceBankBook from "@/web/admin/finance/subPages/financeBankBook";
+
+import Inventory from "@/web/admin/inventory/inventoryWelcomeScreen";
+import Sales from "@/web/admin/sales/salesWelcomeScreen";
+import Staff from "@/web/admin/staff/staffWelcomeScreen";
+import QualityControl from "@/web/admin/qualityControl/qualityControlWelcomeScreen";
+
 
 const ProtectedRoute = ({
   user,
@@ -26,13 +32,12 @@ const ProtectedRoute = ({
   children: React.ReactNode;
 }) => {
   if (!user || !allowedRoles.includes(user.role)) {
-    return <Navigate to="/404" />;
+    return <Navigate to="/error" />;
   }
   return <>{children}</>;
 };
 
 function App() {
-
   // Temporary user object to simulate authentication
   // In a real application, you would get this from your authentication context or state management
   //change admin or user to test the route
@@ -43,34 +48,53 @@ function App() {
         <Routes>
           <Route path="*" element={<PageNotFound />} />
 
-          {/* admin */}
-          <Route element={<AdminMainLayout />}>
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-
-            <Route
-              path="/dashboard"
+          {/* <Route
+              path="/admin"
               element={
                 <ProtectedRoute
-                  user={currentUser}
-                  allowedRoles={["admin", "finance"]}
+                user={currentUser}
+                allowedRoles={["admin", "finance"]}
                 >
                   <Dashboard />
                 </ProtectedRoute>
               }
-            />
-
-            <Route path="/finance" element={<FinanceWelcomeScreen />} />
-
+            /> */}
+          {/* admin */}
+          <Route
+            element={
+              <ProtectedRoute
+                user={currentUser}
+                allowedRoles={["admin", "finance"]}
+              >
+                <AdminMainLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/finance" element={<FinanceWelcomeScreen />} />
+            <Route path="/admin/inventory" element={<Inventory />} />
+            <Route path="/admin/sales" element={<Sales />} />
+            <Route path="/admin/staff" element={<Staff />} />
             <Route
-              path="/finance/balance-sheet"
+              path="/admin/quality-control"
+              element={<QualityControl />}
+            />
+            <Route
+              path="/admin/finance/balance-sheet"
               element={<FinanceBalanceSheet />}
             />
             <Route
-              path="/finance/profit-loss"
+              path="/admin/finance/profit-loss"
               element={<FinanceProfitLoss />}
             />
-            <Route path="/finance/petty-cash" element={<FinancePettyCash />} />
-            <Route path="/finance/bank-book" element={<FinanceBankBook />} />
+            <Route
+              path="/admin/finance/petty-cash"
+              element={<FinancePettyCash />}
+            />
+            <Route
+              path="/admin/finance/bank-book"
+              element={<FinanceBankBook />}
+            />
           </Route>
           <Route element={<LayoutMain />}>
             <Route path="/" element={<Home />} />

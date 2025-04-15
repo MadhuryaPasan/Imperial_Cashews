@@ -4,6 +4,7 @@ import {
   CircleDollarSign,
   Handshake,
   Home,
+  LayoutDashboard,
   PackageCheck,
   Warehouse,
 } from "lucide-react";
@@ -16,27 +17,34 @@ const links = [
     ),
     href: "/",
   },
+  {
+    title: "Dashboard",
+    icon: (
+      <LayoutDashboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "/admin/dashboard",
+  },
 
   {
     title: "Finance",
     icon: (
       <ChartCandlestick className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/finance",
+    href: "/admin/finance",
   },
   {
     title: "Inventory",
     icon: (
       <Warehouse className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "#",
+    href: "/admin/inventory",
   },
   {
     title: "Quality Control",
     icon: (
       <PackageCheck className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "#",
+    href: "/admin/quality-control",
   },
 
   {
@@ -44,22 +52,22 @@ const links = [
     icon: (
       <CircleDollarSign className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "#",
+    href: "/admin/sales ",
   },
   {
     title: "Staff",
     icon: (
       <Handshake className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "#",
+    href: "/admin/staff",
   },
 ];
 
 const floatingNavBtns = () => {
   return (
     // <div className="absolute bottom-0 h-screen w-screen right-0 z-30 flex items-center justify-center overflow-hidden bg-amber-300 ">
-
-    <div className=" absolute bottom-0 items-center justify-center w-full pb-3  ">
+<div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-10 pb-3 flex justify-center items-center">
+     {/* <div className=" absolute bottom-0 items-center justify-center w-full pb-3  "> */}
       <div className="  w-full relative flex justify-end">
       <FloatingDock
         mobileClassName=" w-fit" // only for demo, remove for production

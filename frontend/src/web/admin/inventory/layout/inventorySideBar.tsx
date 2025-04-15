@@ -21,36 +21,16 @@ import { Link } from "react-router-dom";
 const items = [
   {
     title: "Home",
-    url: "/admin/finance",
+    url: "/admin/inventory",
     icon: LayoutDashboard,
-  },
-  {
-    title: "Balance Sheet",
-    url: "/admin/finance/balance-sheet",
-    icon: DollarSign,
-  },
-  {
-    title: "Profit & Loss",
-    url: "/admin/finance/profit-loss",
-    icon: LineChart,
-  },
-  {
-    title: "Petty Cash",
-    url: "/admin/finance/petty-cash",
-    icon: Receipt,
-  },
-  {
-    title: "Bank Book",
-    url: "/admin/finance/bank-book",
-    icon: CreditCard,
   },
 ];
 
-const financeSideBar = () => {
+const inventorySideBar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroupLabel className=" text-lg">Finance Management</SidebarGroupLabel>
+        <SidebarGroupLabel className=" text-lg">Inventory Management</SidebarGroupLabel>
       </SidebarHeader>
       <Separator/>
       <SidebarContent>
@@ -79,4 +59,4 @@ const financeSideBar = () => {
   );
 };
 
-export default financeSideBar;
+export default inventorySideBar;
