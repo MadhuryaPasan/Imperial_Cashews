@@ -1,15 +1,6 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import Finance_PettyCash_Table from "@/components/MainFunctions/Finance/Finance_PettyCash/Finance_PettyCash_Table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import FinanceBankBook_Insert from "@/components/admin/finance/financeBankBooks/financeBankBook_Insert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,13 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import FinanceSideBar from "@/web/admin/finance/layout/financeSideBar";
-import { ArrowDown, ArrowUp, Download, Plus } from "lucide-react";
-import FinanceBankBook_Insert from "@/components/admin/finance/financeBankBooks/financeBankBook_Insert";
+import { ArrowDown, ArrowUp, Download, Edit, Trash } from "lucide-react";
+import { useState } from "react";
 
 const financeBankBook = () => {
+  //Assigning the data to transactions from Finance_BankBook_ReturnAll function
+  const transactions = Finance_BankBook_ReturnAll();
+  //-------------------------------------------------------
+
   const totalDeposits = transactions.reduce(
     (acc, curr) => acc + curr.Deposits,
     0
@@ -121,202 +125,6 @@ const financeBankBook = () => {
 
 export default financeBankBook;
 
-// const Records = () => {
-//   return (
-//     <div>
-//       <Finance_PettyCash_Table />
-//     </div>
-//   );
-// };
-
-const transactions = [
-  // March 2025
-  {
-    id: "1",
-    date: "2025-03-01",
-    description: "Client Payment - ABC Corp",
-    reference: "INV-2025-001",
-    Withdrawals: 0,
-    Deposits: 12500,
-    balance: 12500,
-  },
-  {
-    id: "2",
-    date: "2025-03-03",
-    description: "Office Rent Payment",
-    reference: "CHK-1001",
-    Withdrawals: 5000,
-    Deposits: 0,
-    balance: 7500,
-  },
-  {
-    id: "3",
-    date: "2025-03-05",
-    description: "Service Income",
-    reference: "INV-2025-002",
-    Withdrawals: 0,
-    Deposits: 8000,
-    balance: 15500,
-  },
-  {
-    id: "4",
-    date: "2025-03-07",
-    description: "Utility Bill Payment",
-    reference: "CHK-1002",
-    Withdrawals: 2000,
-    Deposits: 0,
-    balance: 13500,
-  },
-  {
-    id: "5",
-    date: "2025-03-10",
-    description: "Client Payment - XYZ Ltd",
-    reference: "INV-2025-003",
-    Withdrawals: 0,
-    Deposits: 6000,
-    balance: 19500,
-  },
-  {
-    id: "6",
-    date: "2025-03-13",
-    description: "Office Supplies",
-    reference: "CHK-1003",
-    Withdrawals: 1200,
-    Deposits: 0,
-    balance: 18300,
-  },
-  {
-    id: "7",
-    date: "2025-03-16",
-    description: "Client Payment - QRS Inc",
-    reference: "INV-2025-004",
-    Withdrawals: 0,
-    Deposits: 7000,
-    balance: 25300,
-  },
-  {
-    id: "8",
-    date: "2025-03-20",
-    description: "Internet Bill",
-    reference: "CHK-1004",
-    Withdrawals: 1500,
-    Deposits: 0,
-    balance: 23800,
-  },
-  {
-    id: "9",
-    date: "2025-03-24",
-    description: "Travel Reimbursement",
-    reference: "TRV-2025-001",
-    Withdrawals: 0,
-    Deposits: 3000,
-    balance: 26800,
-  },
-  {
-    id: "10",
-    date: "2025-03-28",
-    description: "Miscellaneous Expense",
-    reference: "CHK-1005",
-    Withdrawals: 1000,
-    Deposits: 0,
-    balance: 25800,
-  },
-
-  // April 2025
-  {
-    id: "11",
-    date: "2025-04-01",
-    description: "Client Payment - LMN Ltd",
-    reference: "INV-2025-005",
-    Withdrawals: 0,
-    Deposits: 10000,
-    balance: 35800,
-  },
-  {
-    id: "12",
-    date: "2025-04-03",
-    description: "Office Rent Payment",
-    reference: "CHK-1006",
-    Withdrawals: 5000,
-    Deposits: 0,
-    balance: 30800,
-  },
-  {
-    id: "13",
-    date: "2025-04-05",
-    description: "Client Payment - DEF Ltd",
-    reference: "INV-2025-006",
-    Withdrawals: 0,
-    Deposits: 6500,
-    balance: 37300,
-  },
-  {
-    id: "14",
-    date: "2025-04-08",
-    description: "Electricity Bill",
-    reference: "CHK-1007",
-    Withdrawals: 1800,
-    Deposits: 0,
-    balance: 35500,
-  },
-  {
-    id: "15",
-    date: "2025-04-09",
-    description: "Client Payment - GHI Co",
-    reference: "INV-2025-007",
-    Withdrawals: 0,
-    Deposits: 7200,
-    balance: 42700,
-  },
-  {
-    id: "16",
-    date: "2025-04-10",
-    description: "Stationery",
-    reference: "CHK-1008",
-    Withdrawals: 1000,
-    Deposits: 0,
-    balance: 41700,
-  },
-  {
-    id: "17",
-    date: "2025-04-11",
-    description: "Client Payment - JKL Group",
-    reference: "INV-2025-008",
-    Withdrawals: 0,
-    Deposits: 9000,
-    balance: 50700,
-  },
-  {
-    id: "18",
-    date: "2025-04-12",
-    description: "Internet Bill",
-    reference: "CHK-1009",
-    Withdrawals: 1500,
-    Deposits: 0,
-    balance: 49200,
-  },
-  {
-    id: "19",
-    date: "2025-04-13",
-    description: "Repair Expenses",
-    reference: "CHK-1010",
-    Withdrawals: 2500,
-    Deposits: 0,
-    balance: 46700,
-  },
-  {
-    id: "20",
-    date: "2025-04-14",
-    description: "Client Payment - MNO Corp",
-    reference: "INV-2025-009",
-    Withdrawals: 0,
-    Deposits: 8800,
-    balance: 55500,
-  },
-
-  // Similarly, you can add May, June, and July using the same pattern...
-];
-
 const tableColumns = [
   {
     id: 1,
@@ -344,9 +152,18 @@ const tableColumns = [
     id: 6,
     name: "Balance",
   },
+  {
+    id: 7,
+    name: "Options",
+    icon: <Edit className=" size-5" />,
+  },
 ];
 
 const tableData = () => {
+  //Asigning the data to transactions from Finance_BankBook_ReturnAll function
+  const transactions = Finance_BankBook_ReturnAll();
+  //-------------------------------------------------------
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTab, setSelectedTab] = useState<String | null>("all");
 
@@ -354,7 +171,7 @@ const tableData = () => {
     setSelectedTab(value);
   };
 
-  const filteredProducts = transactions.filter((transaction) => {
+  const filteredProducts = transactions?.filter((transaction) => {
     if (selectedTab === "Withdrawals") {
       return transaction.Withdrawals > 0;
     } else if (selectedTab === "Deposits") {
@@ -366,6 +183,7 @@ const tableData = () => {
   });
 
   // Filter products based on search
+
   const searchedTransactions = filteredProducts.filter(
     (transaction) =>
       transaction.description
@@ -396,7 +214,7 @@ const tableData = () => {
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
-                placeholder="Search data..."
+                placeholder="Search data here... (e.g. date, description, reference)"
                 className=" w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -420,10 +238,21 @@ const tableData = () => {
               </TableHeader>
               <TableBody>
                 {searchedTransactions.reverse().map((transaction) => (
-                  <TableRow key={transaction.id}>
-                    <TableCell>{transaction?.date}</TableCell>
-                    <TableCell>{transaction?.description}</TableCell>
-                    <TableCell>{transaction?.reference}</TableCell>
+                  <TableRow key={transaction._id}>
+                    <TableCell>
+                      {transaction?.date
+                        ? new Date(transaction?.date).toLocaleString("en-CA", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })
+                        : "N/A"}
+                    </TableCell>
+                    {["description", "reference"].map((key) => (
+                      <TableCell key={key}>{transaction?.[key]}</TableCell>
+                    ))}
+                    {/* <TableCell>{transaction?.description}</TableCell>
+                    <TableCell>{transaction?.reference}</TableCell> */}
                     <TableCell className="text-destructive font-semibold">
                       {transaction?.Withdrawals <= 0 ? (
                         <span>{"-"}</span>
@@ -459,6 +288,15 @@ const tableData = () => {
                         })}
                       </span>
                     </TableCell>
+
+                    <TableCell className="flex gap-2 ">
+                      
+                        <Button variant="outline" size="icon">
+                          <Edit className=" size-5 text-primary" />
+                        </Button>
+                        {DeleteTransaction(transaction._id)}
+                      
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -474,6 +312,60 @@ const tableData = () => {
       <br />
       <br />
     </>
+  );
+};
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const DeleteTransaction = (id: string) => {
+  const deleteRow = async (id: string) => {
+    await Finance_BankBook_Delete(id);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    window.location.reload();
+  };
+
+  return (
+    
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline" size="icon">
+            <Trash className=" size-5 text-destructive" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently remove your
+              data from our servers.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className=" justify-between">
+            <DialogClose asChild>
+              <Button type="button" variant="outline" className="">
+                Close
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              className=" bg-destructive"
+              onClick={() => deleteRow(id)}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    
   );
 };
 
@@ -497,6 +389,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Finance_BankBook_Delete,
+  Finance_BankBook_ReturnAll,
+} from "@/utils/API/finance/Finance_BankBook_API";
 
 const chartConfig = {
   transactions: {
@@ -513,6 +409,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const chart2 = () => {
+  //Asigning the data to transactions from Finance_BankBook_ReturnAll function
+  const transactions = Finance_BankBook_ReturnAll();
+  //-------------------------------------------------------
+
   const [timeRange, setTimeRange] = React.useState("90d");
 
   const filteredData = transactions.filter((item) => {
@@ -743,3 +643,21 @@ const chart2 = () => {
 //     </Card>
 //   )
 // }
+
+//  // db
+
+//   const [transactions, setTransactions] = useState<any[]>([]);
+
+//   React.useEffect(() => {
+//       async function getAll() {
+//           try {
+//               let result = await Finance_BankBook_GetAll();
+//               setTransactions(result);
+//           } catch (error) {
+//               console.error("Error fetching BankBook transactions:", error);
+//           }
+//       }
+//       getAll();
+//   }, []);
+
+// //----------------------------

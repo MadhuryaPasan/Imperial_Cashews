@@ -20,6 +20,7 @@ import Staff_Employee from "./routes/staff/Staff_Employee.js"
 import Inventory_Material from "./routes/Inventory/Inventory_Material.js";
 import Inventory_Stock from  "./routes/Inventory/Inventory_Stock.js";
 import Inventory_supplierDetail from "./routes/Inventory/Inventory_supplierDetail.js";
+import Finance_BankBook from "./routes/Finance/Finance_BankBook.js";
 
 
 
@@ -48,6 +49,7 @@ app.use(Staff_Employee);
 app.use(Inventory_Material);
 app.use(Inventory_Stock);
 app.use(Inventory_supplierDetail);
+app.use(Finance_BankBook);
 
 
 app.listen(PORT, () => {

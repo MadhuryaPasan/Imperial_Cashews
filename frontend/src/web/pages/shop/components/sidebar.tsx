@@ -1,4 +1,4 @@
-import { ArrowLeftCircle, ChevronsRight, Home, Inbox } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
 
 import {
   Sidebar,

@@ -95,6 +95,8 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
   console.log("Data inserted successfully");
 });
 
+
+
 router.route("/Finance_PettyCash/:id").put(async (req, res) => {
   let db = DB.getDB();
 

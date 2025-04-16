@@ -1,8 +1,8 @@
-import ProductCard from "@/web/pages/components/productCard";
 import { Button } from "@/components/ui/button";
+import { returnAllProducts } from "@/utils/API/sales/Sales_Products_API";
+import ProductCard from "@/web/pages/components/productCard";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { returnAllProducts } from "@/utils/API/sales/Sales_Products_API";
 
 
 

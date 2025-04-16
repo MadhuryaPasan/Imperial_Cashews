@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, ShieldCheck, Truck } from "lucide-react";
-import React from "react";
 
 const Features = () => {
   return (
