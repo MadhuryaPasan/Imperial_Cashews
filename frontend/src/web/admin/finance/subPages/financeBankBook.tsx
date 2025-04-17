@@ -184,14 +184,28 @@ const tableData = () => {
 
   // Filter products based on search
 
-  const searchedTransactions = filteredProducts.filter(
-    (transaction) =>
+  // const searchedTransactions = filteredProducts.filter(
+  //   (transaction) =>
+  //     transaction.description
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase()) ||
+  //     transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     transaction.reference.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  const searchedTransactions = filteredProducts.filter((transaction) => {
+    const formattedDate = new Date(transaction.date).toLocaleDateString(
+      "en-CA"
+    ); // Gives "YYYY-MM-DD" format
+
+    return (
       transaction.description
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      transaction.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formattedDate.includes(searchTerm) ||
       transaction.reference.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    );
+  });
 
   return (
     <>
@@ -290,12 +304,10 @@ const tableData = () => {
                     </TableCell>
 
                     <TableCell className="flex gap-2 ">
-                      
-                        <Button variant="outline" size="icon">
-                          <Edit className=" size-5 text-primary" />
-                        </Button>
-                        {DeleteTransaction(transaction._id)}
-                      
+                      <Button variant="outline" size="icon">
+                        <Edit className=" size-5 text-primary" />
+                      </Button>
+                      {DeleteTransaction(transaction._id)}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -334,38 +346,36 @@ const DeleteTransaction = (id: string) => {
   };
 
   return (
-    
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Trash className=" size-5 text-destructive" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently remove your
-              data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className=" justify-between">
-            <DialogClose asChild>
-              <Button type="button" variant="outline" className="">
-                Close
-              </Button>
-            </DialogClose>
-            <Button
-              type="button"
-              className=" bg-destructive"
-              onClick={() => deleteRow(id)}
-            >
-              Delete
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Trash className=" size-5 text-destructive" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently remove your data
+            from our servers.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className=" justify-between">
+          <DialogClose asChild>
+            <Button type="button" variant="outline" className="">
+              Close
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    
+          </DialogClose>
+          <Button
+            type="button"
+            className=" bg-destructive"
+            onClick={() => deleteRow(id)}
+          >
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

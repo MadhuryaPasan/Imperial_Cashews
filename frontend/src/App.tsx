@@ -9,7 +9,6 @@ import AdminMainLayout from "@/web/admin/layout/adminMainLayout";
 import ProductView from "@/web/pages/shop/productView";
 import Cart from "@/web/pages/shop/cart";
 
-
 import FinanceWelcomeScreen from "@/web/admin/finance/financeWelcomeScreen";
 import FinanceBalanceSheet from "@/web/admin/finance/subPages/financeBalanceSheet";
 import FinanceProfitLoss from "@/web/admin/finance/subPages/financeProfitLoss";
@@ -17,10 +16,10 @@ import FinancePettyCash from "@/web/admin/finance/subPages/financePettyCash";
 import FinanceBankBook from "@/web/admin/finance/subPages/financeBankBook";
 
 import Inventory from "@/web/admin/inventory/inventoryWelcomeScreen";
+import RawMaterialStock from "@/web/admin/inventory/subPages/rawMaterialStock";
 import Sales from "@/web/admin/sales/salesWelcomeScreen";
 import Staff from "@/web/admin/staff/staffWelcomeScreen";
 import QualityControl from "@/web/admin/qualityControl/qualityControlWelcomeScreen";
-
 
 const ProtectedRoute = ({
   user,
@@ -73,12 +72,13 @@ function App() {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/finance" element={<FinanceWelcomeScreen />} />
             <Route path="/admin/inventory" element={<Inventory />} />
+            <Route
+              path="/admin/inventory/raw-material-stock"
+              element={<RawMaterialStock />}
+            />
             <Route path="/admin/sales" element={<Sales />} />
             <Route path="/admin/staff" element={<Staff />} />
-            <Route
-              path="/admin/quality-control"
-              element={<QualityControl />}
-            />
+            <Route path="/admin/quality-control" element={<QualityControl />} />
             <Route
               path="/admin/finance/balance-sheet"
               element={<FinanceBalanceSheet />}

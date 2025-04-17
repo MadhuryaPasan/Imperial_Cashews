@@ -24,6 +24,31 @@ const items = [
     url: "/admin/inventory",
     icon: LayoutDashboard,
   },
+  {
+    title: "Raw Material Stock",
+    url: "/admin/inventory/raw-material-stock",
+    icon: Receipt,
+  },
+  // {
+  //   title: "Finished Goods Stock",
+  //   url: "/admin/inventory/finished-goods-stock",
+  //   icon: LineChart,
+  // },
+  // {
+  //   title: "Stock Adjustment",
+  //   url: "/admin/inventory/stock-adjustment",
+  //   icon: CreditCard,
+  // },
+  // {
+  //   title: "Inventory Settings",
+  //   url: "/admin/inventory/settings",
+  //   icon: Settings,
+  // },
+  // {
+  //   title: "Logout",
+  //   url: "/logout",
+  //   icon: LogOut,
+  // },
 ];
 
 const inventorySideBar = () => {
