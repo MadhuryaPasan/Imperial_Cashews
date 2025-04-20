@@ -159,11 +159,11 @@ const Inventory_Material_insert = () => {
     {...register("quantity", {
       required: "Quantity is required",
       min: {
-        value: 1,
+       value: 1,
         message: "Quantity should be at least 1",
       },
       max: {
-        value: 100000,
+       value: 100000,
         message: "Quantity should be at most 100000",
       },
       pattern: {
