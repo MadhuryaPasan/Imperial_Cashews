@@ -424,9 +424,17 @@ const chart2 = () => {
   const transactions = Finance_BankBook_ReturnAll();
   //-------------------------------------------------------
 
+
+  const sortedTransactionsAsc = transactions.sort((a, b) => {
+    const dateA = new Date(typeof a.date === 'string' ? a.date : a.date.$date);
+    const dateB = new Date(typeof b.date === 'string' ? b.date : b.date.$date);
+    return dateA.getTime() - dateB.getTime(); // ascending
+  });
+  
+
   const [timeRange, setTimeRange] = React.useState("90d");
 
-  const filteredData = transactions.filter((item) => {
+  const filteredData = sortedTransactionsAsc.filter((item) => {
     const date = new Date(item.date);
     const referenceDate = new Date();
     let daysToSubtract = 90;

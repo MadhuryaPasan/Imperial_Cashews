@@ -23,6 +23,8 @@ import QualityControl from "@/web/admin/qualityControl/qualityControlWelcomeScre
 import RawMaterialCheck from "@/web/admin/qualityControl/subPages/rawMaterialCheck";
 import StaffManagement from "@/web/admin/staff/subPages/staff";
 import ClientsManagement from "@/web/admin/sales/subPages/clients";
+import FinishedProductStock from "@/web/admin/inventory/subPages/finshedProductStock";
+import ContactUs from "@/web/pages/contactUs/contactus";
 import Pdf from "./web/test/reactpdf/pdf";
 
 const ProtectedRoute = ({
@@ -81,6 +83,11 @@ function App() {
               path="/admin/inventory/raw-material-stock"
               element={<RawMaterialStock />}
             />
+            <Route
+              path="/admin/inventory/finished-product-stock"
+              element={<FinishedProductStock />}
+            />
+
             <Route path="/admin/sales" element={<Sales />} />
             <Route path="/admin/sales/clients-management" element={<ClientsManagement />} />
             <Route path="/admin/staff" element={<Staff />} />
@@ -109,6 +116,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/product/:id" element={<ProductView />} />
             <Route path="/shop/cart" element={<Cart />} />
+            <Route path="/contact" element={<ContactUs />} />
           </Route>
         </Routes>
       </HashRouter>

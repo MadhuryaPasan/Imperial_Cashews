@@ -27,12 +27,12 @@ import { Inventory_RawCashews_StockLevel_ReturnAll } from "@/utils/API/inventory
 import InventorySideBar from "@/web/admin/inventory/layout/inventorySideBar";
 import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
 import { useState } from "react";
+import { Inventory_FinalProduct_ReturnAll } from "@/utils/API/inventory/Inventory_FinalProduct_API";
 
 const holdingLevel = 10000;
 const minHoldingLevel = 500;
 
-const rawMaterialStock = () => {
-  //Asigning the data to
+const finishedProductStock = () => {
   const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
   const totalStockLevel = rawMaterialStocks.reduce(
     (acc, curr) => acc + curr.current_quantity_kg,
@@ -42,8 +42,6 @@ const rawMaterialStock = () => {
     (acc, curr) => acc + curr.unit_price * curr.current_quantity_kg,
     0
   );
-
-  //-------------------------------------------------------
   return (
     <>
       <div className="flex ">
@@ -54,7 +52,7 @@ const rawMaterialStock = () => {
         </div>
         <main className=" w-full mx-5 mt-4">
           <div className="flex justify-between">
-            <div className="text-3xl font-bold ">Raw Materiels</div>
+            <div className="text-3xl font-bold ">Finished Products</div>
             <div className="flex gap-2 items-center">
               <FinanceBankBook_Insert />
               <Button variant="outline">
@@ -149,7 +147,7 @@ const rawMaterialStock = () => {
 
           {/* <div>{Records()}</div> */}
 
-          <div>{RawMaterialHoldinglevelChart()}</div>
+          {/* <div>{RawMaterialHoldinglevelChart()}</div> */}
           <Separator className=" my-4" />
           <div>{tableData()}</div>
         </main>
@@ -158,7 +156,9 @@ const rawMaterialStock = () => {
   );
 };
 
-export default rawMaterialStock;
+export default finishedProductStock;
+
+//--------------------------------------
 
 const tableColumns = [
   {
@@ -171,41 +171,58 @@ const tableColumns = [
   },
   {
     id: 3,
-    name: "Quantity(kg)",
+    name: "Raw Batch Code",
   },
-  { id: 4, name: "Current Quantity(kg)" },
-  { id: 5, name: "Location" },
+  {
+    id: 4,
+    name: "Product Name",
+  },
+  {
+    id: 5,
+    name: "Category",
+  },
   {
     id: 6,
+    name: "Quantity",
+  },
+  { id: 7, name: "Current Quantity" },
+  { id: 8, name: "Location" },
+  {
+    id: 9,
     name: "Unit Price",
     // icon: <ArrowUp className=" size-5 text-destructive" />,
   },
   {
-    id: 7,
+    id: 10,
+    name: "Weight",
+  },
+
+  {
+    id: 11,
     name: "Quality Level",
     icon: <BarChart className=" size-5" />,
   },
   {
-    id: 8,
-    name: "Status",
+    id: 12,
+    name: "QC Status",
   },
   {
-    id: 9,
-    name: "Supplier",
+    id: 13,
+    name: "Expiry Date",
   },
   {
-    id: 10,
+    id: 14,
     name: "Total Stock Level",
   },
   {
-    id: 11,
+    id: 15,
     name: "Total Stock Value",
   },
 ];
 
 const tableData = () => {
   //Assigning the data to
-  const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
+  const results = Inventory_FinalProduct_ReturnAll();
   //-------------------------------------------------------
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -215,13 +232,13 @@ const tableData = () => {
     setSelectedTab(value);
   };
 
-  const filteredMaterials = rawMaterialStocks?.filter((rawMaterialStocks) => {
+  const filteredMaterials = results?.filter((data) => {
     if (selectedTab === "pending") {
-      return rawMaterialStocks.quality_level.quality_status === "pending";
+      return data.quality_level.quality_status === "pending";
     } else if (selectedTab === "passed") {
-      return rawMaterialStocks.quality_level.quality_status === "passed";
+      return data.quality_level.quality_status === "passed";
     } else if (selectedTab === "rejected") {
-      return rawMaterialStocks.quality_level.quality_status === "rejected";
+      return data.quality_level.quality_status === "rejected";
     } else if (selectedTab === "all") {
       return true;
     }
@@ -243,22 +260,17 @@ const tableData = () => {
   //       .includes(searchTerm.toLowerCase())
   // );
 
-  const searchedMaterials = filteredMaterials.filter((rawMaterialStocks) => {
-    const formattedDate = new Date(
-      rawMaterialStocks.date_received
-    ).toLocaleDateString("en-CA"); // Gives "YYYY-MM-DD" format
+  const searchedMaterials = filteredMaterials.filter((data) => {
+    const formattedDate = new Date(data.date_received).toLocaleDateString(
+      "en-CA"
+    ); // Gives "YYYY-MM-DD" format
 
     return (
-      rawMaterialStocks.batch_code
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+      data.batch_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       formattedDate.includes(searchTerm) ||
-      rawMaterialStocks.supplier_details.supplier_name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())||
-        rawMaterialStocks.location
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+      data.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.categoryData.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -284,7 +296,7 @@ const tableData = () => {
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
-                placeholder="Search data here... (e.g. date, batch code, supplier, location)"
+                placeholder="Search data here... (e.g. Batch Code, Date Received, Location, Category)"
                 className=" w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -307,69 +319,80 @@ const tableData = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {searchedMaterials.reverse().map((rawMaterialStocks) => (
-                  <TableRow key={rawMaterialStocks._id}>
-                    <TableCell>{rawMaterialStocks?.batch_code}</TableCell>
+                {searchedMaterials.reverse().map((data) => (
+                  <TableRow key={data._id}>
+                    <TableCell>{data?.batch_code}</TableCell>
                     <TableCell>
-                      {rawMaterialStocks?.date_received
-                        ? new Date(
-                            rawMaterialStocks?.date_received
-                          ).toLocaleString("en-CA", {
-                            year: "numeric",
-                            month: "numeric",
-                            day: "numeric",
-                          })
+                      {data?.date_received
+                        ? new Date(data?.date_received).toLocaleString(
+                            "en-CA",
+                            {
+                              year: "numeric",
+                              month: "numeric",
+                              day: "numeric",
+                            }
+                          )
                         : "N/A"}
                     </TableCell>
+                    {/* Raw Batch Code */}
+                    <TableCell>{data?.RawBatch.batch_id}</TableCell>
+                    {/* Product Name */}
+                    <TableCell>{data.product_name}</TableCell>
+                    {/* Category */}
+                    <TableCell>{data.categoryData.name}</TableCell>
+
+                    {/* Started Quantity(packs) */}
                     <TableCell>
-                      {rawMaterialStocks.started_quantity_kg.toLocaleString()}kg
+                      {data.started_quantity_packs.toLocaleString()}{" Packs"}
                     </TableCell>
+                    {/* Current Quantity(packs) */}
                     <TableCell>
-                      {rawMaterialStocks.current_quantity_kg.toLocaleString()}kg
+                      {data.current_quantity_packs.toLocaleString()}{" Packs"}
                     </TableCell>
-                    <TableCell>{rawMaterialStocks.location}</TableCell>
+                    {/* Location */}
+                    <TableCell>{data.location}</TableCell>
+                    {/* Unit Price */}
                     <TableCell>
                       RS{" "}
-                      {rawMaterialStocks.unit_price.toLocaleString("en-US", {
+                      {data.unit_price.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </TableCell>
+                    {/* Single Pack Weight(kg) */}
+                    <TableCell>
+                      {data.pack_weight_grams.toLocaleString()}kg {" (1 Pack)"}
+                    </TableCell>
+                    {/* Quality Level */}
 
                     <TableCell>
                       <div className=" text-right px-2">
                         <span className="text-sm text-gray-700 ">
-                          {rawMaterialStocks.quality_level.quality_percentage}
+                          {data.quality_level.quality_percentage}
                           {"%"}
                         </span>
-                        {rawMaterialStocks.quality_level.quality_percentage >
-                        0 ? (
+                        {data.quality_level.quality_percentage > 0 ? (
                           <Progress
-                            value={
-                              rawMaterialStocks.quality_level.quality_percentage
-                            }
+                            value={data.quality_level.quality_percentage}
                           />
                         ) : (
                           <Progress
-                            value={
-                              rawMaterialStocks.quality_level.quality_percentage
-                            }
+                            value={data.quality_level.quality_percentage}
                             className="bg-gray-200/80"
                           />
                         )}
                       </div>
                     </TableCell>
+                    {/* QC Status */}
                     <TableCell>
-                      {rawMaterialStocks.quality_level.quality_status ===
-                      "passed" ? (
+                      {data.quality_level.quality_status === "passed" ? (
                         <Badge
                           variant="outline"
                           className="text-primary border-primary"
                         >
                           Passed
                         </Badge>
-                      ) : rawMaterialStocks.quality_level.quality_status ===
-                        "pending" ? (
+                      ) : data.quality_level.quality_status === "pending" ? (
                         <Badge
                           variant="outline"
                           className="text-yellow-500 border-yellow-500"
@@ -385,16 +408,26 @@ const tableData = () => {
                         </Badge>
                       )}
                     </TableCell>
+                    {/* Expiry Date */}
                     <TableCell>
-                      {rawMaterialStocks.supplier_details.supplier_name}
+                      {data.expiry_date
+                        ? new Date(data.expiry_date).toLocaleString("en-CA", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })
+                        : "N/A"}
                     </TableCell>
+
+                    {/* Total Stock Level */}
                     <TableCell>
-                      {rawMaterialStocks.total_inventory_stock_level.toLocaleString()}
+                      {data.total_inventory_stock_level.toLocaleString()}
                       kg
                     </TableCell>
+                    {/* Total Stock Value */}
                     <TableCell>
                       RS{" "}
-                      {rawMaterialStocks.total_inventory_stock_value.toLocaleString(
+                      {data.total_inventory_stock_value.toLocaleString(
                         "en-US",
                         {
                           minimumFractionDigits: 2,
@@ -421,124 +454,3 @@ const tableData = () => {
 };
 
 // -------------------------------------
-
-("use client");
-
-import { Label, Pie, PieChart } from "recharts";
-
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-const RawMaterialHoldinglevelChart = () => {
-  //Asigning the data to
-  const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
-  const totalStockLevel = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.current_quantity_kg,
-    0
-  );
-
-  const availableLevel = holdingLevel - totalStockLevel;
-  const availableHoldingLevel = holdingLevel - availableLevel;
-
-  //-------------------------------------------------------
-
-  const chartData = [
-    {
-      browser: "Current Level",
-      visitors: availableHoldingLevel,
-      fill: "var(--color-chrome)",
-    },
-    {
-      browser: "Available Level",
-      visitors: availableLevel,
-      fill: "var(--color-safari)",
-    },
-  ];
-
-  const chartConfig = {
-    visitors: {
-      label: "Stock Level",
-    },
-    chrome: {
-      label: "total",
-      color: "rgb(0, 201, 81)",
-    },
-    safari: {
-      label: "currentLevel",
-      color: "#c7efd7",
-    },
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Current Stock Level</CardTitle>
-        <CardDescription className="text-sm text-muted-foreground">
-          Current stock level of raw materials in the factory
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={70}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
-                        >
-                          {totalStockLevel.toLocaleString()}kg
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Current Stock Level
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Total holding level {holdingLevel}
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing the total holding level of raw materials in the factory
-        </div>
-      </CardFooter>
-    </Card>
-  );
-};

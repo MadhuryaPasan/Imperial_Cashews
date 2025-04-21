@@ -29,6 +29,11 @@ const items = [
     url: "/admin/inventory/raw-material-stock",
     icon: Receipt,
   },
+  {
+    title: "Finished Product Stock",
+    url: "/admin/inventory/finished-product-stock",
+    icon: Receipt,
+  },
   // {
   //   title: "Finished Goods Stock",
   //   url: "/admin/inventory/finished-goods-stock",
