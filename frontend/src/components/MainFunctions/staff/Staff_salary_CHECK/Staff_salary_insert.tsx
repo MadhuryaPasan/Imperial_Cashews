@@ -176,7 +176,7 @@ const Staff_salary_insert = () => {
               </div>
 
                  {/* Total Salary */}
-                <div className="flex flex-col space-y-1.5">
+                {/* <div className="flex flex-col space-y-1.5">
                 <Label>Total Salary</Label>
                 <Input
                   {...register("totalSalary", {
@@ -198,7 +198,7 @@ const Staff_salary_insert = () => {
                     {errors.totalSalary.message}
                   </span>
                 )}
-              </div>
+              </div> */}
 
                  {/* Month */}
                 <div className="flex flex-col space-y-1.5">

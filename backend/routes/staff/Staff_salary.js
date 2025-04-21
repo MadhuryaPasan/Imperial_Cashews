@@ -45,15 +45,25 @@ router.route("/Staff_salary/:id").delete(async (req, res) => {
 //insert data
 router.route("/Staff_salary").post(async (req, res) => {
   let db = DB.getDB();
+
+  const basic = Number(req.body.basicSalary) || 0;
+  const allow = Number(req.body.allowances) || 0;
+  const epf = Number(req.body.epf) || 0;
+  const etf = Number(req.body.etf) || 0;
+
+  const totalSalary = basic + allow - (epf + etf); // 🧮 auto calculation
+
+
   let mongoObject = {
-    basicSalary: req.body.basicSalary,
-    allowances: req.body.allowances,
-    epf: req.body.epf,
-    etf: req.body.etf,
-    totalSalary: req.body.totalSalary,
+    basicSalary: basic,
+    allowances: allow,
+    epf: epf,
+    etf: etf,
+    totalSalary: totalSalary,
     month: req.body.month,
     payDate: req.body.payDate,
   };
+
   let data = await db.collection("Staff_salary").insertOne(mongoObject);
   res.json(data);
   console.log("Data inserted successfully");
@@ -64,13 +74,20 @@ router.route("/Staff_salary/:id").put(async (req, res) => {
   let db = DB.getDB();
   
 
+  const basic = Number(req.body.basicSalary) || 0;
+  const allow = Number(req.body.allowances) || 0;
+  const epf = Number(req.body.epf) || 0;
+  const etf = Number(req.body.etf) || 0;
+
+  const totalSalary = basic + allow - (epf + etf); // 🧮 recalculate
+
   let mongoObject = {
     $set: {
-        basicSalary: req.body.basicSalary,
-        allowances: req.body.allowances,
-        epf: req.body.epf,
-        etf: req.body.etf,
-        totalSalary: req.body.totalSalary,
+      basicSalary: basic,
+      allowances: allow,
+      epf: epf,
+      etf: etf,
+      totalSalary: totalSalary,
     },
   };
 

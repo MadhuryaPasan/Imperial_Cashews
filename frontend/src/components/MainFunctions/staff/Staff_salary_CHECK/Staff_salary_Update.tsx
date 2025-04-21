@@ -192,7 +192,7 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
               </div>
 
                  {/* Total Salary */}
-                <div className="flex flex-col space-y-1.5">
+                {/* <div className="flex flex-col space-y-1.5">
                 <Label>Total Salary</Label>
                 <Input
                 defaultValue={totalSalary}
@@ -215,7 +215,7 @@ const Staff_salary_Update: React.FC<any> = (currentData) => {
                     {errors.totalSalary.message}
                   </span>
                 )}
-              </div>
+              </div> */}
              
             </CardContent>
 
