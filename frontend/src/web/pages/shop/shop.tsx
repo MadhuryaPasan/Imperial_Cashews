@@ -17,6 +17,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 import { returnAllProducts } from "@/utils/API/sales/Sales_Products_API";
 import { Badge } from "@/components/ui/badge";
+import Footer from "@/web/layout/components/footer";
 
 const shop = () => {
   //  sidebar filter

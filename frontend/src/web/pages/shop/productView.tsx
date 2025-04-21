@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Footer from "@/web/layout/components/footer";
 
 const productView = () => {
   const Navigate = useNavigate();
@@ -204,6 +205,7 @@ const productView = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };
