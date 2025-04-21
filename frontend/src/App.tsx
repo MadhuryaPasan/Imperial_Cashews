@@ -20,6 +20,10 @@ import RawMaterialStock from "@/web/admin/inventory/subPages/rawMaterialStock";
 import Sales from "@/web/admin/sales/salesWelcomeScreen";
 import Staff from "@/web/admin/staff/staffWelcomeScreen";
 import QualityControl from "@/web/admin/qualityControl/qualityControlWelcomeScreen";
+import RawMaterialCheck from "@/web/admin/qualityControl/subPages/rawMaterialCheck";
+import StaffManagement from "@/web/admin/staff/subPages/staff";
+import ClientsManagement from "@/web/admin/sales/subPages/clients";
+import Pdf from "./web/test/reactpdf/pdf";
 
 const ProtectedRoute = ({
   user,
@@ -46,6 +50,7 @@ function App() {
       <HashRouter>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/pdf" element={<Pdf />} />
 
           {/* <Route
               path="/admin"
@@ -77,8 +82,11 @@ function App() {
               element={<RawMaterialStock />}
             />
             <Route path="/admin/sales" element={<Sales />} />
+            <Route path="/admin/sales/clients-management" element={<ClientsManagement />} />
             <Route path="/admin/staff" element={<Staff />} />
+            <Route path="/admin/staff/staff-management" element={<StaffManagement />} />
             <Route path="/admin/quality-control" element={<QualityControl />} />
+            <Route path="/admin/quality-control/raw-material-check" element={<RawMaterialCheck />} />
             <Route
               path="/admin/finance/balance-sheet"
               element={<FinanceBalanceSheet />}

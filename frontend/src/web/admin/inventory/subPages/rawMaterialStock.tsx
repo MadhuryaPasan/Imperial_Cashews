@@ -21,25 +21,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import FinanceSideBar from "@/web/admin/finance/layout/financeSideBar";
+import InventorySideBar from "@/web/admin/inventory/layout/inventorySideBar";
 import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import { Inventory_RawCashews_StockLevel_ReturnAll } from "@/utils/API/inventory/Inventory_RawCashews_StockLevel_API";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
-const holdingLevel = 2000;
+const holdingLevel = 10000;
 const minHoldingLevel = 500;
 
 const rawMaterialStock = () => {
   //Asigning the data to
   const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
   const totalStockLevel = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.quantity_kg,
+    (acc, curr) => acc + curr.current_quantity_kg,
     0
   );
   const totalStockValue = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.unit_price * curr.quantity_kg,
+    (acc, curr) => acc + curr.unit_price * curr.current_quantity_kg,
     0
   );
 
@@ -49,7 +49,7 @@ const rawMaterialStock = () => {
       <div className="flex ">
         <div>
           <SidebarProvider>
-            <FinanceSideBar />
+            <InventorySideBar />
           </SidebarProvider>
         </div>
         <main className=" w-full mx-5 mt-4">
@@ -66,25 +66,24 @@ const rawMaterialStock = () => {
 
           {totalStockLevel > minHoldingLevel ? null : (
             <div>
-            <Card className=" border-destructive items-center bg-destructive/10"> 
-              <CardContent >
-                <div className="flex items-center gap-4  w-fit">
-                  <ShieldAlert className="  size-15 text-destructive" />
-                  <div>
-                    <CardTitle className="text-2xl text-destructive font-bold">
-                      Stock Level is low!
-                    </CardTitle>
+              <Card className=" border-destructive items-center bg-destructive/10">
+                <CardContent>
+                  <div className="flex items-center gap-4  w-fit">
+                    <ShieldAlert className="  size-15 text-destructive" />
+                    <div>
+                      <CardTitle className="text-2xl text-destructive font-bold">
+                        Stock Level is low!
+                      </CardTitle>
                       <CardDescription className="text-destructive">
                         Please order more raw materials
                       </CardDescription>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          <Separator className=" my-4" />
-          </div>
+                </CardContent>
+              </Card>
+              <Separator className=" my-4" />
+            </div>
           )}
-
 
           <div className="grid md:grid-cols-4 gap-4 ">
             <Card>
@@ -95,11 +94,11 @@ const rawMaterialStock = () => {
                 <CardContent className="p-0">
                   {totalStockLevel > minHoldingLevel ? (
                     <div className="text-2xl font-bold line-clamp-1 text-primary">
-                      {totalStockLevel} kg
+                      {totalStockLevel.toLocaleString()}kg
                     </div>
                   ) : (
                     <div className="text-2xl font-bold line-clamp-1 text-destructive">
-                      {totalStockLevel} kg
+                      {totalStockLevel.toLocaleString()}kg
                     </div>
                   )}
                 </CardContent>
@@ -128,7 +127,7 @@ const rawMaterialStock = () => {
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-primary">
-                    {holdingLevel} kg
+                    {holdingLevel.toLocaleString()}kg
                   </div>
                 </CardContent>
               </CardHeader>
@@ -140,15 +139,13 @@ const rawMaterialStock = () => {
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-destructive">
-                    {minHoldingLevel} kg
+                    {minHoldingLevel.toLocaleString()}kg
                   </div>
                 </CardContent>
               </CardHeader>
             </Card>
           </div>
           <Separator className=" my-4" />
-
-          
 
           {/* <div>{Records()}</div> */}
 
@@ -176,36 +173,38 @@ const tableColumns = [
     id: 3,
     name: "Quantity(kg)",
   },
+  { id: 4, name: "Current Quantity(kg)" },
+  { id: 5, name: "Location" },
   {
-    id: 4,
+    id: 6,
     name: "Unit Price",
     // icon: <ArrowUp className=" size-5 text-destructive" />,
   },
   {
-    id: 5,
+    id: 7,
     name: "Quality Level",
     icon: <BarChart className=" size-5" />,
   },
   {
-    id: 6,
+    id: 8,
     name: "Status",
   },
   {
-    id: 7,
+    id: 9,
     name: "Supplier",
   },
   {
-    id: 8,
+    id: 10,
     name: "Total Stock Level",
   },
   {
-    id: 9,
+    id: 11,
     name: "Total Stock Value",
   },
 ];
 
 const tableData = () => {
-  //Asigning the data to
+  //Assigning the data to
   const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
   //-------------------------------------------------------
 
@@ -256,7 +255,10 @@ const tableData = () => {
       formattedDate.includes(searchTerm) ||
       rawMaterialStocks.supplier_details.supplier_name
         .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+        .includes(searchTerm.toLowerCase())||
+        rawMaterialStocks.location
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
     );
   });
 
@@ -282,7 +284,7 @@ const tableData = () => {
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
-                placeholder="Search data here... (e.g. date, batch code, supplier)"
+                placeholder="Search data here... (e.g. date, batch code, supplier, location)"
                 className=" w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -319,8 +321,20 @@ const tableData = () => {
                           })
                         : "N/A"}
                     </TableCell>
-                    <TableCell>{rawMaterialStocks.quantity_kg}</TableCell>
-                    <TableCell>{rawMaterialStocks.unit_price}</TableCell>
+                    <TableCell>
+                      {rawMaterialStocks.started_quantity_kg.toLocaleString()}kg
+                    </TableCell>
+                    <TableCell>
+                      {rawMaterialStocks.current_quantity_kg.toLocaleString()}kg
+                    </TableCell>
+                    <TableCell>{rawMaterialStocks.location}</TableCell>
+                    <TableCell>
+                      RS{" "}
+                      {rawMaterialStocks.unit_price.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </TableCell>
 
                     <TableCell>
                       <div className=" text-right px-2">
@@ -374,8 +388,20 @@ const tableData = () => {
                     <TableCell>
                       {rawMaterialStocks.supplier_details.supplier_name}
                     </TableCell>
-                    <TableCell>{rawMaterialStocks.total_stock_level}</TableCell>
-                    <TableCell>{rawMaterialStocks.total_stock_value}</TableCell>
+                    <TableCell>
+                      {rawMaterialStocks.total_inventory_stock_level.toLocaleString()}
+                      kg
+                    </TableCell>
+                    <TableCell>
+                      RS{" "}
+                      {rawMaterialStocks.total_inventory_stock_value.toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -411,7 +437,7 @@ const RawMaterialHoldinglevelChart = () => {
   //Asigning the data to
   const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
   const totalStockLevel = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.quantity_kg,
+    (acc, curr) => acc + curr.current_quantity_kg,
     0
   );
 

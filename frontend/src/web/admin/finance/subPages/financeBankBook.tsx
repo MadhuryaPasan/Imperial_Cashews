@@ -125,6 +125,7 @@ const financeBankBook = () => {
 
 export default financeBankBook;
 
+
 const tableColumns = [
   {
     id: 1,

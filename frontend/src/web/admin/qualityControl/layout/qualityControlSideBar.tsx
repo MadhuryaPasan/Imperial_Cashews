@@ -24,6 +24,11 @@ const items = [
     url: "/admin/quality-control",
     icon: LayoutDashboard,
   },
+  {
+    title: "Raw Material Check",
+    url: "/admin/quality-control/raw-material-check",
+    icon: LayoutDashboard,
+  },
   
 ];
 

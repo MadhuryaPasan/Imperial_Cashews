@@ -52,7 +52,7 @@ const links = [
     icon: (
       <CircleDollarSign className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/sales ",
+    href: "/admin/sales",
   },
   {
     title: "Staff",

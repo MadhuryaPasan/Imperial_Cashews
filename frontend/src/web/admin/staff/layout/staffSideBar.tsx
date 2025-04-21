@@ -24,6 +24,11 @@ const items = [
     url: "/admin/staff",
     icon: LayoutDashboard,
   },
+  {
+    title: "All Staff",
+    url: "/admin/staff/staff-management",
+    icon: LayoutDashboard,
+  },
   
 ];
 

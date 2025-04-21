@@ -24,6 +24,11 @@ const items = [
     url: "/admin/sales",
     icon: LayoutDashboard,
   },
+  {
+    title: "All Clients",
+    url: "/admin/sales/clients-management",
+    icon: LayoutDashboard,
+  },
   
 ];
 

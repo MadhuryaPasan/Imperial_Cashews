@@ -8,83 +8,110 @@ let router = express.Router();
 router.route("/Sales_Customer").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Sales_Customer").find({}).toArray(); // chage collection name
-    res
-      .status(200)
-      .json({ message: "Data retrieved successfully", data: result });
+    let result = await db.collection("Sales_Customer").find({}).toArray();
+    res.status(200).json(result);
   } catch (error) {
-    res.status(404).json({
-      error: "Failed to fetch data from database",
-      message: error.message,
-    });
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // read data single data
-
 router.route("/Sales_Customer/:id").get(async (req, res) => {
-  let db = DB.getDB();
-  let result = await db
-    .collection("Sales_Customer")
-    .findOne({ _id: new ObjectId(req.params.id) });
-  res.json(result);
+  try {
+    let db = DB.getDB();
+    let result = await db
+      .collection("Sales_Customer")
+      .findOne({ _id: new ObjectId(req.params.id) });
+    res.json(result);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //delete data
 router.route("/Sales_Customer/:id").delete(async (req, res) => {
-  let db = DB.getDB();
-  let data = await db
-    .collection("Sales_Customer")
-    .deleteOne({ _id: new ObjectId(req.params.id) });
-  res.json(data);
-  console.log("Data deleted successfully");
+  try {
+    let db = DB.getDB();
+    let data = await db
+      .collection("Sales_Customer")
+      .deleteOne({ _id: new ObjectId(req.params.id) });
+    res.json(data);
+    console.log("Data deleted successfully");
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //insert data
 router.route("/Sales_Customer").post(async (req, res) => {
-  let db = DB.getDB();
-  let mongoObject = {
-    name: req.body.name,
-    contact_number: req.body.contact_number,
-  
-    email: req.body.email,
-    customer_id: req.body.customer_id,
-    address: req.body.address,
-    created_date: new Date(new Date().toISOString()),
-    orders_count: parseInt(req.body.orders_count),
-    total_spent: parseFloat(req.body.total_spent),
-  };
-  let data = await db.collection("Sales_Customer").insertOne(mongoObject);
-  res.json(data);
-  console.log("Data inserted successfully");
+  try {
+    let db = DB.getDB();
+    const date = new Date(req.body.date);
+    let Withdrawals = 0;
+    let Deposits = 0;
+
+    if (req.body.type === "Withdrawals") {
+      Withdrawals = req.body.amount;
+    } else if (req.body.type === "Deposits") {
+      Deposits = req.body.amount;
+    }
+
+    let mongoObject = {
+      description: req.body.description,
+      date: new Date(date.toISOString()),
+      reference: req.body.reference,
+      Withdrawals: parseFloat(Withdrawals),
+      Deposits: parseFloat(Deposits),
+      balance: req.body.balance,
+    };
+    let data = await db.collection("Sales_Customer").insertOne(mongoObject);
+    res.json(data);
+    console.log("Data inserted successfully");
+    console.log(mongoObject);
+
+    // ------------------------------------------------------------------
+
+    let allPreviousDoc = await db
+      .collection("Sales_Customer")
+      .find()
+      .sort({ _id: 1 })
+      .toArray();
+
+    let current_balance = 0;
+    for (const element of allPreviousDoc) {
+      let current_Withdrawals = element.Withdrawals;
+
+      let current_Deposits = element.Deposits;
+      if (element.Withdrawals > 0) {
+        current_balance = parseFloat(
+          (current_balance - current_Withdrawals).toFixed(2)
+        );
+        
+      }
+      if (element.Deposits > 0) {
+        current_balance = parseFloat(
+          (current_balance + current_Deposits).toFixed(2)
+        );
+        
+      }
+      
+
+      let current_object = {
+        $set: {
+          balance: current_balance,
+        },
+      };
+      await db
+        .collection("Sales_Customer")
+        .updateOne({ _id: element._id }, current_object);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
-
-
-// update
-router.route("/Sales_Customer/:id").put(async (req, res) => {
-  let db = DB.getDB();
-  
-
-  let mongoObject = {
-    $set: {
-   name: req.body.name,
-    contact_number: req.body.contact_number,
-    email: req.body.email,
-    customer_id: req.body.customer_id,
-    address: req.body.address,
-    orders_count: parseInt(req.body.orders_count),
-    total_spent: parseFloat(req.body.total_spent),
-    },
-  };
-
-  let data = await db
-    .collection("Sales_Customer")
-    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
-  res.json(data);
-  console.log("Data updated successfully");
-});
-
 
 export default router;
-
-//http://localhost:5000/Sales_Customer
