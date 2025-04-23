@@ -8,6 +8,7 @@ import {
   MotionValue,
 } from "motion/react";
 import { Link } from "react-router-dom";
+import { AuroraText } from "../magicui/aurora-text";
 
 
 
@@ -106,7 +107,10 @@ export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-      Premium Cashew Nuts, <br />Fresh from the Source
+        <AuroraText colors={["#19ce62", "#98e32f"]} >
+        Premium
+        </AuroraText>{" "}
+       Cashew Nuts, <br />Fresh from the Source
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
       Discover the finest quality cashew nuts, harvested with care and delivered straight to your door. Taste the crunch of purity in every bite — perfect for snacking, gifting, or cooking.
@@ -145,7 +149,7 @@ export const ProductCard = ({
           src={product.thumbnail}
           height="600"
           width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0 rounded-2xl "
+          className="object-cover object-left-top absolute h-full w-full inset-0 rounded-2xl  "
           alt={product.title}
         />
       </Link>

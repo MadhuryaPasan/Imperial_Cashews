@@ -27,8 +27,9 @@ import {
 import { useState } from "react";
 import { quality_raw_material_check_ReturnAll } from "@/utils/API/quality/quality_raw_material_check_API";
 import { Progress } from "@/components/ui/progress";
+import { quality_end_product_check_ReturnAll } from "@/utils/API/quality/quality_end_product_check_API";
 
-const rawMaterialCheck = () => {
+const FinalProductCheck = () => {
   return (
     <>
       <div className="flex ">
@@ -39,7 +40,7 @@ const rawMaterialCheck = () => {
         </div>
         <main className=" w-full mx-5 mt-4">
           <div className="flex justify-between">
-            <div className="text-3xl font-bold ">Raw Materiels</div>
+            <div className="text-3xl font-bold ">Final Product</div>
             <div className="flex gap-2 items-center">
               {/* <FinanceBankBook_Insert /> */}
               <Button variant="outline">
@@ -50,16 +51,16 @@ const rawMaterialCheck = () => {
           <Separator className=" my-4" />
 
           <Separator className=" my-4" />
-          <div>{QualityCheckTable()}</div>
+          <div>{FinalProductCheckTable()}</div>
         </main>
       </div>
     </>
   );
 };
 
-export default rawMaterialCheck;
+export default FinalProductCheck;
 
-const qualityMinLevel = 87; // Minimum quality percentage
+const qualityMinLevel = 91;
 const tableColumns = [
   {
     id: 1,
@@ -67,50 +68,39 @@ const tableColumns = [
   },
   {
     id: 2,
-    name: "Supplier",
-  },
-  {
-    id: 3,
-    name: "Color Appearance",
-  },
-  {
-    id: 4,
-    name: "Moisture Content",
-  },
-  {
-    id: 5,
-    name: "Foreign Matter",
-  },
-  {
-    id: 6,
-    name: "Damage Percentage",
-  },
-  {
-    id: 7,
-    name: "Quality Percentage (min 87%)",
-  },
-  {
-    id:8,
-    name : "Quality Status"
-  },
-  {
-    id: 9,
-    name: "Size",
-  },
-  {
-    id: 10,
     name: "Checked By",
   },
   {
-    id: 11,
+    id: 3,
+    name: "Taste Test",
+  },
+  {
+    id: 4,
+    name: "Packaging",
+  },
+  {
+    id: 5,
+    name: "Color Appearance",
+  },
+  {
+    id: 6,
+    name: "Quality Percentage",
+  },
+  {
+    id: 7,
+    name: "Quality Status",
+  },
+
+  {
+    id: 8,
     name: "Checked Time",
     icon: <Clock className=" text-gray-400 size-5" />,
   },
 ];
 
-const QualityCheckTable = () => {
+const FinalProductCheckTable = () => {
   //Asigning the data to transactions from Finance_BankBook_ReturnAll function
-  const data = quality_raw_material_check_ReturnAll();
+  const data = quality_end_product_check_ReturnAll();
   //-------------------------------------------------------
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -135,7 +125,6 @@ const QualityCheckTable = () => {
   const searchedData = filteredData.filter((data) => {
     return (
       data.batch.batch_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.checked_by.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -154,7 +143,7 @@ const QualityCheckTable = () => {
                 <TabsList className=" w-[120%] gap-3 ">
                   <TabsTrigger value="all">All</TabsTrigger>
                   {/* <TabsTrigger value="Withdrawals">Withdrawals</TabsTrigger>
-                  <TabsTrigger value="Deposits">Deposits</TabsTrigger> */}
+                          <TabsTrigger value="Deposits">Deposits</TabsTrigger> */}
                 </TabsList>
               </Tabs>
             </div>
@@ -187,58 +176,87 @@ const QualityCheckTable = () => {
                 {searchedData.reverse().map((data) => (
                   <TableRow key={data._id}>
                     <TableCell>{data.batch.batch_id}</TableCell>
-                    <TableCell>{data.supplier.name}</TableCell>
-                    <TableCell>{data.color_appearance}</TableCell>
+                    <TableCell>{data.checked_by.name}</TableCell>
                     <TableCell>
-                      <div className=" text-right px-2">
-                        <span className="text-sm text-gray-700 ">
-                          {data.moisture_content}
-                          {"%"}
-                        </span>
-                        {data.moisture_content > 0 ? (
-                          <Progress value={data.moisture_content} />
-                        ) : (
-                          <Progress
-                            value={data.moisture_content}
-                            className="bg-gray-200/80"
-                          />
-                        )}
-                      </div>
+                      {data.taste_test === "passed" ? (
+                        <Badge
+                          variant="outline"
+                          className="text-primary border-primary"
+                        >
+                          Passed
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="text-destructive border-destructive"
+                        >
+                          Rejected
+                        </Badge>
+                      )}
                     </TableCell>
                     <TableCell>
-                      <div className=" text-right px-2">
-                        <span className="text-sm text-gray-700 ">
-                          {data.foreign_matter}
-                          {"%"}
-                        </span>
-                        {data.foreign_matter > 0 ? (
-                          <Progress value={data.foreign_matter} />
+                        {data.packaging_integrity === "excellent" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-primary border-primary"
+                            >
+                            Exellent
+                            </Badge>
+                        ) : data.packaging_integrity === "good" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-primary border-primary"
+                            >
+                            Good
+                            </Badge>
+                        ) : data.packaging_integrity === "fair" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-yellow-500 border-yellow-500"
+                            >
+                            Fair 
+                            </Badge>
                         ) : (
-                          <Progress
-                            value={data.foreign_matter}
-                            className="bg-gray-200/80"
-                          />
+                            <Badge
+                            variant="outline"
+                            className="text-destructive border-destructive"
+                            >
+                            Poor
+                            </Badge>
                         )}
-                      </div>
                     </TableCell>
-                   
+                    <TableCell>
+                        {data.color_appearance === "excellent" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-primary border-primary"
+                            >
+                            Exellent
+                            </Badge>
+                        ) : data.color_appearance === "good" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-primary border-primary"
+                            >
+                            Good
+                            </Badge>
+                        ) : data.color_appearance === "fair" ? (
+                            <Badge
+                            variant="outline"
+                            className="text-yellow-500 border-yellow-500"
+                            >
+                            Fair 
+                            </Badge>
+                        ) : (
+                            <Badge
+                            variant="outline"
+                            className="text-destructive border-destructive"
+                            >
+                            Poor
+                            </Badge>
+                        )}
+                    </TableCell>
 
-                    <TableCell>
-                      <div className=" text-right px-2">
-                        <span className="text-sm text-gray-700 ">
-                          {data.damage_percentage}
-                          {"%"}
-                        </span>
-                        {data.damage_percentage > 0 ? (
-                          <Progress value={data.damage_percentage} />
-                        ) : (
-                          <Progress
-                            value={data.damage_percentage}
-                            className="bg-gray-200/80"
-                          />
-                        )}
-                      </div>
-                    </TableCell>
                     <TableCell>
                       <div className=" text-right px-2">
                         <span className="text-sm text-gray-700  ">
@@ -256,16 +274,14 @@ const QualityCheckTable = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {data.quality_status ===
-                      "passed" ? (
+                      {data.quality_status === "passed" ? (
                         <Badge
                           variant="outline"
                           className="text-primary border-primary"
                         >
                           Passed
                         </Badge>
-                      ) : data.quality_status ===
-                        "pending" ? (
+                      ) : data.quality_status === "pending" ? (
                         <Badge
                           variant="outline"
                           className="text-yellow-500 border-yellow-500"
@@ -281,8 +297,6 @@ const QualityCheckTable = () => {
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell>{data.size}</TableCell>
-                    <TableCell>{data.checked_by.name}</TableCell>
                     <TableCell>
                       {new Date(data.checked_time).toLocaleString("en-CA", {
                         year: "numeric",

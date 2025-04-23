@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Inventory_RawCashews_StockLevel";
+const URL_COLLECTION = "/quality_end_product_check";
 
-export async function Inventory_RawCashews_StockLevel_GetAll() {
+export async function quality_end_product_check_GetAll() {
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
         return response.data;
@@ -14,7 +14,7 @@ export async function Inventory_RawCashews_StockLevel_GetAll() {
     }
 }
 
-export async function Inventory_RawCashews_StockLevel_Delete(id: string) {
+export async function quality_end_product_check_Delete(id: string) {
     try {
         const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
         alert("Document deleted successfully");
@@ -25,7 +25,7 @@ export async function Inventory_RawCashews_StockLevel_Delete(id: string) {
     }
 }
 
-export async function Inventory_RawCashews_StockLevel_Add(data: any) {
+export async function quality_end_product_check_Add(data: any) {
     try {
         // console.log(data);
         const response = await axios.post(`${URL}${URL_COLLECTION}`, data);
@@ -38,7 +38,7 @@ export async function Inventory_RawCashews_StockLevel_Add(data: any) {
     }
 }
 
-export async function Inventory_RawCashews_StockLevel_Update(id: string, data: any) {
+export async function quality_end_product_check_Update(id: string, data: any) {
     try {
         const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`, data);
         alert("Document updated successfully");
@@ -49,7 +49,7 @@ export async function Inventory_RawCashews_StockLevel_Update(id: string, data: a
     }
 }
 
-export async function Inventory_RawCashews_StockLevel_GetOne(id: string) {
+export async function quality_end_product_check_GetOne(id: string) {
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
         return response.data;
@@ -60,7 +60,7 @@ export async function Inventory_RawCashews_StockLevel_GetOne(id: string) {
 }
 
 
-export function Inventory_RawCashews_StockLevel_ReturnAll(){
+export function quality_end_product_check_ReturnAll(){
 
 
   // db
@@ -70,11 +70,10 @@ export function Inventory_RawCashews_StockLevel_ReturnAll(){
   useEffect(() => {
     async function getAll() {
       try {
-        let result = await Inventory_RawCashews_StockLevel_GetAll();4
-        // await new Promise((resolve) => setTimeout(resolve, 5000));
+        let result = await quality_end_product_check_GetAll();
         setData(result);
       } catch (error) {
-        console.error("Error fetching BankBook transactions:", error);
+        console.error("Error fetching Data:", error);
       }
     }
     getAll();

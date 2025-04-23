@@ -25,10 +25,27 @@ const items = [
     icon: LayoutDashboard,
   },
   {
+    title: "Raw Material Check List",
+    url: "/admin/quality-control/raw-material-check-list",
+    icon: LayoutDashboard,
+  },
+  {
     title: "Raw Material Check",
     url: "/admin/quality-control/raw-material-check",
     icon: LayoutDashboard,
   },
+  {
+    title: "Final Product Check List",
+    url: "/admin/quality-control/final-product-check-list",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Final Product Check",
+    url: "/admin/quality-control/final-product-check",
+    icon: LayoutDashboard,
+  },
+  
+  
   
 ];
 

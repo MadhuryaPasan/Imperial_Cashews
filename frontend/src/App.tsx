@@ -26,6 +26,11 @@ import ClientsManagement from "@/web/admin/sales/subPages/clients";
 import FinishedProductStock from "@/web/admin/inventory/subPages/finshedProductStock";
 import ContactUs from "@/web/pages/contactUs/contactus";
 import Pdf from "./web/test/reactpdf/pdf";
+import RawMaterialCheckList from "@/web/admin/qualityControl/subPages/rawMaterialCheckList";
+import RawMaterialCheckForm from "@/web/admin/qualityControl/subPages/rawMaterialCheckForm";
+import FinalProductCheckList from "./web/admin/qualityControl/subPages/FinalProductCheckList";
+import FinalProductCheck from "@/web/admin/qualityControl/subPages/FinalProductCheck";
+import FinalProductForm from "@/web/admin/qualityControl/subPages/FinalProductForm";
 
 const ProtectedRoute = ({
   user,
@@ -94,6 +99,16 @@ function App() {
             <Route path="/admin/staff/staff-management" element={<StaffManagement />} />
             <Route path="/admin/quality-control" element={<QualityControl />} />
             <Route path="/admin/quality-control/raw-material-check" element={<RawMaterialCheck />} />
+            <Route path="/admin/quality-control/raw-material-check-form/:id" element={<RawMaterialCheckForm />} />
+            <Route path="/admin/quality-control/final-product-check-form/:id" element={<FinalProductForm />} />
+
+            <Route path="/admin/quality-control/raw-material-check-list" element={<RawMaterialCheckList />} />
+            <Route path="/admin/quality-control/final-product-check-list" element={<FinalProductCheckList />} />
+            <Route path="/admin/quality-control/final-product-check" element={<FinalProductCheck />} />
+
+
+
+            
             <Route
               path="/admin/finance/balance-sheet"
               element={<FinanceBalanceSheet />}

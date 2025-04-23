@@ -29,19 +29,12 @@ import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import { Inventory_FinalProduct_ReturnAll } from "@/utils/API/inventory/Inventory_FinalProduct_API";
 
-const holdingLevel = 10000;
-const minHoldingLevel = 500;
-
 const finishedProductStock = () => {
-  const rawMaterialStocks = Inventory_RawCashews_StockLevel_ReturnAll();
-  const totalStockLevel = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.current_quantity_kg,
-    0
-  );
-  const totalStockValue = rawMaterialStocks.reduce(
-    (acc, curr) => acc + curr.unit_price * curr.current_quantity_kg,
-    0
-  );
+  const rawMaterialStocks = Inventory_FinalProduct_ReturnAll();
+
+  const LastDocument = rawMaterialStocks.slice(-1)[0];
+  const totalStockValue = LastDocument?.total_inventory_stock_value || 0;
+
   return (
     <>
       <div className="flex ">
@@ -62,46 +55,7 @@ const finishedProductStock = () => {
           </div>
           <Separator className=" my-4" />
 
-          {totalStockLevel > minHoldingLevel ? null : (
-            <div>
-              <Card className=" border-destructive items-center bg-destructive/10">
-                <CardContent>
-                  <div className="flex items-center gap-4  w-fit">
-                    <ShieldAlert className="  size-15 text-destructive" />
-                    <div>
-                      <CardTitle className="text-2xl text-destructive font-bold">
-                        Stock Level is low!
-                      </CardTitle>
-                      <CardDescription className="text-destructive">
-                        Please order more raw materials
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Separator className=" my-4" />
-            </div>
-          )}
-
           <div className="grid md:grid-cols-4 gap-4 ">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm font-medium">
-                  Current Stock Level
-                </CardTitle>
-                <CardContent className="p-0">
-                  {totalStockLevel > minHoldingLevel ? (
-                    <div className="text-2xl font-bold line-clamp-1 text-primary">
-                      {totalStockLevel.toLocaleString()}kg
-                    </div>
-                  ) : (
-                    <div className="text-2xl font-bold line-clamp-1 text-destructive">
-                      {totalStockLevel.toLocaleString()}kg
-                    </div>
-                  )}
-                </CardContent>
-              </CardHeader>
-            </Card>
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium">
@@ -114,30 +68,6 @@ const finishedProductStock = () => {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
-                  </div>
-                </CardContent>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm font-medium">
-                  Max Holding level
-                </CardTitle>
-                <CardContent className="p-0">
-                  <div className="text-2xl font-bold line-clamp-1 text-primary">
-                    {holdingLevel.toLocaleString()}kg
-                  </div>
-                </CardContent>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm font-medium">
-                  Min Holding level
-                </CardTitle>
-                <CardContent className="p-0">
-                  <div className="text-2xl font-bold line-clamp-1 text-destructive">
-                    {minHoldingLevel.toLocaleString()}kg
                   </div>
                 </CardContent>
               </CardHeader>
@@ -210,12 +140,9 @@ const tableColumns = [
     id: 13,
     name: "Expiry Date",
   },
+
   {
     id: 14,
-    name: "Total Stock Level",
-  },
-  {
-    id: 15,
     name: "Total Stock Value",
   },
 ];
@@ -343,11 +270,13 @@ const tableData = () => {
 
                     {/* Started Quantity(packs) */}
                     <TableCell>
-                      {data.started_quantity_packs.toLocaleString()}{" Packs"}
+                      {data.started_quantity_packs.toLocaleString()}
+                      {" Packs"}
                     </TableCell>
                     {/* Current Quantity(packs) */}
                     <TableCell>
-                      {data.current_quantity_packs.toLocaleString()}{" Packs"}
+                      {data.current_quantity_packs.toLocaleString()}
+                      {" Packs"}
                     </TableCell>
                     {/* Location */}
                     <TableCell>{data.location}</TableCell>
@@ -419,11 +348,6 @@ const tableData = () => {
                         : "N/A"}
                     </TableCell>
 
-                    {/* Total Stock Level */}
-                    <TableCell>
-                      {data.total_inventory_stock_level.toLocaleString()}
-                      kg
-                    </TableCell>
                     {/* Total Stock Value */}
                     <TableCell>
                       RS{" "}

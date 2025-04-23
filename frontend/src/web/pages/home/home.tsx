@@ -10,9 +10,16 @@ import Footer from "@/web/layout/components/footer";
 import TextSection1 from "./components/TextSection1";
 import TextSection2 from "./components/TextSection2";
 
+
 const home = () => {
   return (
     <>
+
+
+
+      
+
+    
       <div className="bg-white">
         <HeroParallaxSection />
       </div>
