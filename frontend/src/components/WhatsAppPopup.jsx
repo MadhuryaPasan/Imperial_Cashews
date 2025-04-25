@@ -50,7 +50,7 @@ const WhatsAppPopup = () => {
         <img
           src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
           alt="WhatsApp icon"
-          style={{ width: "35px", height: "35px" }}
+          style={{ width: "25px", height: "25px" }}
         />
       </a>
     </div>
