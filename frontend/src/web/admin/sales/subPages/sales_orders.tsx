@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Download, Phone } from "lucide-react";
+import { Download, Eye, Phone } from "lucide-react";
 import SalesSideBar from "../layout/salesSideBar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { useState } from "react";
 
@@ -11,7 +19,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,11 +31,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sales_Customer_ReturnAll } from "@/utils/API/sales/Sales_Customer_API";
+import { Sales_Order_ReturnAll } from "@/utils/API/sales/Sales_Order_API";
+import { console } from "inspector";
 import {
-  Sales_Customer_ReturnAll
-} from "@/utils/API/sales/Sales_Customer_API";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 
-const clients = () => {
+const sales_orders = () => {
   const data = Sales_Customer_ReturnAll();
   return (
     <>
@@ -39,7 +54,7 @@ const clients = () => {
         </div>
         <main className=" w-full mx-5 mt-4">
           <div className="flex justify-between">
-            <div className="text-3xl font-bold ">Manage Clients</div>
+            <div className="text-3xl font-bold ">Orders</div>
             <div className="flex gap-2 items-center">
               {/* <FinanceBankBook_Insert /> */}
               <Button variant="outline">
@@ -54,7 +69,7 @@ const clients = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium">
-                  Total User Count
+                  Total Order Count
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-primary">
@@ -65,52 +80,60 @@ const clients = () => {
             </Card>
           </div>
           <Separator className=" my-4" />
-
-          <div className="  mx-auto">{MonthlyUsersChart()}</div>
+          <div>{MonthlyOrdersChart()}</div>
           <Separator className=" my-4" />
-
-          <div>{UserDataTable()}</div>
+          <div>{OrdersDataTable()}</div>
         </main>
       </div>
     </>
   );
 };
 
-export default clients;
+export default sales_orders;
 
 // ---------------------------------------------------
 
 const tableColumns = [
   {
     id: 1,
-    name: "Name",
+    name: "Oder ID",
+    icon: <Phone className=" size-5" />,
   },
   {
     id: 2,
-    name: "Email",
+    name: "Time",
+    icon: <Phone className=" size-5" />,
   },
   {
     id: 3,
-    name: "Mobile",
-    icon: <Phone className="w-4 h-4" />,
+    name: "Status",
   },
   {
     id: 4,
-    name: "Address",
+    name: "Total Price",
   },
   {
     id: 5,
-    name: "Password",
+    name: "Customer Name",
   },
   {
     id: 6,
-    name: "Joined Date",
+    name: "Customer Email",
   },
+  {
+    id: 7,
+    name: "Customer Mobile",
+  },
+  {
+    id: 8,
+    name: "Order Details",
+  },
+
 ];
 
-const UserDataTable = () => {
+const OrdersDataTable = () => {
   //Asigning the data to transactions from Finance_BankBook_ReturnAll function
-  const data = Sales_Customer_ReturnAll();
+  const data = Sales_Order_ReturnAll();
   //-------------------------------------------------------
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -140,10 +163,9 @@ const UserDataTable = () => {
 
   const searchedData = filteredData.filter((data) => {
     return (
-      data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.contact_number.toLowerCase().includes(searchTerm.toLowerCase())
+      data.customerData.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.oder_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.customerData.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -166,7 +188,7 @@ const UserDataTable = () => {
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
-                placeholder="Search data here... (e.g. Name, Mobile, Address, Email)"
+                placeholder="Search data here... (e.g. customer name, order id, customer email)"
                 className=" w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -191,19 +213,77 @@ const UserDataTable = () => {
               <TableBody>
                 {searchedData.reverse().map((data) => (
                   <TableRow key={data._id}>
-                    <TableCell>{data?.name}</TableCell>
-                    <TableCell>{data?.email}</TableCell>
-                    <TableCell>{data?.contact_number}</TableCell>
-                    <TableCell>{data?.address}</TableCell>
-                    <TableCell>{data?.password}</TableCell>
+                    <TableCell>{data.oder_id}</TableCell>
                     <TableCell>
-                      {data?.created_date
-                        ? new Date(data?.created_date).toLocaleString("en-CA", {
+                      {data?.order_date
+                        ? new Date(data?.order_date).toLocaleString("en-CA", {
                             year: "numeric",
                             month: "numeric",
                             day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
                           })
                         : "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className="border-primary text-primary px-3 py-1 rounded-md"
+                      >
+                        {data.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <span className="">
+                        RS{" "}
+                        {data.total_price.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </TableCell>
+                    <TableCell>{data.customerData.name}</TableCell>
+                    <TableCell>{data.customerData.email}</TableCell>
+                    <TableCell>{data.customerData.contact_number}</TableCell>
+                    <TableCell>
+                      <Dialog>
+                        <DialogTrigger>
+                          <Button variant="ghost">
+                            <Eye className=" h-4 w-4" />
+                            View Details
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="bg-white">
+                          <DialogHeader>
+                            <DialogTitle>Order Details</DialogTitle>
+                            </DialogHeader>
+                            <DialogDescription className="h-[50vh] overflow-y-auto">
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>Product Name</TableHead>
+                                    <TableHead>Product ID</TableHead>
+                                    <TableHead>Quantity</TableHead>
+                                    <TableHead>Final Price</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {data.oder_details.map((item: any) => (
+                                    <TableRow>
+                                      <TableCell>{item.product_name}</TableCell>
+                                      <TableCell>
+                                        {item.shop_product_id}
+                                      </TableCell>
+                                      <TableCell>{item.quantity}</TableCell>
+                                      <TableCell>{item.final_price}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </DialogDescription>
+                          
+                        </DialogContent>
+                      </Dialog>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -225,6 +305,7 @@ const UserDataTable = () => {
 
 //---------------------------------------------------
 
+
 ("use client");
 
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
@@ -244,9 +325,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const MonthlyUsersChart = () => {
-  interface Employee {
-    created_date: string | { $date: string };
+const MonthlyOrdersChart = () => {
+  interface Oder {
+    order_date: string | { $date: string };
     // add other fields if needed
   }
 
@@ -255,7 +336,7 @@ const MonthlyUsersChart = () => {
     count: number;
   }
 
-  const getLastSixMonthsEmployeeCounts = (data: Employee[]): MonthlyCount[] => {
+  const getLastSixMonthsOderCounts = (data: Oder[]): MonthlyCount[] => {
     const now = new Date();
     const result: MonthlyCount[] = [];
 
@@ -273,10 +354,10 @@ const MonthlyUsersChart = () => {
       const count = data.filter((emp) => {
         let joinedDate: Date;
 
-        if (typeof emp.created_date === "string") {
-          joinedDate = new Date(emp.created_date);
+        if (typeof emp.order_date === "string") {
+          joinedDate = new Date(emp.order_date);
         } else {
-          joinedDate = new Date(emp.created_date.$date);
+          joinedDate = new Date(emp.order_date.$date);
         }
 
         return joinedDate >= monthStart && joinedDate <= monthEnd;
@@ -295,13 +376,13 @@ const MonthlyUsersChart = () => {
   };
 
   // Usage
-  const data = Sales_Customer_ReturnAll(); // returns Employee[]
-  const chartData = getLastSixMonthsEmployeeCounts(data);
+  const data = Sales_Order_ReturnAll(); // returns Oder[]
+  const chartData = getLastSixMonthsOderCounts(data);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart – Monthly New User Count</CardTitle>
+        <CardTitle>Bar Chart – Monthly New Orders Count</CardTitle>
         <CardDescription>Last 9 months</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

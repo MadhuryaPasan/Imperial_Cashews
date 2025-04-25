@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const URL = "http://localhost:5000";
-const URL_COLLECTION = "/Finance_BankBook";
+const URL_COLLECTION = "/Sales_Order";
 
-export async function Finance_BankBook_GetAll() {
+export async function Sales_Order_GetAll() {
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}`);
         return response.data;
@@ -14,7 +14,7 @@ export async function Finance_BankBook_GetAll() {
     }
 }
 
-export async function Finance_BankBook_Delete(id: string) {
+export async function Sales_Order_Delete(id: string) {
     try {
         const response = await axios.delete(`${URL}${URL_COLLECTION}/${id}`);
         alert("Document deleted successfully");
@@ -25,7 +25,7 @@ export async function Finance_BankBook_Delete(id: string) {
     }
 }
 
-export async function Finance_BankBook_Add(data: any) {
+export async function Sales_Order_Add(data: any) {
     try {
         // console.log(data);
         const response = await axios.post(`${URL}${URL_COLLECTION}`, data);
@@ -38,7 +38,7 @@ export async function Finance_BankBook_Add(data: any) {
     }
 }
 
-export async function Finance_BankBook_Update(id: string, data: any) {
+export async function Sales_Order_Update(id: string, data: any) {
     try {
         const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`, data);
         alert("Document updated successfully");
@@ -49,7 +49,7 @@ export async function Finance_BankBook_Update(id: string, data: any) {
     }
 }
 
-export async function Finance_BankBook_GetOne(id: string) {
+export async function Sales_Order_GetOne(id: string) {
     try {
         const response = await axios.get(`${URL}${URL_COLLECTION}/${id}`);
         return response.data;
@@ -60,7 +60,7 @@ export async function Finance_BankBook_GetOne(id: string) {
 }
 
 
-export function Finance_BankBook_ReturnAll(){
+export function Sales_Order_ReturnAll(){
 
 
   // db
@@ -70,8 +70,8 @@ export function Finance_BankBook_ReturnAll(){
   useEffect(() => {
     async function getAll() {
       try {
-        let result = await Finance_BankBook_GetAll();
-        // console.log(result);
+        let result = await Sales_Order_GetAll();
+        console.log(result);
         setData(result);
       } catch (error) {
         console.error("Error fetching BankBook transactions:", error);

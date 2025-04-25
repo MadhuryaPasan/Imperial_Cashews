@@ -29,6 +29,11 @@ const items = [
     url: "/admin/sales/clients-management",
     icon: LayoutDashboard,
   },
+  {
+    title: "Orders",
+    url: "/admin/sales/sales-orders",
+    icon: LayoutDashboard,
+  },
   
 ];
 

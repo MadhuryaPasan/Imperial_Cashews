@@ -8,73 +8,126 @@ let router = express.Router();
 router.route("/Sales_Order").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Sales_Order").find({}).toArray(); // chage collection name
-    res
-      .status(200)
-      .json({ message: "Data retrieved successfully", data: result });
+    let result = await db
+      .collection("Sales_Order")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Sales_Customer", // foreign collection name
+            localField: "customer_id", // field in Sales_Order
+            foreignField: "_id", // field in customers
+            as: "customerData",
+          },
+        },
+        {
+          $unwind: "$customerData", // to turn array into object
+        },
+      ])
+      .toArray();
+
+   res.status(200).json(result);
   } catch (error) {
-    res.status(404).json({
-      error: "Failed to fetch data from database",
-      message: error.message,
-    });
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // read data single data
-
 router.route("/Sales_Order/:id").get(async (req, res) => {
-  let db = DB.getDB();
-  let result = await db
-    .collection("Sales_Order")
-    .findOne({ _id: new ObjectId(req.params.id) });
-  res.json(result);
+  try {
+    let db = DB.getDB();
+    let result = await db
+      .collection("Sales_Order")
+      .findOne({ _id: new ObjectId(req.params.id) });
+    res.json(result);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //delete data
 router.route("/Sales_Order/:id").delete(async (req, res) => {
-  let db = DB.getDB();
-  let data = await db
-    .collection("Sales_Order")
-    .deleteOne({ _id: new ObjectId(req.params.id) });
-  res.json(data);
-  console.log("Data deleted successfully");
+  try {
+    let db = DB.getDB();
+    let data = await db
+      .collection("Sales_Order")
+      .deleteOne({ _id: new ObjectId(req.params.id) });
+    res.json(data);
+    console.log("Data deleted successfully");
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //insert data
 router.route("/Sales_Order").post(async (req, res) => {
-  let db = DB.getDB();
-  let mongoObject = {
-    order_id: req.body.order_id,
-    customer_id: req.body.customer_id,
-    order_date: new Date(new Date().toISOString()),
-    status: req.body.status,
-    total_price: parseFloat(req.body.total_price),
-  };
-  let data = await db.collection("Sales_Order").insertOne(mongoObject);
-  res.json(data);
-  console.log("Data inserted successfully");
-});
+  try {
+    let db = DB.getDB();
+    const date = new Date(req.body.date);
+    let Withdrawals = 0;
+    let Deposits = 0;
 
+    if (req.body.type === "Withdrawals") {
+      Withdrawals = req.body.amount;
+    } else if (req.body.type === "Deposits") {
+      Deposits = req.body.amount;
+    }
 
-router.route("/Sales_Order/:id").put(async (req, res) => {
-  let db = DB.getDB();
-  
+    let mongoObject = {
+      description: req.body.description,
+      date: new Date(date.toISOString()),
+      reference: req.body.reference,
+      Withdrawals: parseFloat(Withdrawals),
+      Deposits: parseFloat(Deposits),
+      balance: req.body.balance,
+    };
+    let data = await db.collection("Sales_Order").insertOne(mongoObject);
+    res.json(data);
+    console.log("Data inserted successfully");
+    console.log(mongoObject);
 
-  let mongoObject = {
-    $set: {
-      customer_id: req.body.customer_id,
-      status: req.body.status,
-      total_price: parseFloat(req.body.total_price),
-    },
-  };
+    // ------------------------------------------------------------------
 
-  let data = await db
-    .collection("Sales_Order")
-    .updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
-  res.json(data);
-  console.log("Data updated successfully");
+    let allPreviousDoc = await db
+      .collection("Sales_Order")
+      .find()
+      .sort({ _id: 1 })
+      .toArray();
+
+    let current_balance = 0;
+    for (const element of allPreviousDoc) {
+      let current_Withdrawals = element.Withdrawals;
+
+      let current_Deposits = element.Deposits;
+      if (element.Withdrawals > 0) {
+        current_balance = parseFloat(
+          (current_balance - current_Withdrawals).toFixed(2)
+        );
+        
+      }
+      if (element.Deposits > 0) {
+        current_balance = parseFloat(
+          (current_balance + current_Deposits).toFixed(2)
+        );
+        
+      }
+      
+
+      let current_object = {
+        $set: {
+          balance: current_balance,
+        },
+      };
+      await db
+        .collection("Sales_Order")
+        .updateOne({ _id: element._id }, current_object);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 export default router;
-
-//http://localhost:5000/Sales_Order

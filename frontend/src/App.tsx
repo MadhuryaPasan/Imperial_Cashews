@@ -31,6 +31,8 @@ import RawMaterialCheckForm from "@/web/admin/qualityControl/subPages/rawMateria
 import FinalProductCheckList from "./web/admin/qualityControl/subPages/FinalProductCheckList";
 import FinalProductCheck from "@/web/admin/qualityControl/subPages/FinalProductCheck";
 import FinalProductForm from "@/web/admin/qualityControl/subPages/FinalProductForm";
+import Sales_orders from "@/web/admin/sales/subPages/sales_orders";
+import Sales_Attendance from "./web/admin/staff/subPages/Staff_Attendance";
 
 const ProtectedRoute = ({
   user,
@@ -94,21 +96,48 @@ function App() {
             />
 
             <Route path="/admin/sales" element={<Sales />} />
-            <Route path="/admin/sales/clients-management" element={<ClientsManagement />} />
+            <Route
+              path="/admin/sales/clients-management"
+              element={<ClientsManagement />}
+            />
             <Route path="/admin/staff" element={<Staff />} />
-            <Route path="/admin/staff/staff-management" element={<StaffManagement />} />
-            <Route path="/admin/quality-control" element={<QualityControl />} />
-            <Route path="/admin/quality-control/raw-material-check" element={<RawMaterialCheck />} />
-            <Route path="/admin/quality-control/raw-material-check-form/:id" element={<RawMaterialCheckForm />} />
-            <Route path="/admin/quality-control/final-product-check-form/:id" element={<FinalProductForm />} />
+            <Route
+              path="/admin/staff/staff-management"
+              element={<StaffManagement />}
+            />
 
-            <Route path="/admin/quality-control/raw-material-check-list" element={<RawMaterialCheckList />} />
-            <Route path="/admin/quality-control/final-product-check-list" element={<FinalProductCheckList />} />
-            <Route path="/admin/quality-control/final-product-check" element={<FinalProductCheck />} />
-
-
-
+            <Route
+              path="/admin/sales/sales-attendance"
+              element={<Sales_Attendance />}
+              />
             
+            <Route path="/admin/quality-control" element={<QualityControl />} />
+            <Route
+              path="/admin/quality-control/raw-material-check"
+              element={<RawMaterialCheck />}
+            />
+            <Route
+              path="/admin/quality-control/raw-material-check-form/:id"
+              element={<RawMaterialCheckForm />}
+            />
+            <Route
+              path="/admin/quality-control/final-product-check-form/:id"
+              element={<FinalProductForm />}
+            />
+
+            <Route
+              path="/admin/quality-control/raw-material-check-list"
+              element={<RawMaterialCheckList />}
+            />
+            <Route
+              path="/admin/quality-control/final-product-check-list"
+              element={<FinalProductCheckList />}
+            />
+            <Route
+              path="/admin/quality-control/final-product-check"
+              element={<FinalProductCheck />}
+            />
+
             <Route
               path="/admin/finance/balance-sheet"
               element={<FinanceBalanceSheet />}
@@ -124,6 +153,10 @@ function App() {
             <Route
               path="/admin/finance/bank-book"
               element={<FinanceBankBook />}
+            />
+            <Route
+              path="/admin/sales/sales-orders"
+              element={<Sales_orders />}
             />
           </Route>
           <Route element={<LayoutMain />}>

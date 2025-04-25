@@ -16,7 +16,7 @@ import Inventory_FinalProduct from "./routes/Inventory/Inventory_FinalProduct.js
 import Finance_BalanceSheet from "./routes/Finance/Finance_BalanceSheet.js";
 import Quality_iso_sls_check from "./routes/QualityControle/quality_iso_sls_check.js";
 import Quality_raw_material_check from "./routes/QualityControle/quality_raw_material_check.js";
-import Staff_Employee from "./routes/staff/Staff_Employee.js"
+import Staff_Employee from "./routes/Staff/Staff_Employee.js"
 import Inventory_Material from "./routes/Inventory/Inventory_Material.js";
 import Inventory_Stock from  "./routes/Inventory/Inventory_Stock.js";
 import Inventory_supplierDetail from "./routes/Inventory/Inventory_supplierDetail.js";
