@@ -49,28 +49,28 @@ router.route("/Finance_PettyCash/:id").delete(async (req, res) => {
 router.route("/Finance_PettyCash").post(async (req, res) => {
   try {
     let db = DB.getDB();
-    const date = new Date(req.body.date);
-    let Withdrawals = 0;
-    let Deposits = 0;
+    const date = new Date(req.body.transaction_date);
+    let replenishment = 0;
+    let expense = 0;
 
-    if (req.body.type === "Withdrawals") {
-      Withdrawals = req.body.amount;
-    } else if (req.body.type === "Deposits") {
-      Deposits = req.body.amount;
+    if (req.body.transaction_type === "Replenishment") {
+      replenishment = req.body.replenishment_amount;
+    } else if (req.body.transaction_type === "Expenses") {
+      expense = req.body.expense_amount;
     }
 
     let mongoObject = {
+      transaction_date: new Date(date.toISOString()),
       description: req.body.description,
-      date: new Date(date.toISOString()),
-      reference: req.body.reference,
-      Withdrawals: parseFloat(Withdrawals),
-      Deposits: parseFloat(Deposits),
-      balance: req.body.balance,
+      current_balance: 0,
+      transaction_type: req.body.transaction_type,
+      replenishment_amount: parseFloat(replenishment),
+      expense_amount: parseFloat(expense),
     };
     let data = await db.collection("Finance_PettyCash").insertOne(mongoObject);
     res.json(data);
     console.log("Data inserted successfully");
-    console.log(mongoObject);
+    // console.log(mongoObject);
 
     // ------------------------------------------------------------------
 
@@ -80,28 +80,25 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
       .sort({ _id: 1 })
       .toArray();
 
+
     let current_balance = 0;
     for (const element of allPreviousDoc) {
-      let current_Withdrawals = element.Withdrawals;
+  
 
-      let current_Deposits = element.Deposits;
-      if (element.Withdrawals > 0) {
-        current_balance = parseFloat(
-          (current_balance - current_Withdrawals).toFixed(2)
-        );
-        
+      if (element.transaction_type === "Replenishment") {
+        current_balance = parseFloat(current_balance +
+          element.replenishment_amount );
       }
-      if (element.Deposits > 0) {
-        current_balance = parseFloat(
-          (current_balance + current_Deposits).toFixed(2)
-        );
-        
+      else if (element.transaction_type === "Expenses") {
+        current_balance = parseFloat(current_balance - element.expense_amount);
       }
+
+
       
 
       let current_object = {
         $set: {
-          balance: current_balance,
+          current_balance : current_balance,
         },
       };
       await db
@@ -115,34 +112,6 @@ router.route("/Finance_PettyCash").post(async (req, res) => {
 });
 
 export default router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import express from "express";
 // import DB from "../../connection.js";
@@ -240,8 +209,6 @@ export default router;
 //   });
 //   console.log("Data inserted successfully");
 // });
-
-
 
 // router.route("/Finance_PettyCash/:id").put(async (req, res) => {
 //   let db = DB.getDB();

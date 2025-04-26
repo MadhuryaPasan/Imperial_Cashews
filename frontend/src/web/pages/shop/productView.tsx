@@ -15,6 +15,7 @@ import {
   Loader2,
   Minus,
   Plus,
+  ShoppingBag,
   ShoppingCart,
   Weight,
 } from "lucide-react";
@@ -51,6 +52,18 @@ const productView = () => {
   return (
     <>
       <div className=" mx-10 ">
+
+
+        {/*cart button */}
+        <div className=" fixed bottom-4 right-4 z-10">
+          <Link to="/shop/cart">
+            <Button>
+              <ShoppingBag />
+              Cart ({JSON.parse(localStorage.getItem("cart") || "[]").length})
+            </Button>
+          </Link>
+        </div>
+
         <Button
           onClick={() => Navigate(-1)}
           variant="ghost"
@@ -67,15 +80,36 @@ const productView = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Product Image */}
                   <div className="flex items-center justify-center">
-                    <Lens lensSize={200}>
-                      <img
-                        src={productData?.image || noImage}
-                        alt={productData?.name}
-                        width={1000}
-                        height={1000}
-                        className="object-cover h-[40vh] md:h-[60vh]  rounded-md border-2  "
-                      />
-                    </Lens>
+                    <div>
+                      <Lens lensSize={200}>
+                        <img
+                          src={productData?.image || noImage}
+                          alt={productData?.name}
+                          width={1000}
+                          height={1000}
+                          className="object-cover h-[40vh] md:h-[60vh]  rounded-md border-2  "
+                        />
+                      </Lens>
+
+                      {/* if product in the cart */}
+                      {(() => {
+                        const cart = JSON.parse(
+                          localStorage.getItem("cart") || "[]"
+                        );
+                        const existingProduct = cart.find(
+                          (item: { id: string }) => item.id === id
+                        );
+
+                        if (existingProduct) {
+                          return (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              This product is already in your cart.
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
+                    </div>
                   </div>
 
                   {/* Product Details */}
@@ -147,11 +181,35 @@ const productView = () => {
                                 </Button>
                               </div>
                             </div>
-                            <Button size="lg" className="flex-1" asChild>
-                              <Link to="/shop/cart">
-                                <ShoppingCart className="mr-2 h-5 w-5" />
-                                Add to Cart
-                              </Link>
+                            <Button
+                              size="lg"
+                              className="flex-1"
+                              onClick={() => {
+                                const cart = JSON.parse(
+                                  localStorage.getItem("cart") || "[]"
+                                );
+                                const existingProductIndex = cart.findIndex(
+                                  (item: { id: string }) => item.id === id
+                                );
+
+                                if (existingProductIndex !== -1) {
+                                  // Update the quantity with the new value
+                                  cart[existingProductIndex].quantity =
+                                    quantity;
+                                } else {
+                                  // Add new product to cart
+                                  cart.push({ id, quantity });
+                                }
+
+                                localStorage.setItem(
+                                  "cart",
+                                  JSON.stringify(cart)
+                                );
+                                alert("Product added to cart!");
+                              }}
+                            >
+                              <ShoppingCart className="mr-2 h-5 w-5" />
+                              Add to Cart
                             </Button>
                           </div>
                         ) : (

@@ -22,6 +22,8 @@ import Inventory_Stock from  "./routes/Inventory/Inventory_Stock.js";
 import Inventory_supplierDetail from "./routes/Inventory/Inventory_supplierDetail.js";
 import Finance_BankBook from "./routes/Finance/Finance_BankBook.js";
 import Inventory_RawCashews_StockLevel from "./routes/Inventory/Inventory_RawCashews_StockLevel.js";
+import Staff_Attendance from "./routes/Staff/Staff_Attendance.js";
+import Finance_ProfitLoss from "./routes/Finance/Finance_ProfitLoss.js";
 
 
 
@@ -52,6 +54,8 @@ app.use(Inventory_Stock);
 app.use(Inventory_supplierDetail);
 app.use(Finance_BankBook);
 app.use(Inventory_RawCashews_StockLevel);
+app.use(Staff_Attendance);
+app.use(Finance_ProfitLoss);
 
 
 app.listen(PORT, () => {

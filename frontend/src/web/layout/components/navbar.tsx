@@ -33,7 +33,6 @@ const Navbar = () => {
                   <Logo />
                 </div>
               </Link>
-
               <button
                 onClick={() => setMenuState(!menuState)}
                 aria-label={menuState ? "Close Menu" : "Open Menu"}
