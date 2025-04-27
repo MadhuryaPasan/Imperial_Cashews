@@ -90,8 +90,8 @@ const tableColumns = [
     name: "Quality Percentage (min 87%)",
   },
   {
-    id:8,
-    name : "Quality Status"
+    id: 8,
+    name: "Quality Status",
   },
   {
     id: 9,
@@ -188,7 +188,39 @@ const QualityCheckTable = () => {
                   <TableRow key={data._id}>
                     <TableCell>{data.batch.batch_id}</TableCell>
                     <TableCell>{data.supplier.name}</TableCell>
-                    <TableCell>{data.color_appearance}</TableCell>
+                    <TableCell>
+              
+
+                      {data.color_appearance === "excellent" ? (
+                        <Badge
+                          variant="outline"
+                          className="text-primary border-primary"
+                        >
+                          Excellent
+                        </Badge>
+                      ) : data.color_appearance === "good" ? (
+                        <Badge
+                          variant="outline"
+                          className="text-primary border-primary"
+                        >
+                          Good
+                        </Badge>
+                      ) : data.color_appearance === "fair" ? (
+                        <Badge
+                          variant="outline"
+                          className="text-yellow-500 border-yellow-500"
+                        >
+                          Fair 
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="text-destructive border-destructive"
+                        >
+                          Poor
+                        </Badge>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <div className=" text-right px-2">
                         <span className="text-sm text-gray-700 ">
@@ -221,7 +253,6 @@ const QualityCheckTable = () => {
                         )}
                       </div>
                     </TableCell>
-                   
 
                     <TableCell>
                       <div className=" text-right px-2">
@@ -256,16 +287,14 @@ const QualityCheckTable = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {data.quality_status ===
-                      "passed" ? (
+                      {data.quality_status === "passed" ? (
                         <Badge
                           variant="outline"
                           className="text-primary border-primary"
                         >
                           Passed
                         </Badge>
-                      ) : data.quality_status ===
-                        "pending" ? (
+                      ) : data.quality_status === "pending" ? (
                         <Badge
                           variant="outline"
                           className="text-yellow-500 border-yellow-500"

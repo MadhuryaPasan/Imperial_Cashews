@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -15,19 +16,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Finance_BankBook_Add } from "@/utils/API/finance/Finance_BankBook_API";
 import { Finance_ProfitLoss_Add } from "@/utils/API/finance/Finance_ProfitLoss_API";
+import { CalendarIcon } from "lucide-react";
 
 const financeProfitInsert = () => {
   const newTransaction: SubmitHandler<any> = async (data) => {
     console.log(data);
     await Finance_ProfitLoss_Add(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     reset({
       type: "Revenue",
       category: "",
       created_date: new Date(),
       description: "",
-      amount: null,
+      amount_revenue: null,
     });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     window.location.reload();
   };
 
@@ -43,7 +45,7 @@ const financeProfitInsert = () => {
       category: "",
       created_date: new Date(),
       description: "",
-      amount: null,
+      amount_revenue: null,
     },
     mode: "onChange",
   });
@@ -53,7 +55,7 @@ const financeProfitInsert = () => {
       <DialogTrigger asChild>
         <Button>New Transaction</Button>
       </DialogTrigger>
-      <DialogContent className={`sm:max-w-[425px] border-2 ${errors.amount || errors.type || errors.category || errors.description ? "border-destructive/50" : ""}`}>
+      <DialogContent className={`sm:max-w-[425px] border-2 ${errors.amount_revenue || errors.type || errors.category || errors.description ? "border-destructive/50" : ""}`}>
         <DialogHeader>
           <DialogTitle>Profits</DialogTitle>
         </DialogHeader>
@@ -105,18 +107,49 @@ const financeProfitInsert = () => {
 
             {/* Date */}
             <div className="grid grid-cols-4 items-center gap-x-4">
-              <Label htmlFor="created_date" className="text-right">Date</Label>
+              <Label htmlFor="name" className="text-right">
+                Date
+              </Label>
               <Controller
                 name="created_date"
-                control={control}
+                control={control} // rules={{ required: "Date is required" }} // Add required validation
                 render={({ field }) => (
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left font-normal col-span-3"
-                    onClick={() => field.onChange(new Date())}
-                  >
-                    {field.value ? format(new Date(field.value), "PPP") : "Pick a date"}
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className="w-full justify-start text-left font-normal col-span-3"
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {field.value ? (
+                          format(new Date(field.value), "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="z-52 w-fit bg-gray-200 ">
+                      <DialogClose>
+                        <Button
+                          variant="ghost"
+                          className=" hover:bg-gray-200  h-full"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
+                            onSelect={(date) =>
+                              field.onChange(
+                                date ? format(date, "yyyy-MM-dd") : null
+                              )
+                            }
+                            initialFocus
+                          />
+                        </Button>
+                      </DialogClose>
+                    </DialogContent>
+                  </Dialog>
                 )}
               />
             </div>
@@ -141,21 +174,21 @@ const financeProfitInsert = () => {
             <div className="grid grid-cols-4 items-center gap-x-4">
               <Label htmlFor="amount" className="text-right">Amount</Label>
               <Input
-                id="amount"
+                id="amount_revenue"
                 placeholder="0.00"
                 className="col-span-3"
-                {...register("amount", {
+                {...register("amount_revenue", {
                   required: "Amount is required",
                   min: { value: 0, message: "Amount should be greater than 0" },
                   pattern: { value: /^\d+(\.\d{1,2})?$/, message: "Invalid amount format" },
                 })}
               />
-              {errors.amount && <span className="text-destructive text-sm col-span-3">{errors.amount.message}</span>}
+              {errors.amount_revenue && <span className="text-destructive text-sm col-span-3">{errors.amount_revenue.message}</span>}
             </div>
           </div>
           <DialogFooter>
             <Button
-              className={`cursor-pointer w-full ${errors.amount || errors.type || errors.category || errors.description ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse" : ""}`}
+              className={`cursor-pointer w-full ${errors.amount_revenue || errors.type || errors.category || errors.description ? "bg-destructive/50 hover:bg-destructive/70 cursor-not-allowed animate-pulse" : ""}`}
               type="submit"
               {...(isSubmitSuccessful ? { disabled: true } : {})}
             >

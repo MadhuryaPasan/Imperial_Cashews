@@ -8,6 +8,9 @@ let router = express.Router();
 router.route("/Finance_PettyCash").get(async (req, res) => {
   try {
     let db = DB.getDB();
+    if (!db) {
+      return res.status(500).json({ error: "Database connection failed" });
+    }
     let result = await db.collection("Finance_PettyCash").find({}).toArray();
     res.status(200).json(result);
   } catch (error) {
@@ -20,6 +23,9 @@ router.route("/Finance_PettyCash").get(async (req, res) => {
 router.route("/Finance_PettyCash/:id").get(async (req, res) => {
   try {
     let db = DB.getDB();
+    if (!db) {
+      return res.status(500).json({ error: "Database connection failed" });
+    }
     let result = await db
       .collection("Finance_PettyCash")
       .findOne({ _id: new ObjectId(req.params.id) });
@@ -34,6 +40,9 @@ router.route("/Finance_PettyCash/:id").get(async (req, res) => {
 router.route("/Finance_PettyCash/:id").delete(async (req, res) => {
   try {
     let db = DB.getDB();
+    if (!db) {
+      return res.status(500).json({ error: "Database connection failed" });
+    }
     let data = await db
       .collection("Finance_PettyCash")
       .deleteOne({ _id: new ObjectId(req.params.id) });
@@ -49,62 +58,85 @@ router.route("/Finance_PettyCash/:id").delete(async (req, res) => {
 router.route("/Finance_PettyCash").post(async (req, res) => {
   try {
     let db = DB.getDB();
+    if (!db) {
+      return res.status(500).json({ error: "Database connection failed" });
+    }
+
     const date = new Date(req.body.transaction_date);
     let replenishment = 0;
     let expense = 0;
 
     if (req.body.transaction_type === "Replenishment") {
-      replenishment = req.body.replenishment_amount;
+      replenishment = parseFloat(req.body.replenishment_amount);
     } else if (req.body.transaction_type === "Expenses") {
-      expense = req.body.expense_amount;
+      expense = parseFloat(req.body.expense_amount);
+    }
+
+    // Get the latest document to find current balance
+    let lastDoc = await db
+      .collection("Finance_PettyCash")
+      .find()
+      .sort({ _id: -1 })
+      .limit(1)
+      .toArray();
+    let current_balance = lastDoc.length > 0 ? lastDoc[0].current_balance : 0; // Initialize to 0 if no previous documents
+
+    if (req.body.transaction_type === "Replenishment") {
+      current_balance += replenishment;
+    } else if (req.body.transaction_type === "Expenses") {
+      current_balance -= expense;
     }
 
     let mongoObject = {
       transaction_date: new Date(date.toISOString()),
       description: req.body.description,
-      current_balance: 0,
+      current_balance: current_balance,
       transaction_type: req.body.transaction_type,
-      replenishment_amount: parseFloat(replenishment),
-      expense_amount: parseFloat(expense),
+      replenishment_amount: replenishment,
+      expense_amount: expense,
     };
+
     let data = await db.collection("Finance_PettyCash").insertOne(mongoObject);
-    res.json(data);
-    console.log("Data inserted successfully");
-    // console.log(mongoObject);
+    console.log("PettyCash data inserted successfully");
 
-    // ------------------------------------------------------------------
+    // Insert into BankBook only if replenishment
+    if (req.body.transaction_type === "Replenishment") {
+      let lastBankBookDoc = await db
+        .collection("Finance_BankBook")
+        .find()
+        .sort({ _id: -1 })
+        .limit(1)
+        .toArray();
+      let balance = lastBankBookDoc.length > 0 ? lastBankBookDoc[0].balance : 0;
 
-    let allPreviousDoc = await db
-      .collection("Finance_PettyCash")
-      .find()
-      .sort({ _id: 1 })
-      .toArray();
+      balance = parseFloat(balance) + parseFloat(replenishment);
 
-
-    let current_balance = 0;
-    for (const element of allPreviousDoc) {
-  
-
-      if (element.transaction_type === "Replenishment") {
-        current_balance = parseFloat(current_balance +
-          element.replenishment_amount );
-      }
-      else if (element.transaction_type === "Expenses") {
-        current_balance = parseFloat(current_balance - element.expense_amount);
-      }
-
-
-      
-
-      let current_object = {
-        $set: {
-          current_balance : current_balance,
-        },
+      let mongoObject_BankBook = {
+        description: req.body.description, // correct!
+        date: new Date(date.toISOString()),
+        reference: "PettyCash Replenishment",
+        Withdrawals: replenishment,
+        Deposits: 0,
+        balance: balance, // you can update this similarly
       };
-      await db
-        .collection("Finance_PettyCash")
-        .updateOne({ _id: element._id }, current_object);
+      await db.collection("Finance_BankBook").insertOne(mongoObject_BankBook);
+      console.log("BankBook data inserted successfully");
     }
+    //-------------------------------------------------------------------------
+    // insert into profit and loss if expense
+    else if (req.body.transaction_type === "Expenses") {
+      let mongoObject = {
+        created_date: new Date(date.toISOString()),
+        description: req.body.description,
+        type: "Expenses",
+        amount_revenue: 0,
+        amount_expense: expense,
+        category: "Petty Cash Expenses",
+      };
+      await db.collection("Finance_ProfitLoss").insertOne(mongoObject);
+    }
+
+    res.json(data);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -267,3 +299,31 @@ export default router;
 // });
 
 // export default router;
+
+//  // ------------------------------------------------------------------
+
+//  let allPreviousDoc = await db
+//  .collection("Finance_PettyCash")
+//  .find()
+//  .sort({ _id: 1 })
+//  .toArray();
+
+// let current_balance = 0;
+// for (const element of allPreviousDoc) {
+//  if (element.transaction_type === "Replenishment") {
+//    current_balance = parseFloat(
+//      current_balance + element.replenishment_amount
+//    );
+//  } else if (element.transaction_type === "Expenses") {
+//    current_balance = parseFloat(current_balance - element.expense_amount);
+//  }
+
+//  let current_object = {
+//    $set: {
+//      current_balance: current_balance,
+//    },
+//  };
+//  await db
+//    .collection("Finance_PettyCash")
+//    .updateOne({ _id: element._id }, current_object);
+// }

@@ -51,11 +51,21 @@ router.route("/Finance_ProfitLoss").post(async (req, res) => {
     let db = DB.getDB();
     const date = new Date(req.body.created_date);
 
+    let amount_revenue = 0;
+    let amount_expense = 0;
+
+    if (req.body.type === "Revenue") {
+      amount_revenue = parseFloat(req.body.amount_revenue);
+    } else if (req.body.type === "Expenses") {
+      amount_expense = parseFloat(req.body.amount_expense);
+    }
+
     let mongoObject = {
       created_date: new Date(date.toISOString()),
       description: req.body.description,
       type: req.body.type,
-      amount: parseFloat( req.body.amount),
+      amount_revenue: amount_revenue,
+      amount_expense: amount_expense,
       category: req.body.category,
     };
     let data = await db.collection("Finance_ProfitLoss").insertOne(mongoObject);

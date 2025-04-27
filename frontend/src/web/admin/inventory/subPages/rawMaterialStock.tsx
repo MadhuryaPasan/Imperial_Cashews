@@ -56,7 +56,7 @@ const rawMaterialStock = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Raw Materiels</div>
             <div className="flex gap-2 items-center">
-              <FinanceBankBook_Insert />
+              <RawMateriels_insert />
               <Button variant="outline">
                 Report <Download />
               </Button>
@@ -432,6 +432,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import RawMateriels_insert from "@/components/admin/inventory/rawMateriels/RawMateriels_insert";
 
 const RawMaterialHoldinglevelChart = () => {
   //Asigning the data to

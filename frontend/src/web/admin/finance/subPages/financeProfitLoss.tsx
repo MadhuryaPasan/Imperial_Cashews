@@ -48,10 +48,10 @@ const financeProfitLoss = () => {
 
   const totalRevenue = data
     ?.filter((item) => item.type === "Revenue")
-    .reduce((acc, curr) => acc + curr.amount, 0);
+    .reduce((acc, curr) => acc + curr.amount_revenue, 0);
   const TotalExpenses = data
     ?.filter((item) => item.type === "Expenses")
-    .reduce((acc, curr) => acc + curr.amount, 0);
+    .reduce((acc, curr) => acc + curr.amount_expense, 0);
 
   const netProfit = totalRevenue - TotalExpenses;
 
@@ -94,7 +94,7 @@ const financeProfitLoss = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium">
-                  Total Deposits
+                  Total amount_revenue
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-destructive">
@@ -124,6 +124,9 @@ const financeProfitLoss = () => {
               </CardHeader>
             </Card>
           </div>
+          <Separator className=" my-4" />
+
+          {ProfiLossChart()}
           <Separator className=" my-4" />
 
           {/* tables */}
@@ -162,7 +165,7 @@ const tableColumns = [
   },
 
   {
-    id: 3,
+    id: 2,
     name: "Description",
   },
   {
@@ -170,7 +173,7 @@ const tableColumns = [
     name: "Category",
   },
   {
-    id: 3,
+    id: 4,
     name: "Amount",
     icon: <DollarSign className=" size-5" />,
   },
@@ -243,13 +246,15 @@ const profitsTable = () => {
                     <TableCell>{data.description}</TableCell>
                     <TableCell>{data.category}</TableCell>
                     <TableCell>
-                      <span className="">
-                        RS{" "}
-                        {data.amount.toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
+                    <span className="">
+          RS{" "}
+          {data?.amount_revenue
+            ? data.amount_revenue.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : "0.00"}
+        </span>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -336,13 +341,15 @@ const profitLossTable = () => {
                     <TableCell>{data.description}</TableCell>
                     <TableCell>{data.category}</TableCell>
                     <TableCell>
-                      <span className="">
-                        RS{" "}
-                        {data.amount.toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
+                    <span className="">
+          RS{" "}
+          {data?.amount_expense
+            ? data.amount_expense.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : "0.00"}
+        </span>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -354,5 +361,192 @@ const profitLossTable = () => {
       <br />
       <br />
     </>
+  );
+};
+
+
+
+
+//-----------------------------
+
+
+
+("use client");
+
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Finance_BankBook_Delete,
+  Finance_BankBook_ReturnAll,
+} from "@/utils/API/finance/Finance_BankBook_API";
+
+const chartConfig = {
+  transactions: {
+    label: "transactions",
+  },
+  amount_revenue: {
+    label: "amount_revenue",
+    color: "rgb(0, 201, 81)",
+  },
+  amount_expense: {
+    label: "amount_expense",
+    color: "rgb(255, 100, 100)",
+  },
+} satisfies ChartConfig;
+
+const ProfiLossChart = () => {
+  //Asigning the data to transactions from Finance_BankBook_ReturnAll function
+  const transactions = Finance_ProfitLoss_ReturnAll();
+  //-------------------------------------------------------
+
+
+  const sortedTransactionsAsc = transactions.sort((a, b) => {
+    const dateA = new Date(typeof a.created_date === 'string' ? a.created_date : a.created_date.$created_date);
+    const dateB = new Date(typeof b.created_date === 'string' ? b.created_date : b.created_date.$created_date);
+    return dateA.getTime() - dateB.getTime(); // ascending
+  });
+  
+
+  const [timeRange, setTimeRange] = React.useState("90d");
+
+  const filteredData = sortedTransactionsAsc.filter((item) => {
+    const date = new Date(item.created_date);
+    const referenceDate = new Date();
+    let daysToSubtract = 90;
+    if (timeRange === "30d") {
+      daysToSubtract = 30;
+    } else if (timeRange === "7d") {
+      daysToSubtract = 7;
+    }
+    const startDate = new Date(referenceDate);
+    startDate.setDate(startDate.getDate() - daysToSubtract);
+    return date >= startDate;
+  });
+
+  return (
+    <Card>
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+        <div className="grid flex-1 gap-1 text-center sm:text-left">
+          <CardTitle>Transactions chart</CardTitle>
+          <CardDescription>
+            Showing transactions for the last 3 months
+          </CardDescription>
+        </div>
+        <Select value={timeRange} onValueChange={setTimeRange}>
+          <SelectTrigger
+            className="w-[160px] rounded-lg sm:ml-auto"
+            aria-label="Select a value"
+          >
+            <SelectValue placeholder="Last 3 months" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
+            <SelectItem value="90d" className="rounded-lg">
+              Last 3 months
+            </SelectItem>
+            <SelectItem value="30d" className="rounded-lg">
+              Last 30 days
+            </SelectItem>
+            <SelectItem value="7d" className="rounded-lg">
+              Last 7 days
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </CardHeader>
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[250px] w-full"
+        >
+          <AreaChart data={filteredData}>
+            <defs>
+              <linearGradient id="fillamount_revenue" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-amount_revenue)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-amount_revenue)"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+              <linearGradient id="fillamount_expense" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-amount_expense)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-amount_expense)"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="created_date"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              minTickGap={32}
+              tickFormatter={(value) => {
+                const date = new Date(value);
+                return date.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+              }}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent
+                  labelFormatter={(value) => {
+                    return new Date(value).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    });
+                  }}
+                  indicator="dot"
+                />
+              }
+            />
+            <Area
+              dataKey="amount_expense"
+              type="natural"
+              fill="url(#fillamount_expense)"
+              stroke="var(--color-amount_expense)"
+              stackId="a"
+            />
+            <Area
+              dataKey="amount_revenue"
+              type="natural"
+              fill="url(#fillamount_revenue)"
+              stroke="var(--color-amount_revenue)"
+              stackId="a"
+            />
+            <ChartLegend content={<ChartLegendContent />} />
+          </AreaChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 };
