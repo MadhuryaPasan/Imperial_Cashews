@@ -31,6 +31,7 @@ const staff = () => {
     <>
       <div className="flex ">
         <div>
+          
           <SidebarProvider>
             <StaffSideBar />
           </SidebarProvider>

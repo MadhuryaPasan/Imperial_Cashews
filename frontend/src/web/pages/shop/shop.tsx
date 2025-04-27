@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FileWarning, Filter } from "lucide-react";
+import { FileWarning, Filter, ShoppingBag } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Sidebar from "@/web/pages/shop/components/sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -18,6 +18,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { returnAllProducts } from "@/utils/API/sales/Sales_Products_API";
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/web/layout/components/footer";
+import { Link } from "react-router-dom";
 
 const shop = () => {
   //  sidebar filter
@@ -55,6 +56,17 @@ const shop = () => {
   return (
     <>
       <div className=" flex">
+        {/*cart button */}
+        <div className=" fixed bottom-4 right-4 z-10">
+          <Link to="/shop/cart">
+            <Button>
+              <ShoppingBag />
+              Cart ({JSON.parse(localStorage.getItem("cart") || "[]").length})
+            </Button>
+          </Link>
+
+        {/* ------------------- */}
+        </div>
         <div>
           <SidebarProvider>
             <Sidebar onSelectCategory={setSelectedCategory} />

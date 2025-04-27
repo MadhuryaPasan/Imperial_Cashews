@@ -67,6 +67,9 @@ router.route("/Finance_BankBook").post(async (req, res) => {
       Deposits: parseFloat(Deposits),
       balance: req.body.balance,
     };
+
+    console.log(mongoObject);
+
     let data = await db.collection("Finance_BankBook").insertOne(mongoObject);
     res.json(data);
     console.log("Data inserted successfully");

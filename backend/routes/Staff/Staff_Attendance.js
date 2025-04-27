@@ -5,11 +5,53 @@ import { ObjectId } from "mongodb";
 let router = express.Router();
 
 //read data
-router.route("/Inventory_supplierDetail").get(async (req, res) => {
+router.route("/Staff_Attendance").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("Inventory_supplierDetail").find({}).toArray();
-    res.status(200).json(result);
+
+
+
+
+    
+    // let result = await db.collection("Staff_Attendance").find({}).toArray();
+    // res.status(200).json(result);
+
+
+    let result = await db
+    .collection("Staff_Attendance")
+    .aggregate([
+      {
+        $lookup: {
+          from: "Staff_Employee", // foreign collection name
+          localField: "employee_id", // field  in this collection
+          foreignField: "_id", // field in foreign collection
+          as: "employeeData",
+        },
+      },
+      {
+        $unwind: "$employeeData", // to turn array into object
+      },
+      {
+        $lookup: {
+          from: "Staff_department", // foreign collection name
+          localField: "department_id", // field  in this collection
+          foreignField: "_id", // field in foreign collection
+          as: "departmentData",
+        },
+      },
+      {
+        $unwind: "$departmentData", // to turn array into object
+      },
+    ])
+    .toArray();
+
+  res.status(200).json(result);
+
+
+
+
+
+
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -17,11 +59,11 @@ router.route("/Inventory_supplierDetail").get(async (req, res) => {
 });
 
 // read data single data
-router.route("/Inventory_supplierDetail/:id").get(async (req, res) => {
+router.route("/Staff_Attendance/:id").get(async (req, res) => {
   try {
     let db = DB.getDB();
     let result = await db
-      .collection("Inventory_supplierDetail")
+      .collection("Staff_Attendance")
       .findOne({ _id: new ObjectId(req.params.id) });
     res.json(result);
   } catch (error) {
@@ -31,11 +73,11 @@ router.route("/Inventory_supplierDetail/:id").get(async (req, res) => {
 });
 
 //delete data
-router.route("/Inventory_supplierDetail/:id").delete(async (req, res) => {
+router.route("/Staff_Attendance/:id").delete(async (req, res) => {
   try {
     let db = DB.getDB();
     let data = await db
-      .collection("Inventory_supplierDetail")
+      .collection("Staff_Attendance")
       .deleteOne({ _id: new ObjectId(req.params.id) });
     res.json(data);
     console.log("Data deleted successfully");
@@ -46,7 +88,7 @@ router.route("/Inventory_supplierDetail/:id").delete(async (req, res) => {
 });
 
 //insert data
-router.route("/Inventory_supplierDetail").post(async (req, res) => {
+router.route("/Staff_Attendance").post(async (req, res) => {
   try {
     let db = DB.getDB();
     const date = new Date(req.body.date);
@@ -67,10 +109,7 @@ router.route("/Inventory_supplierDetail").post(async (req, res) => {
       Deposits: parseFloat(Deposits),
       balance: req.body.balance,
     };
-
-    console.log(mongoObject);
-
-    let data = await db.collection("Inventory_supplierDetail").insertOne(mongoObject);
+    let data = await db.collection("Staff_Attendance").insertOne(mongoObject);
     res.json(data);
     console.log("Data inserted successfully");
     console.log(mongoObject);
@@ -78,7 +117,7 @@ router.route("/Inventory_supplierDetail").post(async (req, res) => {
     // ------------------------------------------------------------------
 
     let allPreviousDoc = await db
-      .collection("Inventory_supplierDetail")
+      .collection("Staff_Attendance")
       .find()
       .sort({ _id: 1 })
       .toArray();
@@ -108,7 +147,7 @@ router.route("/Inventory_supplierDetail").post(async (req, res) => {
         },
       };
       await db
-        .collection("Inventory_supplierDetail")
+        .collection("Staff_Attendance")
         .updateOne({ _id: element._id }, current_object);
     }
   } catch (error) {

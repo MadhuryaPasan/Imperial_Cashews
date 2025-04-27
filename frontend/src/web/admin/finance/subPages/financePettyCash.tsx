@@ -24,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { Finance_PettyCash_ReturnAll } from "@/utils/API/finance/Finance_PettyCash_API";
 import { Input } from "@/components/ui/input";
+import FinancePettyCash_insert from "@/components/admin/finance/financePettyCash/financePettyCash_insert";
 
 const financePettyCash = () => {
   interface FinanceDocument {
@@ -98,7 +99,8 @@ const financePettyCash = () => {
         <main className=" w-full mx-5 mt-4">
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Petty Cash</div>
-            <div>
+            <div className="flex gap-2 items-center">
+              <FinancePettyCash_insert />
               <Button variant="outline">
                 Report <Download />
               </Button>
@@ -123,7 +125,7 @@ const financePettyCash = () => {
                         })}
                       </span>
                     ) : (
-                      <span className="text-destructive">N/A</span>
+                      <span className="text-destructive">0</span>
                     )}
                   </div>
                 </CardContent>
@@ -146,7 +148,7 @@ const financePettyCash = () => {
                         })}
                       </span>
                     ) : (
-                      <span className="text-destructive">N/A</span>
+                      <span className="text-destructive">0</span>
                     )}
                   </div>
                 </CardContent>
@@ -168,7 +170,7 @@ const financePettyCash = () => {
                         })}
                       </span>
                     ) : (
-                      <span className="text-destructive">N/A</span>
+                      <span className="text-destructive">0</span>
                     )}
                   </div>
                 </CardContent>

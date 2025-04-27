@@ -8,7 +8,10 @@ let router = express.Router();
 router.route("/quality_raw_material_check").get(async (req, res) => {
   try {
     let db = DB.getDB();
-    let result = await db.collection("quality_raw_material_check").find({}).toArray();
+    let result = await db
+      .collection("quality_raw_material_check")
+      .find({})
+      .toArray();
     res.status(200).json(result);
   } catch (error) {
     console.error(error.message);
@@ -49,65 +52,71 @@ router.route("/quality_raw_material_check/:id").delete(async (req, res) => {
 router.route("/quality_raw_material_check").post(async (req, res) => {
   try {
     let db = DB.getDB();
-    const date = new Date(req.body.date);
-    let Withdrawals = 0;
-    let Deposits = 0;
-
-    if (req.body.type === "Withdrawals") {
-      Withdrawals = req.body.amount;
-    } else if (req.body.type === "Deposits") {
-      Deposits = req.body.amount;
-    }
 
     let mongoObject = {
-      description: req.body.description,
-      date: new Date(date.toISOString()),
-      reference: req.body.reference,
-      Withdrawals: parseFloat(Withdrawals),
-      Deposits: parseFloat(Deposits),
-      balance: req.body.balance,
+      color_appearance: req.body.color_appearance,
+      moisture_content: req.body.moisture_content,
+      foreign_matter: req.body.foreign_matter,
+      damage_percentage: req.body.damage_percentage,
+      size: req.body.size,
+      checked_by: {
+        name: req.body.checked_by.name,
+        _id: ObjectId.isValid(req.body.checked_by._id)
+          ? new ObjectId(req.body.checked_by._id) // Convert to ObjectId if valid
+          : null, // Handle invalid ObjectId,
+      },
+      checked_time: new Date(new Date().toISOString()),
+      batch: {
+        batch_id: req.body.batch.batch_id,
+        _id: ObjectId.isValid(req.body.batch._id)
+          ? new ObjectId(req.body.batch._id) // Convert to ObjectId if valid
+          : null, // Handle invalid ObjectId,,
+      },
+      supplier: {
+        _id: ObjectId.isValid(req.body.supplier._id)
+          ? new ObjectId(req.body.supplier._id) // Convert to ObjectId if valid
+          : null, // Handle invalid ObjectId,,
+        name: req.body.supplier.name,
+      },
+      quality_percentage: req.body.quality_percentage,
+      quality_status: req.body.quality_status,
     };
-    let data = await db.collection("quality_raw_material_check").insertOne(mongoObject);
-    res.json(data);
-    console.log("Data inserted successfully");
-    console.log(mongoObject);
 
-    // ------------------------------------------------------------------
-
-    let allPreviousDoc = await db
+    let data = await db
       .collection("quality_raw_material_check")
-      .find()
-      .sort({ _id: 1 })
-      .toArray();
+      .insertOne(mongoObject);
+    res.json(data);
 
-    let current_balance = 0;
-    for (const element of allPreviousDoc) {
-      let current_Withdrawals = element.Withdrawals;
+    console.log(data.insertedId);
+    
 
-      let current_Deposits = element.Deposits;
-      if (element.Withdrawals > 0) {
-        current_balance = parseFloat(
-          (current_balance - current_Withdrawals).toFixed(2)
-        );
-        
-      }
-      if (element.Deposits > 0) {
-        current_balance = parseFloat(
-          (current_balance + current_Deposits).toFixed(2)
-        );
-        
-      }
-      
+    let updateInventory = {
+          $set: {
+            quality_level:{
+              raw_quality_id: new ObjectId(data.insertedId),
+              quality_percentage : req.body.quality_percentage,
+              quality_status : req.body.quality_status,
 
-      let current_object = {
-        $set: {
-          balance: current_balance,
-        },
-      };
+            }
+
+          },
+        };
+
+
+    if (ObjectId.isValid(req.body.batch._id)) {
       await db
-        .collection("quality_raw_material_check")
-        .updateOne({ _id: element._id }, current_object);
+        .collection("Inventory_RawCashews_StockLevel")
+        .updateOne({ _id: new ObjectId(req.body.batch._id) }, updateInventory);
+    } else {
+      console.error("Invalid ObjectId for batch._id");
+      res.status(400).json({ error: "Invalid batch._id" });
+      return;
     }
+
+
+
+    console.log("Data inserted successfully");
+    // console.log(mongoObject);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });
