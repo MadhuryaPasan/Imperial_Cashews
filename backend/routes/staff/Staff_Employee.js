@@ -20,7 +20,19 @@ router.route("/Staff_Employee").get(async (req, res) => {
   }
 });
 
-
+// Get employee count
+router.route("/Staff_Employee/count").get(async (req, res) => {
+  try {
+    let db = DB.getDB();
+    let count = await db.collection("Staff_Employee").countDocuments();
+    res.status(200).json({ message: "Employee count retrieved", count });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch employee count",
+      message: error.message,
+    });
+  }
+});
 
 // read data single data
 
@@ -63,7 +75,6 @@ router.route("/Staff_Employee").post(async (req, res) => {
 //update data
 router.route("/Staff_Employee/:id").put(async (req, res) => {
   let db = DB.getDB();
-  
 
   let mongoObject = {
     $set: {

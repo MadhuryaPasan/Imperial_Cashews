@@ -13,6 +13,7 @@ import Access from "./pages/access";
 
 import Dashboard from "./pages/dashboard";
 import Page_not_found from "./pages/page_not_found";
+import Staffpdf from "@/pdf/staffpdf"
 
 //layouts
 
@@ -42,9 +43,10 @@ function App() {
 
 
           <Route path="*" element={<Page_not_found />} />
+          <Route path="/staffpdf" element={<Staffpdf />} />
           <Route element={<Layout_Main />}>
             <Route path="/home" element={<Home />} />
-            {/* http://localhost:5173/*/}
+            {/* http://localhost:5173/*/} 
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/product/:id" element={<ShopProduct />} />
             <Route path="/shop/cart" element={<ShopCart />} />
