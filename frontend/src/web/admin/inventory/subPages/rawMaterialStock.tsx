@@ -3,6 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FinanceBankBook_Insert from "@/components/admin/finance/financeBankBooks/financeBankBook_Insert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import WhatsAppPopup from "@/components/Message/WhatsAppPopup";
 import {
   Card,
   CardContent,
@@ -152,6 +153,12 @@ const rawMaterialStock = () => {
           <div>{RawMaterialHoldinglevelChart()}</div>
           <Separator className=" my-4" />
           <div>{tableData()}</div>
+          
+
+{/* WhatsApp Integration */}
+<div className="mt-4">
+  <WhatsAppPopup />
+</div>
         </main>
       </div>
     </>
