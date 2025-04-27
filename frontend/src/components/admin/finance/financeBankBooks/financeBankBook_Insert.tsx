@@ -33,7 +33,7 @@ const financeBankBook_Insert = () => {
 
 
   const newTransaction: SubmitHandler<any> = async (data) => {
-    console.log(data);
+    // console.log(data);
      await Finance_BankBook_Add(data);
     // // wait for 1 seconds
     await new Promise((resolve) => setTimeout(resolve, 1000));

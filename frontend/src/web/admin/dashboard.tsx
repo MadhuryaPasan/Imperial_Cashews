@@ -73,7 +73,7 @@ const dashboard = () => {
                   <Logo />
                 </div>
           <h2 className="relative z-20 mx-auto max-w-4xl text-center text-2xl font-bold text-balance  md:text-4xl lg:text-6xl  mt-10  ">
-            Welcome Back, Pasan
+            Welcome Back
           </h2>
         </CardContent>
       </Card>

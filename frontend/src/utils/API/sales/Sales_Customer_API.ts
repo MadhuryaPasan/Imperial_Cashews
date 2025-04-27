@@ -41,7 +41,7 @@ export async function Sales_Customer_Add(data: any) {
 export async function Sales_Customer_Update(id: string, data: any) {
     try {
         const response = await axios.put(`${URL}${URL_COLLECTION}/${id}`, data);
-        alert("Document updated successfully");
+        // alert("Document updated successfully");
         return response;
     } catch (error) {
         console.error("Error updating bank book entry:", error);

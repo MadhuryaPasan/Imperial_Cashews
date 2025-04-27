@@ -19,11 +19,11 @@ import { Link } from "react-router-dom";
 
 // Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "/admin/finance",
-    icon: LayoutDashboard,
-  },
+  // {
+  //   title: "Home",
+  //   url: "/admin/finance",
+  //   icon: LayoutDashboard,
+  // },
   {
     title: "Balance Sheet",
     url: "/admin/finance/balance-sheet",

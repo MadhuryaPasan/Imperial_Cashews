@@ -17,34 +17,34 @@ const links = [
     ),
     href: "/",
   },
-  {
-    title: "Dashboard",
-    icon: (
-      <LayoutDashboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-    ),
-    href: "/admin/dashboard",
-  },
+  // {
+  //   title: "Dashboard",
+  //   icon: (
+  //     <LayoutDashboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+  //   ),
+  //   href: "/admin/dashboard",
+  // },
 
   {
     title: "Finance",
     icon: (
       <ChartCandlestick className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/finance",
+    href: "/admin/finance/balance-sheet",
   },
   {
     title: "Inventory",
     icon: (
       <Warehouse className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/inventory",
+    href: "/admin/inventory/raw-material-stock",
   },
   {
     title: "Quality Control",
     icon: (
       <PackageCheck className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/quality-control",
+    href: "/admin/quality-control/raw-material-check-list",
   },
 
   {
@@ -52,14 +52,14 @@ const links = [
     icon: (
       <CircleDollarSign className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/sales",
+    href: "/admin/sales/clients-management",
   },
   {
     title: "Staff",
     icon: (
       <Handshake className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     ),
-    href: "/admin/staff",
+    href: "/admin/staff/staff-management",
   },
 ];
 

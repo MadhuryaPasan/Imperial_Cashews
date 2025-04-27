@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Download, Phone } from "lucide-react";
+import { Download, Phone, Trash2 } from "lucide-react";
 import SalesSideBar from "../layout/salesSideBar";
 
 import { useState } from "react";
@@ -11,7 +11,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,9 +23,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Sales_Customer_ReturnAll
-} from "@/utils/API/sales/Sales_Customer_API";
+import { Sales_Customer_Delete, Sales_Customer_ReturnAll } from "@/utils/API/sales/Sales_Customer_API";
+
+import AddNewSalesClient from "@/components/admin/sales/salesClients/addnewSalesClient";
+import UpdatesalesClientDetails from "@/components/admin/sales/salesClients/updatesalesClientDetails";
 
 const clients = () => {
   const data = Sales_Customer_ReturnAll();
@@ -45,6 +46,8 @@ const clients = () => {
               <Button variant="outline">
                 Report <Download />
               </Button>
+
+              <AddNewSalesClient />
             </div>
           </div>
           <Separator className=" my-4" />
@@ -100,11 +103,23 @@ const tableColumns = [
   },
   {
     id: 5,
-    name: "Password",
+    name: "District",
   },
   {
     id: 6,
+    name: "Country",
+  },
+  {
+    id: 7,
+    name: "Password",
+  },
+  {
+    id: 8,
     name: "Joined Date",
+  },
+  {
+    id: 9,
+    name: "Options",
   },
 ];
 
@@ -143,6 +158,8 @@ const UserDataTable = () => {
       data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.district.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.contact_number.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -166,7 +183,7 @@ const UserDataTable = () => {
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
-                placeholder="Search data here... (e.g. Name, Mobile, Address, Email)"
+                placeholder="Search data here... (e.g. Name, Mobile, Address, Email, District, Country)"
                 className=" w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -195,7 +212,12 @@ const UserDataTable = () => {
                     <TableCell>{data?.email}</TableCell>
                     <TableCell>{data?.contact_number}</TableCell>
                     <TableCell>{data?.address}</TableCell>
-                    <TableCell>{data?.password}</TableCell>
+                    <TableCell>{data?.district}</TableCell>
+                    <TableCell>{data?.country}</TableCell>
+                    <TableCell>
+                      {/* {data?.password} */}
+                      ****
+                    </TableCell>
                     <TableCell>
                       {data?.created_date
                         ? new Date(data?.created_date).toLocaleString("en-CA", {
@@ -204,6 +226,10 @@ const UserDataTable = () => {
                             day: "numeric",
                           })
                         : "N/A"}
+                    </TableCell>
+                    <TableCell  className="flex gap-2">
+                      <UpdatesalesClientDetails _id={data._id} />
+                      {DeleteData(data._id)}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -235,7 +261,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
 
 const chartConfig = {
   desktop: {
@@ -320,13 +345,12 @@ const MonthlyUsersChart = () => {
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
-              
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="count" fill="var(--color-desktop)" radius={8} >
+            <Bar dataKey="count" fill="var(--color-desktop)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
@@ -338,5 +362,64 @@ const MonthlyUsersChart = () => {
         </ChartContainer>
       </CardContent>
     </Card>
+  );
+};
+
+
+
+
+
+
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const DeleteData = (id: string) => {
+  const deleteRow = async (id: string) => {
+    await Sales_Customer_Delete(id);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    window.location.reload();
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Trash2 className=" size-5 text-destructive" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently remove your data
+            from our servers.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className=" justify-between">
+          <DialogClose asChild>
+            <Button type="button" variant="outline" className="">
+              Close
+            </Button>
+          </DialogClose>
+          <Button
+          variant="destructive"
+            type="button"
+            
+            onClick={() => deleteRow(id)}
+          >
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

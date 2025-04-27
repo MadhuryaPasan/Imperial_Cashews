@@ -19,11 +19,11 @@ import { Link } from "react-router-dom";
 
 // Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "/admin/quality-control",
-    icon: LayoutDashboard,
-  },
+  // {
+  //   title: "Home",
+  //   url: "/admin/quality-control",
+  //   icon: LayoutDashboard,
+  // },
   {
     title: "Raw Material Check List",
     url: "/admin/quality-control/raw-material-check-list",

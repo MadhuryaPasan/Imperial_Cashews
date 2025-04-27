@@ -19,11 +19,11 @@ import { Link } from "react-router-dom";
 
 // Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "/admin/sales",
-    icon: LayoutDashboard,
-  },
+  // {
+  //   title: "Home",
+  //   url: "/admin/sales",
+  //   icon: LayoutDashboard,
+  // },
   {
     title: "All Clients",
     url: "/admin/sales/clients-management",
