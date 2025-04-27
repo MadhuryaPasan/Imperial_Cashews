@@ -13,6 +13,7 @@ import Access from "./pages/access";
 
 import Dashboard from "./pages/dashboard";
 import Page_not_found from "./pages/page_not_found";
+import Inventorypdf from "@/PDF/inventorypdf";
 
 //layouts
 
@@ -42,6 +43,7 @@ function App() {
 
 
           <Route path="*" element={<Page_not_found />} />
+          <Route path="/inventorypdf" element={<Inventorypdf />} />
           <Route element={<Layout_Main />}>
             <Route path="/home" element={<Home />} />
             {/* http://localhost:5173/*/}
