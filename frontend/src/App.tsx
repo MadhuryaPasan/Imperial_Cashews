@@ -158,6 +158,7 @@ function App() {
               path="/admin/sales/sales-orders"
               element={<Sales_orders />}
             />
+
           </Route>
           <Route element={<LayoutMain />}>
             <Route path="/" element={<Home />} />
