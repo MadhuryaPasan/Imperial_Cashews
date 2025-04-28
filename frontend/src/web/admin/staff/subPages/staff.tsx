@@ -1,8 +1,10 @@
+"use client";
+
 import { SidebarProvider } from "@/components/ui/sidebar";
 import StaffSideBar from "../layout/staffSideBar";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Phone } from "lucide-react";
+import { Download, Phone, TrendingUp } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Staff_Employee_ReturnAll } from "@/utils/API/staff/Staff_Employee_API";
 import {
@@ -23,36 +25,91 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
-const staff = () => {
+// Download table as PDF function
+const downloadTableAsPDF = () => {
+  const table = document.querySelector("table")?.outerHTML;
+
+  if (!table) {
+    alert("Table not found!");
+    return;
+  }
+
+  const newWindow = window.open("", "_blank");
+
+  if (newWindow) {
+    newWindow.document.write(`
+      <html>
+        <head>
+          <title>Staff Report</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid #333;
+              padding: 8px;
+              text-align: left;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
+            h1 {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Staff Report</h1>
+          ${table}
+        </body>
+      </html>
+    `);
+
+    newWindow.document.close();
+    newWindow.print();
+  }
+};
+
+// Main Staff Page
+const Staff = () => {
   const data = Staff_Employee_ReturnAll();
 
   return (
     <>
       <div className="flex ">
         <div>
-          
           <SidebarProvider>
             <StaffSideBar />
           </SidebarProvider>
         </div>
-        <main className=" w-full mx-5 mt-4">
+
+        <main className="w-full mx-5 mt-4">
           <div className="flex justify-between">
-            <div className="text-3xl font-bold ">Manage Staff</div>
+            <div className="text-3xl font-bold">Manage Staff</div>
             <div className="flex gap-2 items-center">
-              {/* <FinanceBankBook_Insert /> */}
-              <Button variant="outline">
+              <Button variant="outline" onClick={downloadTableAsPDF}>
                 Report <Download />
               </Button>
             </div>
           </div>
 
-          <Separator className=" my-4" />
+          <Separator className="my-4" />
           <div className="grid grid-cols-3">
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium">
-                  Total Staff count
+                  Total Staff Count
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-primary">
@@ -62,10 +119,10 @@ const staff = () => {
               </CardHeader>
             </Card>
           </div>
-          <Separator className=" my-4" />
+          <Separator className="my-4" />
 
-          <div className="  mx-auto">{MonthlyEmployeeChart()}</div>
-          <Separator className=" my-4" />
+          <div className="mx-auto">{MonthlyEmployeeChart()}</div>
+          <Separator className="my-4" />
 
           <div>{StaffDataTable()}</div>
         </main>
@@ -74,79 +131,46 @@ const staff = () => {
   );
 };
 
-export default staff;
+export default Staff;
 
-// ---------------------------------------------------
-
+// -------------------------------------------
+// Table Columns
 const tableColumns = [
-  {
-    id: 1,
-    name: "Name",
-  },
-  {
-    id: 2,
-    name: "Email",
-  },
-  {
-    id: 3,
-    name: "Mobile",
-    icon: <Phone className="w-4 h-4" />,
-  },
-  {
-    id: 4,
-    name: "Address",
-  },
-  {
-    id: 5,
-    name: "Position",
-  },
-  {
-    id: 6,
-    name: "Department",
-  },
-  {
-    id: 7,
-    name: "Joined Date",
-  },
+  { id: 1, name: "Name" },
+  { id: 2, name: "Email" },
+  { id: 3, name: "Mobile", icon: <Phone className="w-4 h-4" /> },
+  { id: 4, name: "Address" },
+  { id: 5, name: "Position" },
+  { id: 6, name: "Department" },
+  { id: 7, name: "Joined Date" },
 ];
 
+// Staff Table Component
 const StaffDataTable = () => {
-  //Asigning the data to transactions from Finance_BankBook_ReturnAll function
   const data = Staff_Employee_ReturnAll();
-  //-------------------------------------------------------
-
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTab, setSelectedTab] = useState<String | null>("all");
+  const [selectedTab, setSelectedTab] = useState<string | null>("all");
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
   };
 
-  const filteredData = data?.filter((data) => {
-    if (selectedTab === "hr") {
-      return data.department === "HR";
-    } else if (selectedTab === "sales") {
-      return data.department === "Sales";
-    } else if (selectedTab === "finance") {
-      return data.department === "Finance";
-    } else if (selectedTab === "quality") {
-      return data.department === "Quality Control";
-    } else if (selectedTab === "inventory") {
-      return data.department === "Inventory";
-    }
-    if (selectedTab === "all") {
-      return true;
-    }
-    return true; // Default to showing all
+  const filteredData = data?.filter((d) => {
+    if (selectedTab === "hr") return d.department === "HR";
+    if (selectedTab === "sales") return d.department === "Sales";
+    if (selectedTab === "finance") return d.department === "Finance";
+    if (selectedTab === "quality") return d.department === "Quality Control";
+    if (selectedTab === "inventory") return d.department === "Inventory";
+    return true;
   });
 
-  const searchedData = filteredData.filter((data) => {
+  const searchedData = filteredData.filter((d) => {
     return (
-      data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
+      d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -156,12 +180,8 @@ const StaffDataTable = () => {
         <CardContent>
           <div className="flex md:flex-row md:justify-between flex-col items-center mb-2">
             <div>
-              <Tabs
-                defaultValue="all"
-                className=""
-                onValueChange={handleTabChange}
-              >
-                <TabsList className=" w-[120%] gap-3 ">
+              <Tabs defaultValue="all" onValueChange={handleTabChange}>
+                <TabsList className="w-[120%] gap-3">
                   <TabsTrigger value="all">All</TabsTrigger>
                   <TabsTrigger value="hr">HR</TabsTrigger>
                   <TabsTrigger value="sales">Sales</TabsTrigger>
@@ -175,39 +195,40 @@ const StaffDataTable = () => {
               <Input
                 type="text"
                 placeholder="Search data here... (e.g. Name, Position, Mobile, Address, Email)"
-                className=" w-full"
+                className="w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
+
           <div className="rounded-md border-1 shadow-lg min-h-[40vh]">
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-200/80 hover:bg-gray-200/80">
-                  {tableColumns.map((data) => (
-                    <TableHead key={data.id}>
+                  {tableColumns.map((col) => (
+                    <TableHead key={col.id}>
                       <span className="flex items-center gap-1">
-                        {data?.icon}
-
-                        {data.name}
+                        {col?.icon}
+                        {col.name}
                       </span>
                     </TableHead>
                   ))}
                 </TableRow>
               </TableHeader>
+
               <TableBody>
-                {searchedData.reverse().map((data) => (
-                  <TableRow key={data._id}>
-                    <TableCell>{data?.name}</TableCell>
-                    <TableCell>{data?.email}</TableCell>
-                    <TableCell>{data?.phoneNumber}</TableCell>
-                    <TableCell>{data?.address}</TableCell>
-                    <TableCell>{data?.position}</TableCell>
-                    <TableCell>{data?.department}</TableCell>
+                {searchedData.reverse().map((d) => (
+                  <TableRow key={d._id}>
+                    <TableCell>{d.name}</TableCell>
+                    <TableCell>{d.email}</TableCell>
+                    <TableCell>{d.phoneNumber}</TableCell>
+                    <TableCell>{d.address}</TableCell>
+                    <TableCell>{d.position}</TableCell>
+                    <TableCell>{d.department}</TableCell>
                     <TableCell>
-                      {data?.dateJoined
-                        ? new Date(data?.dateJoined).toLocaleString("en-CA", {
+                      {d.dateJoined
+                        ? new Date(d.dateJoined).toLocaleString("en-CA", {
                             year: "numeric",
                             month: "numeric",
                             day: "numeric",
@@ -224,29 +245,12 @@ const StaffDataTable = () => {
       <br />
       <br />
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 };
 
-//---------------------------------------------------
-
-("use client");
-
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
-
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-
+// -------------------------------------------
+// Monthly Employee Chart
 const chartConfig = {
   desktop: {
     label: "Desktop",
@@ -257,7 +261,6 @@ const chartConfig = {
 const MonthlyEmployeeChart = () => {
   interface Employee {
     dateJoined: string | { $date: string };
-    // add other fields if needed
   }
 
   interface MonthlyCount {
@@ -282,13 +285,11 @@ const MonthlyEmployeeChart = () => {
 
       const count = data.filter((emp) => {
         let joinedDate: Date;
-
         if (typeof emp.dateJoined === "string") {
           joinedDate = new Date(emp.dateJoined);
         } else {
           joinedDate = new Date(emp.dateJoined.$date);
         }
-
         return joinedDate >= monthStart && joinedDate <= monthEnd;
       }).length;
 
@@ -304,8 +305,7 @@ const MonthlyEmployeeChart = () => {
     return result;
   };
 
-  // Usage
-  const data = Staff_Employee_ReturnAll(); // returns Employee[]
+  const data = Staff_Employee_ReturnAll();
   const chartData = getLastSixMonthsEmployeeCounts(data);
 
   return (

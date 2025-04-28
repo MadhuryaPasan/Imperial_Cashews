@@ -229,16 +229,16 @@ const PdfTemplate = () => {
           </View>
 
           {/* New Joiners Section */}
-          <Text style={styles.sectionTitle}>New Joiners (This Month)</Text>
+          <Text style={styles.sectionTitle}>Staff count</Text>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={styles.tableCell}>New Joiners:</Text>
-              <Text style={styles.tableCell}>5</Text>
+              <Text style={styles.tableCell}>staff count:</Text>
+              <Text style={styles.tableCell}>6</Text>
             </View>
           </View>
 
           {/* Leaves Section */}
-          <Text style={styles.sectionTitle}>Leaves of Staff</Text>
+          {/* <Text style={styles.sectionTitle}>Leaves of Staff</Text>
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <Text style={styles.tableCell}>Sick Leaves:</Text>
@@ -256,7 +256,7 @@ const PdfTemplate = () => {
               <Text style={styles.tableCell}>Unpaid Leaves:</Text>
               <Text style={styles.tableCell}>2</Text>
             </View>
-          </View>
+          </View> */}
         </View>
 
         {/* Footer */}
