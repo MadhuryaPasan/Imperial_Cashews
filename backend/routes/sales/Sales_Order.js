@@ -25,7 +25,7 @@ router.route("/Sales_Order").get(async (req, res) => {
       ])
       .toArray();
 
-   res.status(200).json(result);
+    res.status(200).json(result);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -61,69 +61,65 @@ router.route("/Sales_Order/:id").delete(async (req, res) => {
   }
 });
 
+// Helper function to generate a unique order ID
+async function generateUniqueOrderId(db) {
+  let unique = false;
+  let newOrderId;
+
+  while (!unique) {
+    // Generate a random order ID (you can customize the format)
+    newOrderId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`; // Example: ORD-123456
+
+    // Check if the generated ID already exists in the database
+    const existingOrder = await db
+      .collection("Sales_Order")
+      .findOne({ oder_id: newOrderId });
+    if (!existingOrder) {
+      unique = true; // If no existing order is found, the ID is unique
+    }
+  }
+
+  return newOrderId;
+}
+
 //insert data
 router.route("/Sales_Order").post(async (req, res) => {
   try {
     let db = DB.getDB();
-    const date = new Date(req.body.date);
-    let Withdrawals = 0;
-    let Deposits = 0;
 
-    if (req.body.type === "Withdrawals") {
-      Withdrawals = req.body.amount;
-    } else if (req.body.type === "Deposits") {
-      Deposits = req.body.amount;
-    }
+    // Generate a unique order ID
+    const uniqueOrderId = await generateUniqueOrderId(db);
 
     let mongoObject = {
-      description: req.body.description,
-      date: new Date(date.toISOString()),
-      reference: req.body.reference,
-      Withdrawals: parseFloat(Withdrawals),
-      Deposits: parseFloat(Deposits),
-      balance: req.body.balance,
+      customer_id: new ObjectId(req.body.customer_id), // Convert to ObjectId
+      order_date: new Date(new Date().toISOString()), // Convert to Date
+      status: req.body.status,
+      total_price: parseFloat(req.body.total_price),
+      oder_details: req.body.oder_details.map((detail) => ({
+        product_name: detail.product_name,
+        product_id: new ObjectId(detail.product_id), // Convert to ObjectId
+        quantity: parseInt(detail.quantity),
+        final_price: parseFloat(detail.final_price),
+        shop_product_id: detail.shop_product_id,
+      })),
+      oder_id: uniqueOrderId, // Assign the unique order ID
     };
+
+    // Insert the order into the Sales_Order collection
     let data = await db.collection("Sales_Order").insertOne(mongoObject);
-    res.json(data);
-    console.log("Data inserted successfully");
-    console.log(mongoObject);
 
-    // ------------------------------------------------------------------
+    // Reduce stock_quantity for each product in the order
+    for (const detail of req.body.oder_details) {
+      await db.collection("Sales_Product").updateOne(
+        { _id: new ObjectId(detail.product_id) }, // Match the product by its product_id
+        { $inc: { stock_quantity: -parseInt(detail.quantity) } } // Decrease stock_quantity
+      );
 
-    let allPreviousDoc = await db
-      .collection("Sales_Order")
-      .find()
-      .sort({ _id: 1 })
-      .toArray();
 
-    let current_balance = 0;
-    for (const element of allPreviousDoc) {
-      let current_Withdrawals = element.Withdrawals;
-
-      let current_Deposits = element.Deposits;
-      if (element.Withdrawals > 0) {
-        current_balance = parseFloat(
-          (current_balance - current_Withdrawals).toFixed(2)
-        );
-        
-      }
-      if (element.Deposits > 0) {
-        current_balance = parseFloat(
-          (current_balance + current_Deposits).toFixed(2)
-        );
-        
-      }
-      
-
-      let current_object = {
-        $set: {
-          balance: current_balance,
-        },
-      };
-      await db
-        .collection("Sales_Order")
-        .updateOne({ _id: element._id }, current_object);
     }
+
+    res.json(data);
+    console.log("Data inserted successfully and stock updated");
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });

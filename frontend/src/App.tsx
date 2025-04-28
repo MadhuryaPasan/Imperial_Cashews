@@ -34,6 +34,8 @@ import FinalProductForm from "@/web/admin/qualityControl/subPages/FinalProductFo
 import Sales_orders from "@/web/admin/sales/subPages/sales_orders";
 import Sales_Attendance from "./web/admin/staff/subPages/Staff_Attendance";
 
+import SalesProducts from "./web/admin/sales/subPages/salesProducts";
+
 const ProtectedRoute = ({
   user,
   allowedRoles,
@@ -109,8 +111,8 @@ function App() {
             <Route
               path="/admin/sales/sales-attendance"
               element={<Sales_Attendance />}
-              />
-            
+            />
+
             <Route path="/admin/quality-control" element={<QualityControl />} />
             <Route
               path="/admin/quality-control/raw-material-check"
@@ -157,6 +159,10 @@ function App() {
             <Route
               path="/admin/sales/sales-orders"
               element={<Sales_orders />}
+            />
+            <Route
+              path="/admin/sales/sales-products"
+              element={<SalesProducts />}
             />
           </Route>
           <Route element={<LayoutMain />}>

@@ -55,38 +55,38 @@ router.route("/Sales_Product").get(async (req, res) => {
 });
 
 // read data single data
-// router.route("/Sales_Product/:id").get(async (req, res) => {
-//   let db = DB.getDB();
-//   let result = await db
-//     .collection("Sales_Product")
-//     .findOne({ _id: new ObjectId(req.params.id) });
-//   res.json(result);
-// });
-
 router.route("/Sales_Product/:id").get(async (req, res) => {
   let db = DB.getDB();
-  let resultArray  = await db
+  let result = await db
     .collection("Sales_Product")
-    .aggregate([
-      {
-        $match: { _id: new ObjectId(req.params.id) }, // Filter the specific document
-      },
-      {
-        $lookup: {
-          from: "Sales_Product_Categories",
-          localField: "category",
-          foreignField: "_id",
-          as: "categoryData",
-        },
-      },
-      {
-        $unwind: "$categoryData",
-      },
-    ]) .toArray(); // Use toArray to get the result from aggregation
-
-    const result = resultArray[0]; // Get the single document
-    res.json(result || {}); // Return empty object if not found;
+    .findOne({ _id: new ObjectId(req.params.id) });
+  res.json(result);
 });
+
+// router.route("/Sales_Product/:id").get(async (req, res) => {
+//   let db = DB.getDB();
+//   let resultArray  = await db
+//     .collection("Sales_Product")
+//     .aggregate([
+//       {
+//         $match: { _id: new ObjectId(req.params.id) }, // Filter the specific document
+//       },
+//       {
+//         $lookup: {
+//           from: "Sales_Product_Categories",
+//           localField: "category",
+//           foreignField: "_id",
+//           as: "categoryData",
+//         },
+//       },
+//       {
+//         $unwind: "$categoryData",
+//       },
+//     ]) .toArray(); // Use toArray to get the result from aggregation
+
+//     const result = resultArray[0]; // Get the single document
+//     res.json(result); // Return empty object if not found;
+// });
 
 //delete data
 router.route("/Sales_Product/:id").delete(async (req, res) => {

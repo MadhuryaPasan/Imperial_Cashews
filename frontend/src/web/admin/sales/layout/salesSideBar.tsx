@@ -34,6 +34,11 @@ const items = [
     url: "/admin/sales/sales-orders",
     icon: LayoutDashboard,
   },
+  {
+    title: "Products",
+    url: "/admin/sales/sales-products",
+    icon: LayoutDashboard,
+  },
   
 ];
 

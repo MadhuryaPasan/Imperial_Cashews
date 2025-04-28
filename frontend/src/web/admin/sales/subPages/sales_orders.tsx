@@ -43,7 +43,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const sales_orders = () => {
-  const data = Sales_Customer_ReturnAll();
+  const data = Sales_Order_ReturnAll();
   return (
     <>
       <div className="flex ">

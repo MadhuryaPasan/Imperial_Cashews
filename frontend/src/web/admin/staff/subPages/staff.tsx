@@ -2,7 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import StaffSideBar from "../layout/staffSideBar";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Phone } from "lucide-react";
+import { ClipboardCheck, Download, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Staff_Employee_ReturnAll } from "@/utils/API/staff/Staff_Employee_API";
 import {
@@ -107,6 +107,10 @@ const tableColumns = [
   {
     id: 7,
     name: "Joined Date",
+  },
+  {
+    id: 8,
+    name: "Attendance Today",
   },
 ];
 
@@ -213,6 +217,10 @@ const StaffDataTable = () => {
                             day: "numeric",
                           })
                         : "N/A"}
+                    </TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button variant="outline"><ClipboardCheck/> Check In</Button>
+                      <Button variant="outline"><ClipboardCheck/> Check Out</Button>
                     </TableCell>
                   </TableRow>
                 ))}

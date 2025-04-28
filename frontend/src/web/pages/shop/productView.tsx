@@ -185,26 +185,21 @@ const productView = () => {
                               size="lg"
                               className="flex-1"
                               onClick={() => {
-                                const cart = JSON.parse(
-                                  localStorage.getItem("cart") || "[]"
-                                );
+                                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
                                 const existingProductIndex = cart.findIndex(
                                   (item: { id: string }) => item.id === id
                                 );
 
                                 if (existingProductIndex !== -1) {
-                                  // Update the quantity with the new value
-                                  cart[existingProductIndex].quantity =
-                                    quantity;
+                                  // Update the quantity and product data with the new values
+                                  cart[existingProductIndex].quantity = quantity;
+                                  cart[existingProductIndex].productData = productData;
                                 } else {
-                                  // Add new product to cart
-                                  cart.push({ id, quantity });
+                                  // Add new product with full productData to cart
+                                  cart.push({ id, quantity, productData });
                                 }
 
-                                localStorage.setItem(
-                                  "cart",
-                                  JSON.stringify(cart)
-                                );
+                                localStorage.setItem("cart", JSON.stringify(cart));
                                 alert("Product added to cart!");
                               }}
                             >

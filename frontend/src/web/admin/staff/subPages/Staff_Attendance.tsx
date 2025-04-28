@@ -25,6 +25,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Staff_Attendance_ReturnAll } from "@/utils/API/staff/Staff_Attendance_API";
 import { Badge } from "@/components/ui/badge";
+import StaffAtendenceInsert from "@/components/admin/staff/staffAtendenceInsert"
+
 
 const sales_Attendance = () => {
   const data = Staff_Attendance_ReturnAll();
@@ -40,7 +42,7 @@ const sales_Attendance = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Attendance</div>
             <div className="flex gap-2 items-center">
-              {/* <FinanceBankBook_Insert /> */}
+              <StaffAtendenceInsert />
               <Button variant="outline">
                 Report <Download />
               </Button>
@@ -166,10 +168,7 @@ const tableColumns = [
     id: 7,
     name: "Check-Out",
   },
-  {
-    id: 8,
-    name: "Department",
-  },
+
   {
     id: 9,
     name: "Working Hours", // New column for working hours
@@ -187,20 +186,20 @@ const StaffAttendanceDataTable = () => {
   };
 
   const filteredData = data?.filter((data) => {
-    if (selectedTab === "hr") {
-      return data.departmentData.name === "HR";
-    } else if (selectedTab === "sales") {
-      return data.departmentData.name === "Sales";
-    } else if (selectedTab === "finance") {
-      return data.departmentData.name === "Finance";
-    } else if (selectedTab === "quality") {
-      return data.departmentData.name === "Quality Control";
-    } else if (selectedTab === "inventory") {
-      return data.departmentData.name === "Inventory";
-    }
-    if (selectedTab === "all") {
-      return true;
-    }
+    // if (selectedTab === "hr") {
+    //   return data.departmentData.name === "HR";
+    // } else if (selectedTab === "sales") {
+    //   return data.departmentData.name === "Sales";
+    // } else if (selectedTab === "finance") {
+    //   return data.departmentData.name === "Finance";
+    // } else if (selectedTab === "quality") {
+    //   return data.departmentData.name === "Quality Control";
+    // } else if (selectedTab === "inventory") {
+    //   return data.departmentData.name === "Inventory";
+    // }
+    // if (selectedTab === "all") {
+    //   return true;
+    // }
     return true; // Default to showing all
   });
 
@@ -222,22 +221,7 @@ const StaffAttendanceDataTable = () => {
       <Card>
         <CardContent>
           <div className="flex md:flex-row md:justify-between flex-col items-center mb-2">
-            <div>
-              <Tabs
-                defaultValue="all"
-                className=""
-                onValueChange={handleTabChange}
-              >
-                <TabsList className=" w-[120%] gap-3 ">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="hr">HR</TabsTrigger>
-                  <TabsTrigger value="sales">Sales</TabsTrigger>
-                  <TabsTrigger value="finance">Finance</TabsTrigger>
-                  <TabsTrigger value="quality">Quality Control</TabsTrigger>
-                  <TabsTrigger value="inventory">Inventory</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
+            
             <div className="w-full md:w-1/2">
               <Input
                 type="text"
@@ -321,7 +305,7 @@ const StaffAttendanceDataTable = () => {
                           })
                         : "N/A"}
                     </TableCell>
-                    <TableCell>{data?.departmentData.name}</TableCell>
+                    
                     <TableCell>
                       {data?.working_hours
                         ? `${data?.working_hours} hrs`

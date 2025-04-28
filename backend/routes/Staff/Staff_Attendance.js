@@ -31,17 +31,7 @@ router.route("/Staff_Attendance").get(async (req, res) => {
       {
         $unwind: "$employeeData", // to turn array into object
       },
-      {
-        $lookup: {
-          from: "Staff_department", // foreign collection name
-          localField: "department_id", // field  in this collection
-          foreignField: "_id", // field in foreign collection
-          as: "departmentData",
-        },
-      },
-      {
-        $unwind: "$departmentData", // to turn array into object
-      },
+      
     ])
     .toArray();
 
