@@ -8,6 +8,7 @@ import Dashboard from "@/web/admin/dashboard";
 import AdminMainLayout from "@/web/admin/layout/adminMainLayout";
 import ProductView from "@/web/pages/shop/productView";
 import Cart from "@/web/pages/shop/cart";
+import Staffpdf from "@/pdf/staffpdf";
 
 import FinanceWelcomeScreen from "@/web/admin/finance/financeWelcomeScreen";
 import FinanceBalanceSheet from "@/web/admin/finance/subPages/financeBalanceSheet";
@@ -59,6 +60,7 @@ function App() {
       <HashRouter>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
+          <Route path="staffpdf" element={<Staffpdf />} />
           <Route path="/pdf" element={<Pdf />} />
 
           {/* <Route
