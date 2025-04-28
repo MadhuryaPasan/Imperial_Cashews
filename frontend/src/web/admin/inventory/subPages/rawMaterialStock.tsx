@@ -27,6 +27,7 @@ import { Inventory_RawCashews_StockLevel_ReturnAll } from "@/utils/API/inventory
 import InventorySideBar from "@/web/admin/inventory/layout/inventorySideBar";
 import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
 import { useState } from "react";
+import WhatsAppPopup from "@/components/Message/WhatsAppPopup";
 
 const holdingLevel = 10000;
 const minHoldingLevel = 500;
@@ -152,6 +153,11 @@ const rawMaterialStock = () => {
           <div>{RawMaterialHoldinglevelChart()}</div>
           <Separator className=" my-4" />
           <div>{tableData()}</div>
+
+          {/* WhatsApp Integration */}
+          <div className="mt-4">
+            <WhatsAppPopup />
+          </div>
         </main>
       </div>
     </>
