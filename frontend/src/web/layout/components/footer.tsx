@@ -6,10 +6,10 @@ const footer = () => {
   const links = [
     { title: "Home", href: "/" },
     { title: "Shop", href: "/shop" },
-    { title: "About", href: "#link" },
+    // { title: "About", href: "#link" },
     { title: "Contact Us", href: "/contact" },
-    { title: "Privacy Policy", href: "/privacy" },
-    { title: "Terms of Service", href: "/terms" },
+    // { title: "Privacy Policy", href: "/privacy" },
+    // { title: "Terms of Service", href: "/terms" },
   ];
 
   return (

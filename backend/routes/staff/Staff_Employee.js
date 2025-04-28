@@ -49,65 +49,26 @@ router.route("/Staff_Employee/:id").delete(async (req, res) => {
 router.route("/Staff_Employee").post(async (req, res) => {
   try {
     let db = DB.getDB();
-    const date = new Date(req.body.date);
-    let Withdrawals = 0;
-    let Deposits = 0;
 
-    if (req.body.type === "Withdrawals") {
-      Withdrawals = req.body.amount;
-    } else if (req.body.type === "Deposits") {
-      Deposits = req.body.amount;
-    }
+    const date = new Date(req.body.dateOfbirth);
 
     let mongoObject = {
-      description: req.body.description,
-      date: new Date(date.toISOString()),
-      reference: req.body.reference,
-      Withdrawals: parseFloat(Withdrawals),
-      Deposits: parseFloat(Deposits),
-      balance: req.body.balance,
+      email: req.body.email, // Corrected from res.body.email to req.body.email
+      phoneNumber: req.body.phoneNumber, // Corrected
+      address: req.body.address, // Corrected
+      department: "HR",
+      dateJoined: new Date(new Date().toISOString()),
+      dateOfbirth: new Date(date.toISOString()),
+      designation: req.body.designation, // Corrected
+      gender: req.body.gender, // Corrected
+      nic: req.body.nic, // Corrected
+      name: req.body.name, // Corrected
     };
+
     let data = await db.collection("Staff_Employee").insertOne(mongoObject);
     res.json(data);
     console.log("Data inserted successfully");
     console.log(mongoObject);
-
-    // ------------------------------------------------------------------
-
-    let allPreviousDoc = await db
-      .collection("Staff_Employee")
-      .find()
-      .sort({ _id: 1 })
-      .toArray();
-
-    let current_balance = 0;
-    for (const element of allPreviousDoc) {
-      let current_Withdrawals = element.Withdrawals;
-
-      let current_Deposits = element.Deposits;
-      if (element.Withdrawals > 0) {
-        current_balance = parseFloat(
-          (current_balance - current_Withdrawals).toFixed(2)
-        );
-        
-      }
-      if (element.Deposits > 0) {
-        current_balance = parseFloat(
-          (current_balance + current_Deposits).toFixed(2)
-        );
-        
-      }
-      
-
-      let current_object = {
-        $set: {
-          balance: current_balance,
-        },
-      };
-      await db
-        .collection("Staff_Employee")
-        .updateOne({ _id: element._id }, current_object);
-    }
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });

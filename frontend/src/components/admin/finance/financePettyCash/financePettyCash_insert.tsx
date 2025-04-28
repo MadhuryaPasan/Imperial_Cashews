@@ -57,6 +57,17 @@ const financePettyCash_insert = () => {
 
   const transactionType = useWatch({ control, name: "transaction_type" });
 
+
+
+    // Prevent unwanted characters in the input fields
+    const unwantedCharacters = ['@', '#', '$', '%', '^', '&', '*', '<', '>', '?', '/', '\\', '|', '`', '~'];
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (unwantedCharacters.includes(event.key)) {
+        event.preventDefault();
+      }
+    };
+  
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -167,6 +178,7 @@ const financePettyCash_insert = () => {
                 </Label>
                 <Input
                   id="replenishment_amount"
+                   onKeyDown={handleKeyDown}
                   placeholder="0.00"
                   className="col-span-3"
                   {...register("replenishment_amount", {
@@ -229,6 +241,7 @@ const financePettyCash_insert = () => {
               <Input
                 id="description"
                 placeholder="Transaction description"
+                onKeyDown={handleKeyDown}
                 className="col-span-3"
                 {...register("description", {
                   required: "Description is required",

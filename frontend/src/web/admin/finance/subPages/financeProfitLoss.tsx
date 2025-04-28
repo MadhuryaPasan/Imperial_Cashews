@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Finance_ProfitLoss_ReturnAll } from "@/utils/API/finance/Finance_ProfitLoss_API";
+import Pdf from "@/web/test/reactpdf/pdf";
 
 const financeProfitLoss = () => {
   const data = Finance_ProfitLoss_ReturnAll();
@@ -67,9 +68,10 @@ const financeProfitLoss = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Profit & Loss</div>
             <div>
-              <Button variant="outline">
+              {/* <Button variant="outline">
                 Report <Download />
-              </Button>
+              </Button> */}
+              <Pdf/>
             </div>
           </div>
           <Separator className=" my-4" />
@@ -156,7 +158,7 @@ export default financeProfitLoss;
 //--------------------------------------------
 
 
-import FinanceProfitInsert from "@/components/admin/finance/finaneProfitLoss/financeProfitinsert";
+import FinanceProfitInsert from "@/components/admin/finance/finaneProfitLoss/FinanceProfitInsert";
 
 const tableColumns = [
   {

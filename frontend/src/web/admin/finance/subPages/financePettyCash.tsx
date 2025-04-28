@@ -25,6 +25,7 @@ import { useState } from "react";
 import { Finance_PettyCash_ReturnAll } from "@/utils/API/finance/Finance_PettyCash_API";
 import { Input } from "@/components/ui/input";
 import FinancePettyCash_insert from "@/components/admin/finance/financePettyCash/financePettyCash_insert";
+import Pdf from "@/web/test/reactpdf/pdf";
 
 const financePettyCash = () => {
   interface FinanceDocument {
@@ -102,7 +103,9 @@ const financePettyCash = () => {
             <div className="flex gap-2 items-center">
               <FinancePettyCash_insert />
               <Button variant="outline">
-                Report <Download />
+                <Pdf />
+                {/* <Finance_BankBook_Insert /> */}
+                {/* Report <Download /> */}
               </Button>
             </div>
           </div>

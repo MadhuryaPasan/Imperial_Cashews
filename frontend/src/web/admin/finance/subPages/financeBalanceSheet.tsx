@@ -46,6 +46,7 @@ import {
   Finance_BalanceSheet_auto,
   Finance_BalanceSheet_ReturnAll,
 } from "@/utils/API/finance/Finance_BalanceSheet_API";
+import Pdf from "@/web/test/reactpdf/pdf";
 
 const financeBalanceSheet = () => {
   const setAutoUpdate = async () => {
@@ -66,9 +67,10 @@ const financeBalanceSheet = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Balance Sheet</div>
             <div>
-              <Button variant="outline">
+              {/* <Button variant="outline">
                 Report <Download />
-              </Button>
+              </Button> */}
+              <Pdf />
               {/* auto update button */}
               <Button onClick={setAutoUpdate}>Update Balance Sheet</Button>
             </div>

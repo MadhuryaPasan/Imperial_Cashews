@@ -24,6 +24,7 @@ import Finance_BankBook from "./routes/Finance/Finance_BankBook.js";
 import Inventory_RawCashews_StockLevel from "./routes/Inventory/Inventory_RawCashews_StockLevel.js";
 import Staff_Attendance from "./routes/Staff/Staff_Attendance.js";
 import Finance_ProfitLoss from "./routes/Finance/Finance_ProfitLoss.js";
+import Staff_Salary from "./routes/Staff/staff_salary.js";
 
 
 
@@ -56,6 +57,7 @@ app.use(Finance_BankBook);
 app.use(Inventory_RawCashews_StockLevel);
 app.use(Staff_Attendance);
 app.use(Finance_ProfitLoss);
+app.use(Staff_Salary);
 
 
 app.listen(PORT, () => {

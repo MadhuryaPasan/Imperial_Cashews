@@ -30,17 +30,17 @@ const home = () => {
       <div className="bg-white">
         <TextSection1 />
       </div>
-      <section className="bg-white/15">
+      {/* <section className="bg-white/15">
         <CategoryCardsCarousel />
-      </section>
+      </section> */}
       {/* <MarqueeSection /> */}
 
+      <div className="bg-white/15">
+        <ProductSection />
+      </div>
       {/* <Hero /> */}
       <div className="bg-white">
         <TextSection2 />
-      </div>
-      <div className="bg-white/15">
-        <ProductSection />
       </div>
       {/* <div className="bg-white/15">
         <ShopNow />

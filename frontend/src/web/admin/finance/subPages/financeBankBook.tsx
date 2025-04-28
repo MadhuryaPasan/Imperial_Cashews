@@ -23,6 +23,7 @@ import {
 import FinanceSideBar from "@/web/admin/finance/layout/financeSideBar";
 import { ArrowDown, ArrowUp, Download, Edit, Trash } from "lucide-react";
 import { useState } from "react";
+import Pdf from "@/web/test/reactpdf/pdf";
 
 const financeBankBook = () => {
   //Assigning the data to transactions from Finance_BankBook_ReturnAll function
@@ -53,9 +54,10 @@ const financeBankBook = () => {
             <div className="text-3xl font-bold ">Bank Book</div>
             <div className="flex gap-2 items-center">
               <FinanceBankBook_Insert />
-              <Button variant="outline">
+              {/* <Button variant="outline">
                 Report <Download />
-              </Button>
+              </Button> */}
+              <Pdf/>
             </div>
           </div>
           <Separator className=" my-4" />

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/table";
 import { Inventory_RawCashews_StockLevel_ReturnAll } from "@/utils/API/inventory/Inventory_RawCashews_StockLevel_API";
 import InventorySideBar from "@/web/admin/inventory/layout/inventorySideBar";
-import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
+import { BarChart, Download, Loader, ShieldAlert, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Inventory_FinalProduct_ReturnAll } from "@/utils/API/inventory/Inventory_FinalProduct_API";
 
@@ -376,5 +376,3 @@ const tableData = () => {
     </>
   );
 };
-
-// -------------------------------------

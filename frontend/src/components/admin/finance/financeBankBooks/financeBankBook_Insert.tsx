@@ -62,6 +62,14 @@ const financeBankBook_Insert = () => {
   });
   
 
+    // Prevent unwanted characters in the input fields
+    const unwantedCharacters = ['@', '#', '$', '%', '^', '&', '*', '<', '>', '?', '/', '\\', '|', '`', '~'];
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (unwantedCharacters.includes(event.key)) {
+        event.preventDefault();
+      }
+    };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -218,6 +226,7 @@ const financeBankBook_Insert = () => {
               <Input
                 id="description"
                 placeholder="Transaction description"
+                onKeyDown={handleKeyDown}
                 className="col-span-3"
                 {...register("description", {
                   required: "Description is required",

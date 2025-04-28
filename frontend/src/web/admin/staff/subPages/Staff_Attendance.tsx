@@ -25,7 +25,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Staff_Attendance_ReturnAll } from "@/utils/API/staff/Staff_Attendance_API";
 import { Badge } from "@/components/ui/badge";
-import StaffAtendenceInsert from "@/components/admin/staff/staffAtendenceInsert"
+
 
 
 const sales_Attendance = () => {
@@ -42,7 +42,7 @@ const sales_Attendance = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Attendance</div>
             <div className="flex gap-2 items-center">
-              <StaffAtendenceInsert />
+              {/* <StaffAtendenceInsert /> */}
               <Button variant="outline">
                 Report <Download />
               </Button>

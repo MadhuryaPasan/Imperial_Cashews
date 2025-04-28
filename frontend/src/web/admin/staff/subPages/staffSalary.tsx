@@ -2,7 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import StaffSideBar from "../layout/staffSideBar";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ClipboardCheck, Download, Phone } from "lucide-react";
+import { Download, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Staff_Employee_ReturnAll } from "@/utils/API/staff/Staff_Employee_API";
 import {
@@ -23,16 +23,15 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import  Staffinsert from "@/components/admin/staff/staffInsert";
+import { Staff_Attendance_ReturnAll } from "@/utils/API/staff/Staff_Attendance_API";
+import { Badge } from "@/components/ui/badge";
+import StaffAtendenceInsert from "@/components/admin/staff/staffAtendenceInsert";
 
-const staff = () => {
-  const data = Staff_Employee_ReturnAll();
-
+const staffSalary = () => {
   return (
     <>
       <div className="flex ">
         <div>
-          
           <SidebarProvider>
             <StaffSideBar />
           </SidebarProvider>
@@ -41,7 +40,7 @@ const staff = () => {
           <div className="flex justify-between">
             <div className="text-3xl font-bold ">Manage Staff</div>
             <div className="flex gap-2 items-center">
-              <Staffinsert />
+              {/* <FinanceBankBook_Insert /> */}
               <Button variant="outline">
                 Report <Download />
               </Button>
@@ -57,7 +56,7 @@ const staff = () => {
                 </CardTitle>
                 <CardContent className="p-0">
                   <div className="text-2xl font-bold line-clamp-1 text-primary">
-                    {data?.length}
+                    {/* {data?.length} */}
                   </div>
                 </CardContent>
               </CardHeader>
@@ -65,19 +64,17 @@ const staff = () => {
           </div>
           <Separator className=" my-4" />
 
-          <div className="  mx-auto">{MonthlyEmployeeChart()}</div>
+          {/* <div className="  mx-auto">{MonthlyEmployeeChart()}</div> */}
           <Separator className=" my-4" />
 
-          <div>{StaffDataTable()}</div>
+          <div>{salaryDataTable()}</div>
         </main>
       </div>
     </>
   );
 };
 
-export default staff;
-
-// ---------------------------------------------------
+export default staffSalary;
 
 const tableColumns = [
   {
@@ -109,13 +106,13 @@ const tableColumns = [
     id: 7,
     name: "Joined Date",
   },
-  // {
-  //   id: 8,
-  //   name: "Attendance Today",
-  // },
+  {
+    id: 8,
+    name: "Attendance Today",
+  },
 ];
 
-const StaffDataTable = () => {
+const salaryDataTable = () => {
   //Asigning the data to transactions from Finance_BankBook_ReturnAll function
   const data = Staff_Employee_ReturnAll();
   //-------------------------------------------------------
@@ -128,27 +125,27 @@ const StaffDataTable = () => {
   };
 
   const filteredData = data?.filter((data) => {
-    if (selectedTab === "hr") {
-      return data.department === "HR";
-    } else if (selectedTab === "sales") {
-      return data.department === "Sales";
-    } else if (selectedTab === "finance") {
-      return data.department === "Finance";
-    } else if (selectedTab === "quality") {
-      return data.department === "Quality Control";
-    } else if (selectedTab === "inventory") {
-      return data.department === "Inventory";
-    }
-    if (selectedTab === "all") {
-      return true;
-    }
+    // if (selectedTab === "hr") {
+    //   return data.department === "HR";
+    // } else if (selectedTab === "sales") {
+    //   return data.department === "Sales";
+    // } else if (selectedTab === "finance") {
+    //   return data.department === "Finance";
+    // } else if (selectedTab === "quality") {
+    //   return data.department === "Quality Control";
+    // } else if (selectedTab === "inventory") {
+    //   return data.department === "Inventory";
+    // }
+    // if (selectedTab === "all") {
+    //   return true;
+    // }
     return true; // Default to showing all
   });
 
   const searchedData = filteredData.filter((data) => {
     return (
       data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
@@ -208,7 +205,7 @@ const StaffDataTable = () => {
                     <TableCell>{data?.email}</TableCell>
                     <TableCell>{data?.phoneNumber}</TableCell>
                     <TableCell>{data?.address}</TableCell>
-                    <TableCell>{data?.designation}</TableCell>
+                    <TableCell>{data?.position}</TableCell>
                     <TableCell>{data?.department}</TableCell>
                     <TableCell>
                       {data?.dateJoined
@@ -219,10 +216,6 @@ const StaffDataTable = () => {
                           })
                         : "N/A"}
                     </TableCell>
-                    {/* <TableCell className="flex gap-2">
-                      <Button variant="outline"><ClipboardCheck/> Check In</Button>
-                      <Button variant="outline"><ClipboardCheck/> Check Out</Button>
-                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -238,123 +231,5 @@ const StaffDataTable = () => {
       <br />
       <br />
     </>
-  );
-};
-
-//---------------------------------------------------
-
-("use client");
-
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
-
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "rgb(0, 201, 81)",
-  },
-} satisfies ChartConfig;
-
-const MonthlyEmployeeChart = () => {
-  interface Employee {
-    dateJoined: string | { $date: string };
-    // add other fields if needed
-  }
-
-  interface MonthlyCount {
-    month: string;
-    count: number;
-  }
-
-  const getLastSixMonthsEmployeeCounts = (data: Employee[]): MonthlyCount[] => {
-    const now = new Date();
-    const result: MonthlyCount[] = [];
-
-    for (let i = 5; i >= 0; i--) {
-      const monthStart = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const monthEnd = new Date(
-        now.getFullYear(),
-        now.getMonth() - i + 1,
-        0,
-        23,
-        59,
-        59
-      );
-
-      const count = data.filter((emp) => {
-        let joinedDate: Date;
-
-        if (typeof emp.dateJoined === "string") {
-          joinedDate = new Date(emp.dateJoined);
-        } else {
-          joinedDate = new Date(emp.dateJoined.$date);
-        }
-
-        return joinedDate >= monthStart && joinedDate <= monthEnd;
-      }).length;
-
-      result.push({
-        month: monthStart.toLocaleString("default", {
-          month: "short",
-          year: "numeric",
-        }),
-        count,
-      });
-    }
-
-    return result;
-  };
-
-  // Usage
-  const data = Staff_Employee_ReturnAll(); // returns Employee[]
-  const chartData = getLastSixMonthsEmployeeCounts(data);
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Bar Chart – Monthly New Staff Count</CardTitle>
-        <CardDescription>Last 6 months</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="max-h-[350px] mx-auto">
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 20,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Bar dataKey="count" fill="var(--color-desktop)" radius={8}>
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
   );
 };

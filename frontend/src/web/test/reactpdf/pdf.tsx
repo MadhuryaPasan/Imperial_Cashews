@@ -14,7 +14,7 @@ import {
 const Pdf = () => {
   return (
     <>
-      <div>pdf</div>
+      {/* <div>pdf</div> */}
       {/* ------------------------------------- */}
       {/* copy this btn */}
       <Button asChild>
@@ -28,11 +28,11 @@ const Pdf = () => {
       </Button>
       {/* ------------------------------------------ */}
 
-      <br />
+      {/* <br /> */}
       {/* Live Preview of the PDF */}
-      <PDFViewer style={{ width: "100%", height: "500px" }}>
+      {/* <PDFViewer style={{ width: "100%", height: "500px" }}>
         <PdfTemplate />
-      </PDFViewer>
+      </PDFViewer> */}
     </>
   );
 };
@@ -43,6 +43,9 @@ export default Pdf;
 
 import Logo from "@/assets/logo.png";
 import { Buffer } from "buffer";
+import { Finance_ProfitLoss_ReturnAll } from "@/utils/API/finance/Finance_ProfitLoss_API";
+import { Finance_PettyCash_ReturnAll } from "@/utils/API/finance/Finance_PettyCash_API";
+import { Finance_BankBook_ReturnAll } from "@/utils/API/finance/Finance_BankBook_API";
 
 window.Buffer = Buffer;
 const PdfTemplate = () => {
@@ -95,8 +98,6 @@ const PdfTemplate = () => {
       justifyContent: "space-between",
     },
     signatureLine: {
-      // width: "40%",
-      // borderBottom: "1px solid #000",
       marginTop: 0,
     },
     signatureText: {
@@ -114,14 +115,53 @@ const PdfTemplate = () => {
       textAlign: "right",
       marginTop: 1,
     },
-
     contentBasic: {
       fontSize: 12,
       marginTop: 20,
       textAlign: "left",
       paddingBottom: 10,
     },
+    sectionTitle: {
+      fontSize: 14,
+      fontWeight: "bold",
+      marginBottom: 10,
+    },
+    summaryText: {
+      fontSize: 12,
+      marginBottom: 5,
+    },
   });
+
+  const profitLossData = Finance_ProfitLoss_ReturnAll();
+  const pettyCashData = Finance_PettyCash_ReturnAll();
+  const bankBookData = Finance_BankBook_ReturnAll();
+
+  const profitLossSummary = profitLossData.reduce(
+    (acc, item) => {
+      acc.totalRevenue += item.amount_revenue || 0;
+      acc.totalExpense += item.amount_expense || 0;
+      return acc;
+    },
+    { totalRevenue: 0, totalExpense: 0 }
+  );
+
+  const pettyCashSummary = pettyCashData.reduce(
+    (acc, item) => {
+      acc.totalReplenishment += item.replenishment_amount || 0;
+      acc.totalExpense += item.expense_amount || 0;
+      return acc;
+    },
+    { totalReplenishment: 0, totalExpense: 0 }
+  );
+
+  const bankBookSummary = bankBookData.reduce(
+    (acc, item) => {
+      acc.totalDeposits += item.Deposits || 0;
+      acc.totalWithdrawals += item.Withdrawals || 0;
+      return acc;
+    },
+    { totalDeposits: 0, totalWithdrawals: 0 }
+  );
 
   const date = new Date().toLocaleDateString("en-CA", {
     year: "numeric",
@@ -154,7 +194,29 @@ const PdfTemplate = () => {
 
         {/* Content Placeholder */}
         <View>
-          <Text style={styles.contentBasic}>Content goes here...</Text>
+          <Text style={styles.sectionTitle}>Profit and Loss Summary</Text>
+          <Text style={styles.summaryText}>
+            Total Revenue: {profitLossSummary.totalRevenue}
+          </Text>
+          <Text style={styles.summaryText}>
+            Total Expense: {profitLossSummary.totalExpense}
+          </Text>
+
+          <Text style={styles.sectionTitle}>Petty Cash Summary</Text>
+          <Text style={styles.summaryText}>
+            Total Replenishment: {pettyCashSummary.totalReplenishment}
+          </Text>
+          <Text style={styles.summaryText}>
+            Total Expense: {pettyCashSummary.totalExpense}
+          </Text>
+
+          <Text style={styles.sectionTitle}>Bank Book Summary</Text>
+          <Text style={styles.summaryText}>
+            Total Deposits: {bankBookSummary.totalDeposits}
+          </Text>
+          <Text style={styles.summaryText}>
+            Total Withdrawals: {bankBookSummary.totalWithdrawals}
+          </Text>
         </View>
 
         {/* Footer */}

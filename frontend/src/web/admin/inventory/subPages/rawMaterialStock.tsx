@@ -25,8 +25,9 @@ import {
 } from "@/components/ui/table";
 import { Inventory_RawCashews_StockLevel_ReturnAll } from "@/utils/API/inventory/Inventory_RawCashews_StockLevel_API";
 import InventorySideBar from "@/web/admin/inventory/layout/inventorySideBar";
-import { BarChart, Download, Loader, ShieldAlert } from "lucide-react";
+import { BarChart, Download, Loader, ShieldAlert, Trash2 } from "lucide-react";
 import { useState } from "react";
+import RawmaterialUpdate from "@/components/admin/inventory/rawMateriels/rawmaterialUpdate";
 
 const holdingLevel = 10000;
 const minHoldingLevel = 500;
@@ -200,6 +201,10 @@ const tableColumns = [
   {
     id: 11,
     name: "Total Stock Value",
+  },
+  {
+    id: 12,
+    name: "options",
   },
 ];
 
@@ -402,6 +407,7 @@ const tableData = () => {
                         }
                       )}
                     </TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -541,5 +547,62 @@ const RawMaterialHoldinglevelChart = () => {
         </div>
       </CardFooter>
     </Card>
+  );
+};
+
+
+
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { quality_raw_material_check_Delete } from "@/utils/API/quality/quality_raw_material_check_API";
+
+const DeleteData = (id: string) => {
+  const deleteRow = async (id: string) => {
+    await quality_raw_material_check_Delete(id);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    window.location.reload();
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Trash2 className=" size-5 text-destructive" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently remove your data
+            from our servers.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className=" justify-between">
+          <DialogClose asChild>
+            <Button type="button" variant="outline" className="">
+              Close
+            </Button>
+          </DialogClose>
+          <Button
+          variant="destructive"
+            type="button"
+            
+            onClick={() => deleteRow(id)}
+          >
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
