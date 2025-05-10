@@ -1,0 +1,4 @@
+MONGO_URI="mongodb+srv://itpmongo1:9mvG2IMiO7t9lZim@imperialcashews.ynif6.mongodb.net/?retryWrites=true&w=majority&appName=ImperialCashews"
+PORT=5000
+
+
