@@ -74,7 +74,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                <Button asChild variant="outline" size="sm">
+                {/* <Button asChild variant="outline" size="sm">
                   <Link to="#">
                     <span>Login</span>
                   </Link>
@@ -83,7 +83,7 @@ const Navbar = () => {
                   <Link to="#">
                     <span>Sign Up</span>
                   </Link>
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
