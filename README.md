@@ -47,10 +47,14 @@
 - Follow proper commit conventions when pushing code.
 - Use the `develop` branch for merging features before final deployment.
 
-## 📷 Screenshots & Demo (Coming Soon)
+## 📷 Preview
+
+
+https://github.com/user-attachments/assets/b3f33123-bb55-4e44-ba43-af05964bf5d4
+
 
 ---
 
 Thank you for visiting our project!  
-Feel free to explore, contribute, or provide feedback!
+Feel free to explore, or provide feedback!
 
