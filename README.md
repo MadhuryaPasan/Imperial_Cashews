@@ -39,7 +39,7 @@
 ## 🎓 Institute
 
 **Sri Lanka Institute of Information Technology (SLIIT)**  
-**ITP Project - 2nd Year Group Assignment**
+**ITP Project - 2nd Year 2nd Semester Group Assignment**
 
 ## 📌 Notes
 
