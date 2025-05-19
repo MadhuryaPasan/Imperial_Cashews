@@ -44,7 +44,7 @@
 
 - Ensure all necessary `.env` files are in place with correct API keys and database URLs.
 - Follow proper commit conventions when pushing code.
-- Use the your current branch for merging features before final deployment.
+- Use the your current branch for edit or add new features.
 
 ## 📷 Preview
 
