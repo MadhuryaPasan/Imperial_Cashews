@@ -20,9 +20,8 @@
 
 ## 📁 Project Structure
 
-- `/client`: React frontend with modular components
-- `/server`: Express backend with REST APIs
-- `/models`: Mongoose schemas for MongoDB
+- `/frontend`: React frontend with modular components
+- `/Backend`: backend with MongoDB connections and Express.js
 - `/iot`: Scripts for IoT device integration
 - `/ml`: AI/ML models for quality detection
 
@@ -45,7 +44,7 @@
 
 - Ensure all necessary `.env` files are in place with correct API keys and database URLs.
 - Follow proper commit conventions when pushing code.
-- Use the `develop` branch for merging features before final deployment.
+- Use the your current branch for merging features before final deployment.
 
 ## 📷 Preview
 
